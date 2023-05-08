@@ -1,0 +1,28 @@
+name: Expression Tutor Activity
+
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  issues: write
+
+jobs:
+  et_activity_generation:
+    runs-on: ubuntu-latest
+    name: Activity generation
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Expression Tutor Activity generation
+        uses: bvlj/super-duper-tuna@v1.0.0-alpha03
+        id: exps
+        with:
+          query: '(/.*/ "(" [_ ","]* _ ")")'
+          count: '1'
+          srcDir: '.'
+          javaClassPath: '+libs/jtamaro.jar'
+          ghToken: ${{ secrets.GITHUB_TOKEN }}

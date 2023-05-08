@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+}
+
+sourceSets {
+    // Required for BlueJ compatibility
+    main.java.srcDirs '.'
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+}
+
+dependencies {
+    implementation files('+libs/jtamaro.jar')
+}
