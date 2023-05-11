@@ -10,6 +10,8 @@ import static jtamaro.en.Colors.*;
 import java.util.ArrayList;
 
 
+// a GameState is a singly linked list,
+// contains the current map, the previousState, and the rules on the field.
 public class GameState {
 
     public ArrayList<ArrayList<Tile>> map;
@@ -18,6 +20,7 @@ public class GameState {
 
     public GameState previousState;
 
+    // render the current GameState
     public Graphic render() {
         int n = map.size(), m = map.get(0).size();
         Graphic fore = emptyGraphic();
@@ -31,6 +34,6 @@ public class GameState {
         Graphic back = rectangle(m * Settings.UNIT_WIDTH, n * Settings.UNIT_HEIGHT, BLACK);
         return overlay(fore, back);
     }
-
+    // TODO: the render for each kind of item, the rules mapping
 
 }
