@@ -6,5 +6,5 @@ public class Settings {
     //canvas settings
     public static final double UNIT_HEIGHT = 20;
     public static final double UNIT_WIDTH = 20;
-    public static GameState initialState = new GameState();
+    public static final GameState INITIAL_STATE = new GameState();
 }
