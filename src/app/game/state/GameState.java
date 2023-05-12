@@ -1,11 +1,8 @@
 package src.app.game.state;
 
-import jtamaro.en.Graphic;
 import jtamaro.en.Sequence;
-import src.app.game.Settings;
 
-import static jtamaro.en.Graphics.*;
-import static jtamaro.en.Colors.*;
+import static jtamaro.en.Sequences.*;
 
 import java.util.ArrayList;
 
@@ -14,26 +11,58 @@ import java.util.ArrayList;
 // contains the current map, the previousState, and the rules on the field.
 public class GameState {
 
-    public ArrayList<ArrayList<Tile>> map;
+    private ArrayList<ArrayList<Tile>> map;
 
-    public Sequence<Rule> rules;
+    private GameState previousState;
 
-    public GameState previousState;
-
-    // render the current GameState
-    public Graphic render() {
-        int n = map.size(), m = map.get(0).size();
-        Graphic fore = emptyGraphic();
-        for (int i = 0; i < n; i++) {
-            Graphic rowFore = emptyGraphic();
-            for (int j = 0; j < m; j++) {
-                rowFore = beside(rowFore, map.get(i).get(j).toGraphic());
-            }
-            fore = above(fore, rowFore);
-        }
-        Graphic back = rectangle(m * Settings.UNIT_WIDTH, n * Settings.UNIT_HEIGHT, BLACK);
-        return overlay(fore, back);
+    public ArrayList<ArrayList<Tile>> getMap() {
+        return map;
     }
-    // TODO: the render for each kind of item, the rules mapping
 
+    public void setMap(ArrayList<ArrayList<Tile>> map) {
+        this.map = map;
+    }
+
+    public GameState getPreviousState() {
+        return previousState;
+    }
+
+    public void setPreviousState(GameState previousState) {
+        this.previousState = previousState;
+    }
+
+    // TODO: the rules mapping
+
+    //generate rules from the current map
+    public Sequence<Rule> generateRules() {
+        assert map.size() >= 2;
+        int n = map.size(), m = map.get(0).size();
+        Sequence<Rule> rules = empty();
+        for (int i = 1; i < n - 1; ++i) {
+            assert map.get(i).size() == m;
+            for (int j = 1; j < m - 1; ++j) {
+                Tile tile = map.get(i).get(j);
+                if (!tile.containsIs()) continue;
+                //left to right;
+                if (j != 1 && j != m - 2) {
+                    Tile leftTile = map.get(i).get(j - 1);
+                    Tile rightTile = map.get(i).get(j + 1);
+                    if (!leftTile.containsObjectText()) continue;
+                    if (!rightTile.containsObjectText() && !rightTile.containsStateText()) continue;
+                    Rule rule = new Rule(first(leftTile.items()).name(), first(rightTile.items()).name());
+                    rules = cons(rule, rules);
+                }
+                //up to down
+                if (i != 1 && i != n - 2) {
+                    Tile upTile = map.get(i - 1).get(j);
+                    Tile downTile = map.get(i + 1).get(j);
+                    if (!upTile.containsObjectText()) continue;
+                    if (!downTile.containsObjectText() && !downTile.containsStateText()) continue;
+                    Rule rule = new Rule(first(upTile.items()).name(), first(downTile.items()).name());
+                    rules = cons(rule, rules);
+                }
+            }
+        }
+        return rules;
+    }
 }
