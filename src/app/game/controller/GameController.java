@@ -1,13 +1,23 @@
 package src.app.game.controller;
 
-import com.sun.source.tree.ReturnTree;
 import jtamaro.en.io.KeyboardKey;
+import src.app.game.Settings;
 import src.app.game.state.GameState;
 
 public class GameController {
-    public static GameState onKeyPress(GameState before, KeyboardKey key) {
-        // TODO
-        return before;
+    public static GameState onKeyPress(GameState now, KeyboardKey key) {
+        // This is 'U' for undo
+        if (key.getCode() == 0x55) {
+            return now.getPreviousState();
+        }
+
+        //This is 'R' for restart
+        if (key.getCode() == 0x52) {
+            // TODO: restart according to the game level of the AppState
+            return Settings.INITIAL_STATE;
+        }
+
+        return now;
     }
 
     // check whether the game is lost
