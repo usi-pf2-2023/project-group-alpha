@@ -95,10 +95,34 @@ public record Tile(Sequence<Item> items) {
         return new Tile(cons(item, items));
     }
 
+    public Tile setToDark() {
+        Sequence<Item> newItems = empty();
+        for (Item item : items) {
+            newItems = concat(newItems, of(item.setToDark()));
+        }
+        return new Tile(newItems);
+    }
+
+    public Tile setToCancel() {
+        Sequence<Item> newItems = empty();
+        for (Item item : items) {
+            newItems = concat(newItems, of(item.setToCancel()));
+        }
+        return new Tile(newItems);
+    }
+
+    public Tile setToReactive() {
+        Sequence<Item> newItems = empty();
+        for (Item item : items) {
+            newItems = concat(newItems, of(item.setToReactive()));
+        }
+        return new Tile(newItems);
+    }
+
     // return a Tile from a Character
     // 0 : no item, lowercase letters : icon, capital letters: text, other characters: boundary
     public static Tile fromChar(char c) {
-        if(c == '0') return new Tile(empty());
+        if (c == '0') return new Tile(empty());
         Kind kind = Kind.BOUNDARY;
         boolean light = false;
         boolean cancel = false;
@@ -106,22 +130,35 @@ public record Tile(Sequence<Item> items) {
         boolean push = false;
         boolean you = false;
         boolean win = false;
-        if(c == 'w') kind = Kind.ICON_WALL;
-        else if(c == 'b') kind = Kind.ICON_BABA;
-        else if(c == 'f') kind = Kind.ICON_FLAG;
-        else if(c == 'r') kind = Kind.ICON_ROCK;
-        else if(c == 'I') kind = Kind.ICON_ROCK;
-        else if(c == 'W') kind = Kind.TEXT_WALL;
-        else if(c == 'B') kind = Kind.TEXT_BABA;
-        else if(c == 'F') kind = Kind.TEXT_FLAG;
-        else if(c == 'R') kind = Kind.TEXT_ROCK;
-        else if(c == 'W') kind = Kind.TEXT_WALL;
-        else if(c == 'P') kind = Kind.TEXT_PUSH;
-        else if(c == 'Y') kind = Kind.TEXT_YOU;
-        else if(c == 'S') kind = Kind.TEXT_STOP;
-
-        if(kind == Kind.BOUNDARY) stop = true;
-        if(kind.isStateText()) {
+        if (c == 'w') {
+            kind = Kind.ICON_WALL;
+        } else if (c == 'b') {
+            kind = Kind.ICON_BABA;
+        } else if (c == 'f') {
+            kind = Kind.ICON_FLAG;
+        } else if (c == 'r') {
+            kind = Kind.ICON_ROCK;
+        } else if (c == 'I') {
+            kind = Kind.ICON_ROCK;
+        } else if (c == 'W') {
+            kind = Kind.TEXT_WALL;
+        } else if (c == 'B') {
+            kind = Kind.TEXT_BABA;
+        } else if (c == 'F') {
+            kind = Kind.TEXT_FLAG;
+        } else if (c == 'R') {
+            kind = Kind.TEXT_ROCK;
+        } else if (c == 'W') {
+            kind = Kind.TEXT_WALL;
+        } else if (c == 'P') {
+            kind = Kind.TEXT_PUSH;
+        } else if (c == 'Y') {
+            kind = Kind.TEXT_YOU;
+        } else if (c == 'S') {
+            kind = Kind.TEXT_STOP;
+        }
+        if (kind == Kind.BOUNDARY) stop = true;
+        if (kind.isStateText()) {
             stop = true;
             push = true;
         }

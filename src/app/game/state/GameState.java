@@ -5,6 +5,8 @@ import jtamaro.en.Sequence;
 import static jtamaro.en.Sequences.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 
 // a GameState is a singly linked list,
@@ -91,14 +93,14 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
             j = noPushCol;
             noPushCol = t;
         }
-        // clone the old gameMap to the newMap
-        ArrayList<ArrayList<Tile>> newMap = (ArrayList<ArrayList<Tile>>) gameMap.clone();
+        // clone the old gameMap to the newGameMap
+        ArrayList<ArrayList<Tile>> newGameMap = (ArrayList<ArrayList<Tile>>) gameMap.clone();
         // we clear the tiles that might be effected
         for (int r = 1; r < n - 1; ++r) {
             if (r < noPushRow || r > i) continue;
             for (int c = 1; c < n - 1; ++c) {
                 if (c < noPushCol || c > j) continue;
-                Tile tile = newMap.get(i).get(j);
+                Tile tile = newGameMap.get(i).get(j);
                 tile = new Tile(empty());
             }
         }
@@ -107,22 +109,22 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
             if (r < noPushRow || r > i) continue;
             for (int c = 1; c < n - 1; ++c) {
                 if (c < noPushCol || c > j) continue;
-                Tile thisTile = newMap.get(r).get(c);
-                Tile pushTile = newMap.get(r + dx).get(c + dy);
+                Tile thisTile = newGameMap.get(r).get(c);
+                Tile pushTile = newGameMap.get(r + dx).get(c + dy);
                 Sequence<Item> items = gameMap.get(r).get(c).items();
                 for (Item item : items) {
                     if (item.push() || item.you()) {
                         assert r != noPushRow || c != noPushCol;
-                        newMap.get(r + dx).set(c + dy, pushTile.add(item));
-                        pushTile = newMap.get(r + dx).get(c + dy);
+                        newGameMap.get(r + dx).set(c + dy, pushTile.add(item));
+                        pushTile = newGameMap.get(r + dx).get(c + dy);
                     } else {
-                        newMap.get(r).set(c, thisTile.add(item));
-                        thisTile = newMap.get(r).get(c);
+                        newGameMap.get(r).set(c, thisTile.add(item));
+                        thisTile = newGameMap.get(r).get(c);
                     }
                 }
             }
         }
-        return new GameState(newMap, null);
+        return new GameState(newGameMap, null);
     }
 
     // The whole move operation
@@ -161,10 +163,158 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
     }
 
     public static Sequence<Sequence<Tile>> stringToSequence(String mapDescription) {
-        return
-            map(
-                line -> map(Tile::fromChar, ofStringCharacters(line)),
-                ofStringLines(mapDescription)
-            );
+        return map(line -> map(Tile::fromChar, ofStringCharacters(line)), ofStringLines(mapDescription));
     }
+
+    public GameState applyRules(Sequence<Rule> rules) {
+        HashSet<Kind> selfLoop = new HashSet<>();
+        // First we
+        for (Rule rule : rules) {
+            Kind from = rule.from();
+            Kind to = rule.to();
+            if (from == to) {
+                selfLoop.add(from);
+            }
+        }
+
+        HashSet<Rule> unWorkRules = new HashSet<>();
+        HashSet<Rule> workRules = new HashSet<>();
+        HashMap<Kind, ArrayList<Kind>> objectMap = new HashMap<>();
+        HashMap<Kind, ArrayList<Kind>> stateMap = new HashMap<>();
+
+        for (Rule rule : rules) {
+            Kind from = rule.from();
+            Kind to = rule.to();
+            if (from == to) continue;
+            if (selfLoop.contains(from)) {
+                unWorkRules.add(rule);
+            } else {
+                workRules.add(rule);
+                if (to.isObjectText()) {
+                    if (!objectMap.containsKey(from)) {
+                        objectMap.put(from, new ArrayList<>());
+                    }
+                    objectMap.get(from).add(to);
+                } else if (to.isStateText()) {
+                    if (!stateMap.containsKey(from)) {
+                        stateMap.put(from, new ArrayList<>());
+                    }
+                    stateMap.get(from).add(to);
+                } else {
+                    assert false;
+                }
+            }
+        }
+
+        assert !gameMap.isEmpty();
+        int n = gameMap.size(), m = gameMap.get(0).size();
+        ArrayList<ArrayList<Tile>> newGameMap = (ArrayList<ArrayList<Tile>>) gameMap.clone();
+        // clear the map
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m; ++j) {
+                newGameMap.get(i).set(j, new Tile(empty()));
+            }
+        }
+
+        // transform every object and apply new rules.
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m; ++j) {
+                Tile tile = gameMap.get(i).get(j);
+                Sequence<Item> items = tile.items();
+                Sequence<Item> newItems = empty();
+                for (Item item : items) {
+                    if (objectMap.containsKey(item.name())) {
+                        for (Kind kind : objectMap.get(item.name())) {
+                            newItems = concat(newItems, of(item.setName(kind).applyRules(stateMap)));
+                        }
+                    } else {
+                        newItems = concat(newItems, of(item.applyRules(stateMap)));
+                    }
+                }
+                newGameMap.get(i).set(j, new Tile(newItems));
+            }
+        }
+
+        // Following operations will also set texts 'push' and 'stop'
+        // make all texts to dark,
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m; ++j) {
+                Tile tile = newGameMap.get(i).get(j);
+                if (!tile.containsStateText() && !tile.containsStateText() && !tile.containsIs()) {
+                    continue;
+                }
+                newGameMap.get(i).set(j, tile.setToDark());
+            }
+        }
+
+        // make un-working texts canceled
+        for (int i = 1; i < n - 1; ++i) {
+            for (int j = 1; j < m - 1; ++j) {
+                Tile tile = newGameMap.get(i).get(j);
+                if (!tile.containsIs()) continue;
+                //left to right;
+                if (j != 1 && j != m - 2) {
+                    Tile leftTile = newGameMap.get(i).get(j - 1);
+                    Tile rightTile = newGameMap.get(i).get(j + 1);
+                    if (!leftTile.containsObjectText()) continue;
+                    if (!rightTile.containsObjectText()) continue;
+                    if (unWorkRules.contains(first(leftTile.items()).name())) {
+                        newGameMap.get(i).set(j - 1, leftTile.setToCancel());
+                        newGameMap.get(i).set(j, tile.setToCancel());
+                        newGameMap.get(i).set(j + 1, rightTile.setToCancel());
+                    }
+                }
+                //up to down
+                if (i != 1 && i != n - 2) {
+                    Tile upTile = gameMap.get(i - 1).get(j);
+                    Tile downTile = gameMap.get(i + 1).get(j);
+                    if (!upTile.containsObjectText()) continue;
+                    if (!downTile.containsObjectText()) continue;
+                    if (unWorkRules.contains(first(upTile.items()).name())) {
+                        newGameMap.get(i - 1).set(j, upTile.setToCancel());
+                        newGameMap.get(i).set(j, tile.setToCancel());
+                        newGameMap.get(i + 1).set(j, downTile.setToCancel());
+                    }
+                }
+            }
+        }
+
+        // make working texts light
+        for (int i = 1; i < n - 1; ++i) {
+            for (int j = 1; j < m - 1; ++j) {
+                Tile tile = newGameMap.get(i).get(j);
+                if (!tile.containsIs()) continue;
+                //left to right;
+                if (j != 1 && j != m - 2) {
+                    Tile leftTile = newGameMap.get(i).get(j - 1);
+                    Tile rightTile = newGameMap.get(i).get(j + 1);
+                    if (!leftTile.containsObjectText()) continue;
+                    if (!rightTile.containsObjectText() && !rightTile.containsStateText()) continue;
+                    if (!workRules.contains(
+                        new Rule(first(leftTile.items()).name(), first(rightTile.items()).name()))) {
+                        continue;
+                    }
+                    newGameMap.get(i).set(j - 1, leftTile.setToReactive());
+                    newGameMap.get(i).set(j, tile.setToReactive());
+                    newGameMap.get(i).set(j + 1, rightTile.setToReactive());
+                }
+                //up to down
+                if (i != 1 && i != n - 2) {
+                    Tile upTile = gameMap.get(i - 1).get(j);
+                    Tile downTile = gameMap.get(i + 1).get(j);
+                    if (!upTile.containsObjectText()) continue;
+                    if (!downTile.containsObjectText() && !downTile.containsStateText()) continue;
+                    if (!workRules.contains(
+                        new Rule(first(upTile.items()).name(), first(downTile.items()).name()))) {
+                        continue;
+                    }
+                    newGameMap.get(i - 1).set(j, upTile.setToReactive());
+                    newGameMap.get(i).set(j, tile.setToReactive());
+                    newGameMap.get(i + 1).set(j, downTile.setToReactive());
+                }
+            }
+        }
+        return new GameState(newGameMap, this.previousState);
+    }
+
 }
