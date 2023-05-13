@@ -8,24 +8,24 @@ import java.util.ArrayList;
 
 
 // a GameState is a singly linked list,
-// contains the current map, the previousState, and the rules on the field.
-public record GameState(ArrayList<ArrayList<Tile>> map, GameState previousState) {
+// contains the current gameMap, the previousState, and the rules on the field.
+public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousState) {
     // TODO: the rules mapping
 
-    //generate rules from the current map
+    //generate rules from the current gameMap
     public Sequence<Rule> generateRules() {
-        assert map.size() >= 2;
-        int n = map.size(), m = map.get(0).size();
+        assert gameMap.size() >= 2;
+        int n = gameMap.size(), m = gameMap.get(0).size();
         Sequence<Rule> rules = empty();
         for (int i = 1; i < n - 1; ++i) {
-            assert map.get(i).size() == m;
+            assert gameMap.get(i).size() == m;
             for (int j = 1; j < m - 1; ++j) {
-                Tile tile = map.get(i).get(j);
+                Tile tile = gameMap.get(i).get(j);
                 if (!tile.containsIs()) continue;
                 //left to right;
                 if (j != 1 && j != m - 2) {
-                    Tile leftTile = map.get(i).get(j - 1);
-                    Tile rightTile = map.get(i).get(j + 1);
+                    Tile leftTile = gameMap.get(i).get(j - 1);
+                    Tile rightTile = gameMap.get(i).get(j + 1);
                     if (!leftTile.containsObjectText()) continue;
                     if (!rightTile.containsObjectText() && !rightTile.containsStateText()) continue;
                     Rule rule = new Rule(first(leftTile.items()).name(), first(rightTile.items()).name());
@@ -33,8 +33,8 @@ public record GameState(ArrayList<ArrayList<Tile>> map, GameState previousState)
                 }
                 //up to down
                 if (i != 1 && i != n - 2) {
-                    Tile upTile = map.get(i - 1).get(j);
-                    Tile downTile = map.get(i + 1).get(j);
+                    Tile upTile = gameMap.get(i - 1).get(j);
+                    Tile downTile = gameMap.get(i + 1).get(j);
                     if (!upTile.containsObjectText()) continue;
                     if (!downTile.containsObjectText() && !downTile.containsStateText()) continue;
                     Rule rule = new Rule(first(upTile.items()).name(), first(downTile.items()).name());
@@ -47,11 +47,11 @@ public record GameState(ArrayList<ArrayList<Tile>> map, GameState previousState)
 
     // we divide Move operation into multi singleTile Moves
     public GameState singleTileMove(int i, int j, Heading heading) {
-        assert !map.isEmpty();
-        int n = map.size(), m = map.get(0).size();
+        assert !gameMap.isEmpty();
+        int n = gameMap.size(), m = gameMap.get(0).size();
         assert i > 0 && i < n - 1;
         assert j > 0 && j < m - 1;
-        if (i == 1 || map.get(i - 1).get(j).containsStop()) {
+        if (i == 1 || gameMap.get(i - 1).get(j).containsStop()) {
             return this;
         }
         int dx = 0, dy = 0;
@@ -66,8 +66,9 @@ public record GameState(ArrayList<ArrayList<Tile>> map, GameState previousState)
         }
         // find the first tile does not contain any "Push" item or "You"
         int noPushRow = i, noPushCol = j;
-        while (!map.get(noPushRow).get(noPushCol).isBoundary()) {
-            if (map.get(noPushRow).get(noPushCol).containsPush() || map.get(noPushRow).get(noPushCol).containsYou()) {
+        while (!gameMap.get(noPushRow).get(noPushCol).isBoundary()) {
+            if (gameMap.get(noPushRow).get(noPushCol).containsPush() ||
+                gameMap.get(noPushRow).get(noPushCol).containsYou()) {
                 noPushRow += dx;
                 noPushCol += dy;
             } else {
@@ -75,7 +76,7 @@ public record GameState(ArrayList<ArrayList<Tile>> map, GameState previousState)
             }
         }
         // If we reach the boundary then return the original state
-        if (map.get(noPushRow).get(noPushCol).isBoundary()) {
+        if (gameMap.get(noPushRow).get(noPushCol).isBoundary()) {
             return this;
         }
         // otherwise we do the move
@@ -90,8 +91,8 @@ public record GameState(ArrayList<ArrayList<Tile>> map, GameState previousState)
             j = noPushCol;
             noPushCol = t;
         }
-        // clone the old map to the newMap
-        ArrayList<ArrayList<Tile>> newMap = (ArrayList<ArrayList<Tile>>) map.clone();
+        // clone the old gameMap to the newMap
+        ArrayList<ArrayList<Tile>> newMap = (ArrayList<ArrayList<Tile>>) gameMap.clone();
         // we clear the tiles that might be effected
         for (int r = 1; r < n - 1; ++r) {
             if (r < noPushRow || r > i) continue;
@@ -108,7 +109,7 @@ public record GameState(ArrayList<ArrayList<Tile>> map, GameState previousState)
                 if (c < noPushCol || c > j) continue;
                 Tile thisTile = newMap.get(r).get(c);
                 Tile pushTile = newMap.get(r + dx).get(c + dy);
-                Sequence<Item> items = map.get(r).get(c).items();
+                Sequence<Item> items = gameMap.get(r).get(c).items();
                 for (Item item : items) {
                     if (item.push() || item.you()) {
                         assert r != noPushRow || c != noPushCol;
@@ -126,8 +127,8 @@ public record GameState(ArrayList<ArrayList<Tile>> map, GameState previousState)
 
     // The whole move operation
     public GameState move(Heading heading) {
-        assert !map.isEmpty();
-        int n = map.size(), m = map.get(0).size();
+        assert !gameMap.isEmpty();
+        int n = gameMap.size(), m = gameMap.get(0).size();
         int st_i = 1, dx = 1;
         int st_j = 1, dy = 1;
         if (heading == Heading.SOUTH) {
@@ -137,12 +138,33 @@ public record GameState(ArrayList<ArrayList<Tile>> map, GameState previousState)
             st_j = m - 2;
             dy = -1;
         }
-        GameState newState = new GameState(this.map, null);
+        GameState newState = new GameState(this.gameMap, null);
         for (int i = st_i; i != 0 && i != n - 1; i += dx) {
             for (int j = st_j; j != 0 && j != m - 1; j += dy) {
                 newState = newState.singleTileMove(i, j, heading);
             }
         }
-        return new GameState(newState.map, this);
+        return new GameState(newState.gameMap, this);
+    }
+
+    public static ArrayList<ArrayList<Tile>> fromString(String mapDescription) {
+        ArrayList<ArrayList<Tile>> gameMap = new ArrayList<>();
+        Sequence<Sequence<Tile>> sequenceMap = stringToSequence(mapDescription);
+        for (Sequence<Tile> seq : sequenceMap) {
+            ArrayList<Tile> arr = new ArrayList<>();
+            for (Tile tile : seq) {
+                arr.add(tile);
+            }
+            gameMap.add(arr);
+        }
+        return gameMap;
+    }
+
+    public static Sequence<Sequence<Tile>> stringToSequence(String mapDescription) {
+        return
+            map(
+                line -> map(Tile::fromChar, ofStringCharacters(line)),
+                ofStringLines(mapDescription)
+            );
     }
 }

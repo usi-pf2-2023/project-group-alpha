@@ -12,7 +12,7 @@ import static jtamaro.en.Graphics.*;
 
 public class GameView {
     public static Graphic render(GameState gameState) {
-        ArrayList<ArrayList<Tile>> map = gameState.map();
+        ArrayList<ArrayList<Tile>> map = gameState.gameMap();
         int n = map.size(), m = map.get(0).size();
         Graphic fore = emptyGraphic();
         for (int i = 0; i < n; i++) {
