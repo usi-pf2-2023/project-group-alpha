@@ -28,7 +28,7 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
                     Tile rightTile = gameMap.get(i).get(j + 1);
                     if (!leftTile.containsObjectText()) continue;
                     if (!rightTile.containsObjectText() && !rightTile.containsStateText()) continue;
-                    Rule rule = new Rule(first(leftTile.items()).name(), first(rightTile.items()).name());
+                    Rule rule = Rule.getRule(leftTile, rightTile);
                     rules = cons(rule, rules);
                 }
                 //up to down
@@ -37,7 +37,7 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
                     Tile downTile = gameMap.get(i + 1).get(j);
                     if (!upTile.containsObjectText()) continue;
                     if (!downTile.containsObjectText() && !downTile.containsStateText()) continue;
-                    Rule rule = new Rule(first(upTile.items()).name(), first(downTile.items()).name());
+                    Rule rule = Rule.getRule(upTile, downTile);
                     rules = cons(rule, rules);
                 }
             }
@@ -166,7 +166,6 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
 
     public GameState applyRules(Sequence<Rule> rules) {
         HashSet<Kind> selfLoop = new HashSet<>();
-        // First we
         for (Rule rule : rules) {
             Kind from = rule.from();
             Kind to = rule.to();
@@ -256,7 +255,7 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
                     Tile rightTile = newGameMap.get(i).get(j + 1);
                     if (!leftTile.containsObjectText()) continue;
                     if (!rightTile.containsObjectText()) continue;
-                    if (unWorkRules.contains(first(leftTile.items()).name())) {
+                    if (unWorkRules.contains(Rule.getRule(leftTile, rightTile))) {
                         newGameMap.get(i).set(j - 1, leftTile.setToCancel());
                         newGameMap.get(i).set(j, tile.setToCancel());
                         newGameMap.get(i).set(j + 1, rightTile.setToCancel());
@@ -268,7 +267,7 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
                     Tile downTile = gameMap.get(i + 1).get(j);
                     if (!upTile.containsObjectText()) continue;
                     if (!downTile.containsObjectText()) continue;
-                    if (unWorkRules.contains(first(upTile.items()).name())) {
+                    if(unWorkRules.contains(Rule.getRule(upTile, downTile))) {
                         newGameMap.get(i - 1).set(j, upTile.setToCancel());
                         newGameMap.get(i).set(j, tile.setToCancel());
                         newGameMap.get(i + 1).set(j, downTile.setToCancel());
@@ -288,8 +287,7 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
                     Tile rightTile = newGameMap.get(i).get(j + 1);
                     if (!leftTile.containsObjectText()) continue;
                     if (!rightTile.containsObjectText() && !rightTile.containsStateText()) continue;
-                    if (!workRules.contains(
-                        new Rule(first(leftTile.items()).name(), first(rightTile.items()).name()))) {
+                    if (!workRules.contains(Rule.getRule(leftTile, rightTile))) {
                         continue;
                     }
                     newGameMap.get(i).set(j - 1, leftTile.setToReactive());
@@ -302,8 +300,7 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
                     Tile downTile = gameMap.get(i + 1).get(j);
                     if (!upTile.containsObjectText()) continue;
                     if (!downTile.containsObjectText() && !downTile.containsStateText()) continue;
-                    if (!workRules.contains(
-                        new Rule(first(upTile.items()).name(), first(downTile.items()).name()))) {
+                    if (!workRules.contains(Rule.getRule(upTile, downTile))) {
                         continue;
                     }
                     newGameMap.get(i - 1).set(j, upTile.setToReactive());

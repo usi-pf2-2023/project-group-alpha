@@ -43,7 +43,6 @@ public record Tile(Sequence<Item> items) {
     public boolean containsIs() {
         for (Item item : items) {
             if (item.name() == Kind.TEXT_IS) {
-                assert size(items) == 1;
                 return true;
             }
         }
@@ -54,7 +53,6 @@ public record Tile(Sequence<Item> items) {
     public boolean containsObjectText() {
         for (Item item : items) {
             if (item.name().isObjectText()) {
-                assert size(items) == 1;
                 return true;
             }
         }
@@ -65,7 +63,6 @@ public record Tile(Sequence<Item> items) {
     public boolean containsStateText() {
         for (Item item : items) {
             if (item.name().isStateText()) {
-                assert size(items) == 1;
                 return true;
             }
         }
