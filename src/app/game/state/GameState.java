@@ -12,8 +12,6 @@ import java.util.HashSet;
 // a GameState is a singly linked list,
 // contains the current gameMap, the previousState, and the rules on the field.
 public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousState) {
-    // TODO: the rules mapping
-
     //generate rules from the current gameMap
     public Sequence<Rule> generateRules() {
         assert gameMap.size() >= 2;
