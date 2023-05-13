@@ -3,18 +3,27 @@ package src.app.game.controller;
 import jtamaro.en.io.KeyboardKey;
 import src.app.game.Settings;
 import src.app.game.state.GameState;
+import src.app.game.state.Heading;
 
 public class GameController {
     public static GameState onKeyPress(GameState now, KeyboardKey key) {
         // This is 'U' for undo
         if (key.getCode() == 0x55) {
-            return now.getPreviousState();
+            return now.previousState();
         }
 
         //This is 'R' for restart
         if (key.getCode() == 0x52) {
             // TODO: restart according to the game level of the AppState
-            return Settings.INITIAL_STATE;
+            return Settings.initialState;
+        }
+
+        // directions
+        if (key.getCode() == KeyboardKey.UP ||
+            key.getCode() == KeyboardKey.DOWN ||
+            key.getCode() == KeyboardKey.LEFT ||
+            key.getCode() == KeyboardKey.RIGHT) {
+            return now.move(Heading.fromKeyCode(key.getCode()));
         }
 
         return now;

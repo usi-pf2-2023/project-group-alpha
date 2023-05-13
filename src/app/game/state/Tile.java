@@ -10,26 +10,33 @@ import static jtamaro.en.Sequences.*;
 public record Tile(Sequence<Item> items) {
     // convert a Tile to a Graphic
     public Graphic toGraphic() {
-        return reduce(
-            (graphic, item) -> overlay(graphic, item.toGraphic()),
-            emptyGraphic(),
-            items
-        );
-    }
-
-    // check whether it's possible to step on this Tile
-    public boolean canStepOn() {
-        for (Item item : items) {
-            if (item.stop() || item.name() == Kind.BOUNDARY) {
-                return false;
-            }
-        }
-        return true;
+        return reduce((graphic, item) -> overlay(graphic, item.toGraphic()), emptyGraphic(), items);
     }
 
     // support to assert, only used here?
     public static <T> int size(Sequence<T> seq) {
         return isEmpty(seq) ? 0 : 1 + size(rest(seq));
+    }
+
+    // check whether it's boundary
+    public boolean isBoundary() {
+        for (Item item : items) {
+            if (item.name() == Kind.BOUNDARY) {
+                assert size(items) == 1;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //check whether it contains stop
+    public boolean containsStop() {
+        for (Item item : items) {
+            if (item.stop()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // return whether this tile contains TEXT_IS
@@ -65,5 +72,26 @@ public record Tile(Sequence<Item> items) {
         return false;
     }
 
+    public boolean containsYou() {
+        for (Item item : items) {
+            if (item.you()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
+    public boolean containsPush() {
+        for (Item item : items) {
+            if (item.push()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // return a new Tile after add the item to the top of old Tile
+    public Tile add(Item item) {
+        return new Tile(cons(item, items));
+    }
 }

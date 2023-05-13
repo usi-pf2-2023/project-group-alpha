@@ -7,7 +7,7 @@ import src.app.game.view.GameView;
 public class GameRun {
     public static void run() {
         //TODO: set the run para of game
-        IO.interact(Settings.INITIAL_STATE)
+        IO.interact(Settings.initialState)
           .withRenderer(gameState -> GameView.render(gameState))
           .withKeyPressHandler(GameController::onKeyPress);
     }
