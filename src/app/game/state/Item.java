@@ -28,17 +28,19 @@ public record Item(Kind name, // describes what kind of object it is
 
     public Item applyRules(HashMap<Kind, ArrayList<Kind>> stateMap) {
         boolean stop = false, push = false, you = false, win = false;
-        for (Kind kind : stateMap.get(name)) {
-            if (kind == Kind.TEXT_STOP) {
-                stop = true;
-            } else if (kind == Kind.TEXT_PUSH) {
-                push = true;
-            } else if (kind == Kind.TEXT_YOU) {
-                you = true;
-            } else if (kind == Kind.TEXT_WIN) {
-                win = true;
-            } else {
-                assert false;
+        if (stateMap.containsKey(name)) {
+            for (Kind kind : stateMap.get(name)) {
+                if (kind == Kind.TEXT_STOP) {
+                    stop = true;
+                } else if (kind == Kind.TEXT_PUSH) {
+                    push = true;
+                } else if (kind == Kind.TEXT_YOU) {
+                    you = true;
+                } else if (kind == Kind.TEXT_WIN) {
+                    win = true;
+                } else {
+                    assert false;
+                }
             }
         }
         return new Item(name, light, cancel, stop, push, you, win);
