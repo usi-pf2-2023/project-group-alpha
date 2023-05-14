@@ -35,6 +35,20 @@ public enum Kind {
         this.isStateText = isStateText;
     }
 
+    public Kind textToIcon() {
+        if (this == TEXT_BABA) {
+            return ICON_BABA;
+        } else if (this == TEXT_FLAG) {
+            return ICON_FLAG;
+        } else if (this == TEXT_ROCK) {
+            return ICON_ROCK;
+        } else if (this == TEXT_WALL) {
+            return ICON_WALL;
+        }
+        assert false;
+        return null;
+    }
+
     public HashMap<String, Graphic> getGraphic_map() {
         return graphic_map;
     }
