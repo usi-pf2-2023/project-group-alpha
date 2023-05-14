@@ -51,9 +51,6 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
         int n = gameMap.size(), m = gameMap.get(0).size();
         assert i > 0 && i < n - 1;
         assert j > 0 && j < m - 1;
-        if (i == 1 || gameMap.get(i - 1).get(j).containsStop()) {
-            return this;
-        }
         int dx = 0, dy = 0;
         if (heading == Heading.NORTH) {
             dx = -1;
@@ -63,6 +60,9 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
             dy = 1;
         } else if (heading == Heading.SOUTH) {
             dy = -1;
+        }
+        if (gameMap.get(i + dx).get(j + dy).isBoundary() || gameMap.get(i + dx).get(j + dy).containsStop()) {
+            return this;
         }
         // find the first tile does not contain any "Push" item or "You"
         int noPushRow = i, noPushCol = j;
@@ -92,14 +92,24 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
             noPushCol = t;
         }
         // clone the old gameMap to the newGameMap
-        ArrayList<ArrayList<Tile>> newGameMap = (ArrayList<ArrayList<Tile>>) gameMap.clone();
+        ArrayList<ArrayList<Tile>> newGameMap = new ArrayList<>();
+        for (int r = 0; r < n; ++r) {
+            ArrayList<Tile> row = new ArrayList<>();
+            for (int c = 0; c < m; ++c) {
+                row.add(gameMap.get(r).get(c));
+            }
+            newGameMap.add(row);
+        }
         // we clear the tiles that might be effected
         for (int r = 1; r < n - 1; ++r) {
-            if (r < noPushRow || r > i) continue;
+            if (r < noPushRow || r > i) {
+                continue;
+            }
             for (int c = 1; c < n - 1; ++c) {
-                if (c < noPushCol || c > j) continue;
-                Tile tile = newGameMap.get(i).get(j);
-                tile = new Tile(empty());
+                if (c < noPushCol || c > j) {
+                    continue;
+                }
+                newGameMap.get(r).set(c, new Tile(empty()));
             }
         }
         // now add the element according to whether they are pushed
@@ -164,7 +174,8 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
         return map(line -> map(Tile::fromChar, ofStringCharacters(line)), ofStringLines(mapDescription));
     }
 
-    public GameState applyRules(Sequence<Rule> rules) {
+    public GameState applyRules() {
+        Sequence<Rule> rules = this.generateRules();
         HashSet<Kind> selfLoop = new HashSet<>();
         for (Rule rule : rules) {
             Kind from = rule.from();
@@ -175,7 +186,6 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
         }
 
         HashSet<Rule> unWorkRules = new HashSet<>();
-        HashSet<Rule> workRules = new HashSet<>();
         HashMap<Kind, ArrayList<Kind>> objectMap = new HashMap<>();
         HashMap<Kind, ArrayList<Kind>> stateMap = new HashMap<>();
 
@@ -186,7 +196,6 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
             if (selfLoop.contains(from)) {
                 unWorkRules.add(rule);
             } else {
-                workRules.add(rule);
                 if (to.isObjectText()) {
                     if (!objectMap.containsKey(from)) {
                         objectMap.put(from, new ArrayList<>());
@@ -205,12 +214,13 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
 
         assert !gameMap.isEmpty();
         int n = gameMap.size(), m = gameMap.get(0).size();
-        ArrayList<ArrayList<Tile>> newGameMap = (ArrayList<ArrayList<Tile>>) gameMap.clone();
-        // clear the map
+        ArrayList<ArrayList<Tile>> newGameMap = new ArrayList<>();
         for (int i = 0; i < n; ++i) {
+            ArrayList<Tile> row = new ArrayList<>();
             for (int j = 0; j < m; ++j) {
-                newGameMap.get(i).set(j, new Tile(empty()));
+                row.add(new Tile(empty()));
             }
+            newGameMap.add(row);
         }
 
         // transform every object and apply new rules.
@@ -267,7 +277,7 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
                     Tile downTile = gameMap.get(i + 1).get(j);
                     if (!upTile.containsObjectText()) continue;
                     if (!downTile.containsObjectText()) continue;
-                    if(unWorkRules.contains(Rule.getRule(upTile, downTile))) {
+                    if (unWorkRules.contains(Rule.getRule(upTile, downTile))) {
                         newGameMap.get(i - 1).set(j, upTile.setToCancel());
                         newGameMap.get(i).set(j, tile.setToCancel());
                         newGameMap.get(i + 1).set(j, downTile.setToCancel());
@@ -287,7 +297,7 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
                     Tile rightTile = newGameMap.get(i).get(j + 1);
                     if (!leftTile.containsObjectText()) continue;
                     if (!rightTile.containsObjectText() && !rightTile.containsStateText()) continue;
-                    if (!workRules.contains(Rule.getRule(leftTile, rightTile))) {
+                    if (unWorkRules.contains(Rule.getRule(leftTile, rightTile))) {
                         continue;
                     }
                     newGameMap.get(i).set(j - 1, leftTile.setToReactive());
@@ -300,7 +310,7 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
                     Tile downTile = gameMap.get(i + 1).get(j);
                     if (!upTile.containsObjectText()) continue;
                     if (!downTile.containsObjectText() && !downTile.containsStateText()) continue;
-                    if (!workRules.contains(Rule.getRule(upTile, downTile))) {
+                    if (unWorkRules.contains(Rule.getRule(upTile, downTile))) {
                         continue;
                     }
                     newGameMap.get(i - 1).set(j, upTile.setToReactive());
