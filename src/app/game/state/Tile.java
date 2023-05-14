@@ -165,7 +165,7 @@ public record Tile(Sequence<Item> items) {
             kind = Kind.TEXT_STOP;
         }
         if (kind == Kind.BOUNDARY) stop = true;
-        if (kind.isStateText()) {
+        if (kind.isStateText() || kind.isObjectText() || kind == Kind.TEXT_IS) {
             stop = true;
             push = true;
         }
