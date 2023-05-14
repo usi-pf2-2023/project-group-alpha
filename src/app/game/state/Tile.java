@@ -2,7 +2,9 @@ package src.app.game.state;
 
 import jtamaro.en.Graphic;
 import jtamaro.en.Sequence;
+import src.app.game.Settings;
 
+import static jtamaro.en.Colors.*;
 import static jtamaro.en.Graphics.*;
 import static jtamaro.en.Sequences.*;
 
@@ -10,7 +12,15 @@ import static jtamaro.en.Sequences.*;
 public record Tile(Sequence<Item> items) {
     // convert a Tile to a Graphic
     public Graphic toGraphic() {
-        return reduce((graphic, item) -> overlay(graphic, item.toGraphic()), emptyGraphic(), items);
+        return
+            overlay(
+                reduce(
+                    (graphic, item) -> overlay(graphic, item.toGraphic()),
+                    emptyGraphic(),
+                    items
+                ),
+                rectangle(Settings.UNIT_WIDTH, Settings.UNIT_HEIGHT, BLACK)
+            );
     }
 
     // support to assert, only used here?
@@ -136,7 +146,7 @@ public record Tile(Sequence<Item> items) {
         } else if (c == 'r') {
             kind = Kind.ICON_ROCK;
         } else if (c == 'I') {
-            kind = Kind.ICON_ROCK;
+            kind = Kind.TEXT_IS;
         } else if (c == 'W') {
             kind = Kind.TEXT_WALL;
         } else if (c == 'B') {
