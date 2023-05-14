@@ -9,7 +9,11 @@ public class GameController {
     public static GameState onKeyPress(GameState now, KeyboardKey key) {
         // This is 'U' for undo
         if (key.getCode() == 0x55) {
-            return now.previousState();
+            if (now.previousState() != null) {
+                return now.previousState();
+            } else {
+                return now;
+            }
         }
 
         //This is 'R' for restart
@@ -23,7 +27,7 @@ public class GameController {
             key.getCode() == KeyboardKey.DOWN ||
             key.getCode() == KeyboardKey.LEFT ||
             key.getCode() == KeyboardKey.RIGHT) {
-            return now.move(Heading.fromKeyCode(key.getCode()));
+            return now.move(Heading.fromKeyCode(key.getCode())).applyRules();
         }
 
         return now;
