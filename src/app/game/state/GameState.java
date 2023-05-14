@@ -49,6 +49,9 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
     public GameState singleTileMove(int i, int j, Heading heading) {
         assert !gameMap.isEmpty();
         int n = gameMap.size(), m = gameMap.get(0).size();
+        if (!gameMap.get(i).get(j).containsYou()) {
+            return this;
+        }
         assert i > 0 && i < n - 1;
         assert j > 0 && j < m - 1;
         int dx = 0, dy = 0;
@@ -58,10 +61,10 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
             dx = 1;
         } else if (heading == Heading.EAST) {
             dy = 1;
-        } else if (heading == Heading.SOUTH) {
+        } else if (heading == Heading.WEST) {
             dy = -1;
         }
-        if (gameMap.get(i + dx).get(j + dy).isBoundary() || gameMap.get(i + dx).get(j + dy).containsStop()) {
+        if (gameMap.get(i + dx).get(j + dy).isBoundary()) {
             return this;
         }
         // find the first tile does not contain any "Push" item or "You"
@@ -76,7 +79,8 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
             }
         }
         // If we reach the boundary then return the original state
-        if (gameMap.get(noPushRow).get(noPushCol).isBoundary()) {
+        if (gameMap.get(noPushRow).get(noPushCol).isBoundary() ||
+            gameMap.get(noPushRow).get(noPushCol).containsStop()) {
             return this;
         }
         // otherwise we do the move
@@ -102,21 +106,17 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
         }
         // we clear the tiles that might be effected
         for (int r = 1; r < n - 1; ++r) {
-            if (r < noPushRow || r > i) {
-                continue;
-            }
+            if (r < i || r > noPushRow) continue;
             for (int c = 1; c < n - 1; ++c) {
-                if (c < noPushCol || c > j) {
-                    continue;
-                }
+                if (c < j || c > noPushCol) continue;
                 newGameMap.get(r).set(c, new Tile(empty()));
             }
         }
         // now add the element according to whether they are pushed
         for (int r = 1; r < n - 1; ++r) {
-            if (r < noPushRow || r > i) continue;
+            if (r < i || r > noPushRow) continue;
             for (int c = 1; c < n - 1; ++c) {
-                if (c < noPushCol || c > j) continue;
+                if (c < j || c > noPushCol) continue;
                 Tile thisTile = newGameMap.get(r).get(c);
                 Tile pushTile = newGameMap.get(r + dx).get(c + dy);
                 Sequence<Item> items = gameMap.get(r).get(c).items();
@@ -196,16 +196,19 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
             if (selfLoop.contains(from)) {
                 unWorkRules.add(rule);
             } else {
+                Kind key = from.textToIcon();
                 if (to.isObjectText()) {
-                    if (!objectMap.containsKey(from)) {
-                        objectMap.put(from, new ArrayList<>());
+                    Kind value = to.textToIcon();
+                    if (!objectMap.containsKey(key)) {
+                        objectMap.put(key, new ArrayList<>());
                     }
-                    objectMap.get(from).add(to);
+                    objectMap.get(key).add(value);
                 } else if (to.isStateText()) {
-                    if (!stateMap.containsKey(from)) {
-                        stateMap.put(from, new ArrayList<>());
+                    Kind value = to;
+                    if (!stateMap.containsKey(key)) {
+                        stateMap.put(key, new ArrayList<>());
                     }
-                    stateMap.get(from).add(to);
+                    stateMap.get(key).add(value);
                 } else {
                     assert false;
                 }
@@ -247,7 +250,7 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < m; ++j) {
                 Tile tile = newGameMap.get(i).get(j);
-                if (!tile.containsStateText() && !tile.containsStateText() && !tile.containsIs()) {
+                if (!tile.containsStateText() && !tile.containsObjectText() && !tile.containsIs()) {
                     continue;
                 }
                 newGameMap.get(i).set(j, tile.setToDark());
