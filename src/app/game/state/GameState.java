@@ -13,7 +13,7 @@ import java.util.HashSet;
 // contains the current gameMap, the previousState, and the rules on the field.
 public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousState) {
     //generate rules from the current gameMap
-    public Sequence<Rule> generateRules() {
+    public Sequence<Rule> generateRules() { 
         assert gameMap.size() >= 2;
         int n = gameMap.size(), m = gameMap.get(0).size();
         Sequence<Rule> rules = empty();
