@@ -29,6 +29,7 @@ public class GameGraphics {
     public static final HashMap<String, Graphic> ICON_WALL = new HashMap() {
         {
             put("dark", generateTestGraphic("ICON_WALL_DARK"));
+
             put("light", generateTestGraphic("ICON_WALL_LIGHT"));
             put("cancel", generateTestGraphic("ICON_WALL_CANCEL"));
         }
@@ -135,4 +136,7 @@ public class GameGraphics {
             put("dark", emptyGraphic());
         }
     };
+
+
+
 }
