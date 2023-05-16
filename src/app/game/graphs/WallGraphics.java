@@ -1,10 +1,12 @@
 package src.app.game.graphs;
+import jtamaro.en.Graphic;
+import static jtamaro.en.Graphics.emptyGraphic;
 
 public class WallGraphics {
 
     //1 TODO: Design icon for the bottom left corner of a wall (i.e it is linked from above and from the right)
     public static Graphic bottomLeft() {
-        return emtpyGraphic();
+        return emptyGraphic();
     }
     //2 TODO: Design icon for the bottom right corner of a wall (i.e it is linked from above and from the left)
     public static Graphic bottomRight() {
@@ -46,5 +48,4 @@ public class WallGraphics {
     public static Graphic endCornerBottom() {
         return emptyGraphic();
     }
-    // 12 TODO: Design icon for an 
 }

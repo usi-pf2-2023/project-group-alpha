@@ -1,4 +1,6 @@
 package src.app.game.graphs;
+import jtamaro.en.Graphic;
+import static jtamaro.en.Graphics.emptyGraphic;
 
 public class StopGraphics {
     // TODO: Design the "stop" text box when it is activated (i.e light)

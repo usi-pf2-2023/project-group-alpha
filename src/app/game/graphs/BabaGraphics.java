@@ -10,16 +10,25 @@ public class BabaGraphics {
     public static final Graphic babaNorth() {
         return emptyGraphic();
     }
-    // TODO: design baba icon facing south
+    // TODO: Design baba icon facing south
     public static final Graphic babaSouth() {
         return emptyGraphic();
     }
-    // TODO: design baba icon facing west
+    // TODO: Design baba icon facing west
     public static final Graphic babaWest() {
         return emptyGraphic();
     }
-    // TODO: design baba icon facing east
+    // TODO: Design baba icon facing east
     public static final Graphic babaEast() {
+        return emptyGraphic();
+    }
+
+    // TODO: Design a text box "baba" that is activated (i.e it is light)
+    public static final Graphic babaOn() {
+        return emptyGraphic();
+    }
+    // TODO: Design a text box "baba" that is not activated (i.e it is dark)
+    public static final Graphic babaOff() {
         return emptyGraphic();
     }
 
