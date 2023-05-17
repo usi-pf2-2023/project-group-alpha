@@ -16,12 +16,9 @@ import static jtamaro.en.Colors.*;
 import static jtamaro.en.IO.*;
 
 public class ImageConverter {
-    private static final int BACKGROUND_RED_MAX = 22;
-    private static final int BACKGROUND_GREEN_MAX = 12;
-    private static final int BACKGROUND_BLUE_MAX = 13;
     // It's a test for making graphic
     public static void main(String[] args) throws IOException {
-        show(toGraphic("iconBaba.png"));
+        show(toGraphic("iconBaba1.png"));
     }
     public static Graphic toGraphic(String fileName) throws IOException {
         BufferedImage image = loadImage("src/app/game/graphs/images/" + fileName);
@@ -36,6 +33,7 @@ public class ImageConverter {
         }
         return graphic;
     }
+    // Read the image file
     private static BufferedImage loadImage(String imageName) throws IOException {
         File file = new File(imageName);
         return ImageIO.read(file);
@@ -48,13 +46,12 @@ public class ImageConverter {
             ArrayList<Graphic> row = new ArrayList<>();
             for(int j = 0; j < width; j++) {
                 int color = image.getRGB(j, i);
-                int red = new Color(color).getRed();
-                int green = new Color(color).getGreen();
-                int blue = new Color(color).getBlue();
+                int red = (color >> 16) & 0xFF;
+                int green = (color >> 8) & 0xFF;
+                int blue = color & 0xFF;
+                int opacity = (color >> 24) & 0xFF;
                 jtamaro.en.Color pixelColor = rgb(red, green, blue);
-                if(red == BACKGROUND_RED_MAX && green == BACKGROUND_GREEN_MAX && blue == BACKGROUND_BLUE_MAX) {
-                    pixelColor = rgb(0, 0, 0, 0);
-                }
+                if(opacity == 0) pixelColor = rgb(red, green, blue, opacity);
                 row.add(rectangle(Settings.UNIT_WIDTH / width, Settings.UNIT_HEIGHT / height, pixelColor));
             }
             imageMatrix.add(row);
