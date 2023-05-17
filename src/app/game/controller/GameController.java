@@ -36,7 +36,26 @@ public class GameController {
     // check whether the game is lost
     private static boolean hasLost(GameState currentState) {
         // TODO
-        return false;
+        // Question: Will we only be dealing with rectangular maps?
+
+        /* Conditions that can lead to a loss;
+        - There are no items on the map which have the "you" property
+        */
+       //  Outer loop: iterating on rows
+        final int nRows = currentState.gameMap().size();
+        final int nColumns = currentState.gameMap().get(0).size();
+
+        for(int i = 0 ; i == nRows; i++) {
+            // Inner loop: iterating on columns
+             for(int j = 0; j == nColumns; j++) {
+                 // If a tile contains "you", the game is not lost ==> Return false
+                 if (currentState.gameMap().get(i).get(j).containsYou()) {
+                     return false;
+                 }
+             }
+         }
+        // If no tile with "you" has been found, the game is lost ==> Return true
+        return true;
     }
 
     // build a new GameState for a lost game
@@ -47,7 +66,25 @@ public class GameController {
 
     // check whether the player win
     private static boolean hasWin(GameState currentState) {
-        // TODO
+        /* Conditions that can lead to a win:
+        1. An object is "you" and it is "win"
+        2. An object is "you" and it is on the same tile as an object that is "win"
+        */
+        final int nRows = currentState.gameMap().size();
+        final int nColumns = currentState.gameMap().get(0).size();
+
+
+        for(int i = 0 ; i == nRows; i++) {
+            // Inner loop: iterating on columns
+            for(int j = 0; j == nColumns; j++) {
+                // If a tile contains "you" and an object that is "win", then the player has won the game ==> return true
+                if (
+                    currentState.gameMap().get(i).get(j).containsYou() && currentState.gameMap().get(i).get(j).containsWin()) {
+                    return true;
+                }
+            }
+        }
+        // If no tile with "you" and a "win" has been found, the game is not won ==> Return false
         return false;
     }
 

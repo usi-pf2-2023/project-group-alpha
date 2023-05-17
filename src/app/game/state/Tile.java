@@ -96,7 +96,14 @@ public record Tile(Sequence<Item> items) {
         }
         return false;
     }
-
+    public boolean containsWin() {
+        for (Item item : items) {
+            if (item.win()) {
+                return true;
+            }
+        }
+        return false;
+    }
     // return a new Tile after add the item to the top of old Tile
     public Tile add(Item item) {
         return new Tile(cons(item, items));
