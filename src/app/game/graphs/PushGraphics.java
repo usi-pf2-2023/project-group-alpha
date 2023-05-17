@@ -7,7 +7,7 @@ public class PushGraphics {
     public static final Graphic pushOn() {
         return emptyGraphic();
     }
-    //TODO: Design the "push" text box when it is not activated (i.e dark)
+    // TODO: Design the "push" text box when it is not activated (i.e dark)
     public static final Graphic pushOff() {
         return emptyGraphic();
     }

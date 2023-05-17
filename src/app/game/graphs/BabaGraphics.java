@@ -1,7 +1,7 @@
 package src.app.game.graphs;
 
 import jtamaro.en.Graphic;
-import static jtamaro.en.Graphics.emptyGraphic;
+import static jtamaro.en.Graphics.*;
 
 public class BabaGraphics {
 
@@ -29,6 +29,9 @@ public class BabaGraphics {
     // TODO: Design a text box "baba" that is not activated (i.e it is dark)
     public static final Graphic babaOff() {
         return emptyGraphic();
+    }
+    public static final Graphic babaCancel() {
+        return overlay(CancelGraphics.cancel(), babaOn());
     }
 
 

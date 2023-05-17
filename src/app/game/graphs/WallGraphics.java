@@ -1,15 +1,16 @@
 package src.app.game.graphs;
 import jtamaro.en.Graphic;
 import static jtamaro.en.Graphics.emptyGraphic;
+import static jtamaro.en.Graphics.overlay;
 
 public class WallGraphics {
 
     //1 TODO: Design icon for the bottom left corner of a wall (i.e it is linked from above and from the right)
-    public static final Graphic bottomLeft() {
+    public static final Graphic bottomLeftCorner() {
         return emptyGraphic();
     }
     //2 TODO: Design icon for the bottom right corner of a wall (i.e it is linked from above and from the left)
-    public static final Graphic bottomRight() {
+    public static final Graphic bottomRightCorner() {
         return emptyGraphic();
     }
     //3 TODO: Design icon for the top left corner of a wall (i.e it is linked from below and from the right)
@@ -67,5 +68,16 @@ public class WallGraphics {
     // 16 TODO: Design an icon for a wall that is linked from all four directions
     public static final Graphic linkedAllFour() {
         return emptyGraphic();
+    }
+    // 17 TODO: Design a text box "wall" that is activated (i.e it is light)
+    public static final Graphic wallOn() {
+        return emptyGraphic();
+    }
+    // 18 TODO: Design a text box "wall" that is not activated (i.e it is dark)
+    public static final Graphic wallOff() {
+        return emptyGraphic();
+    }
+    public static final Graphic wallCancel() {
+        return overlay(CancelGraphics.cancel(), wallOn());
     }
 }

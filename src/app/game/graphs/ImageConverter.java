@@ -16,10 +16,10 @@ import static jtamaro.en.Colors.*;
 import static jtamaro.en.IO.*;
 
 public class ImageConverter {
-    // It's a test for making graphic
-    public static void main(String[] args) throws IOException {
-        show(toGraphic("iconBaba1.png"));
-    }
+//    It's a test for making graphic
+//    public static void main(String[] args) throws IOException {
+//        show(toGraphic("iconBaba1.png"));
+//    }
     public static Graphic toGraphic(String fileName) throws IOException {
         BufferedImage image = loadImage("src/app/game/graphs/images/" + fileName);
         ArrayList<ArrayList<Graphic>> imageMatrix = toArrayList(image);
