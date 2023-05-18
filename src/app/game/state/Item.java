@@ -17,12 +17,17 @@ public record Item(Kind name, // describes what kind of object it is
 ) {
     public Graphic toGraphic() {
         HashMap<String, Graphic> map = name.getGraphic_map();
-        if (light) {
-            return map.get("light");
-        } else if (cancel) {
-            return map.get("cancel");
-        } else {
-            return map.get("dark");
+        if(name.isObjectText() || name.isStateText() || name == Kind.TEXT_IS) {
+            if (light) {
+                return map.get("light");
+            } else if (cancel) {
+                return map.get("cancel");
+            } else {
+                return map.get("dark");
+            }
+        }
+        else {
+            return map.get("normal");
         }
     }
 
