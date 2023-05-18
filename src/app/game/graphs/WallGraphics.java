@@ -36,22 +36,23 @@ public class WallGraphics {
     public static final Graphic isolated() {
         return ImageConverter.toGraphic("wallIsolated.png");
     }
-    //8 TODO: Design icon for an endCornerRight wall (i.e it is linked from the left, and there is no other wall around it)
+
     public static final Graphic endCornerRight() {
-        return emptyGraphic();
+        return ImageConverter.toGraphic("endCornerRight.png");
     }
-    //9 TODO: Design icon for an endCornerLeft wall (i.e it is linked from the right and there is no other wall around it)
+
     public static final Graphic endCornerLeft() {
-        return emptyGraphic();
+        return ImageConverter.toGraphic("endCornerCornerLeft.png");
     }
-    //10 TODO: Design icon for an endCornerTop wall (i.e it is linked from below and there is no other wall around it)
+
     public static final Graphic endCornerTop() {
-        return emptyGraphic();
+        return ImageConverter.toGraphic("endCornerTop.png");
     }
-    // 11 TODO: Design icon for an endCornerBottom wall (i.e it is linked from above and there is no other wall around it)
+
     public static final Graphic endCornerBottom() {
-        return emptyGraphic();
+        return ImageConverter.toGraphic("endCornerBottom.png");
     }
+
     // 12 TODO: Design icon for a wall that is linked from the right, from the left and from above
     public static final Graphic linkedRightLeftTop() {
         return emptyGraphic();
@@ -72,13 +73,13 @@ public class WallGraphics {
     public static final Graphic linkedAllFour() {
         return emptyGraphic();
     }
-    // 17 TODO: Design a text box "wall" that is activated (i.e it is light)
+
     public static final Graphic wallOn() {
-        return emptyGraphic();
+        return ImageConverter.toGraphic("wallText.png");
     }
-    // 18 TODO: Design a text box "wall" that is not activated (i.e it is dark)
+
     public static final Graphic wallOff() {
-        return emptyGraphic();
+        return ImageConverter.toGraphic("wallTextDark.png");
     }
     public static final Graphic wallCancel() {
         return overlay(CancelGraphics.cancel(), wallOn());
