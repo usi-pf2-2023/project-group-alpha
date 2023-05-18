@@ -1,36 +1,36 @@
 package src.app.game.graphs;
 
 import jtamaro.en.Graphic;
+
+import java.io.IOException;
+
 import static jtamaro.en.Graphics.*;
 
 public class BabaGraphics {
-
-
-    public static final Graphic babaNorth() {
-        return emptyGraphic();
-    }
-    // TODO: Design baba icon facing south
-    public static final Graphic babaSouth() {
-        return emptyGraphic();
-    }
-    // TODO: Design baba icon facing west
-    public static final Graphic babaWest() {
-        return emptyGraphic();
-    }
-    // TODO: Design baba icon facing east
-    public static final Graphic babaEast() {
-        return emptyGraphic();
+    public static final Graphic babaNorth() throws IOException {
+        return ImageConverter.toGraphic("babaEast.png");
     }
 
-    // TODO: Design a text box "baba" that is activated (i.e it is light)
-    public static final Graphic babaOn() {
-        return emptyGraphic();
+    public static final Graphic babaSouth() throws IOException {
+        return ImageConverter.toGraphic("babaEast.png");
     }
-    // TODO: Design a text box "baba" that is not activated (i.e it is dark)
-    public static final Graphic babaOff() {
-        return emptyGraphic();
+
+    public static final Graphic babaWest() throws IOException {
+        return ImageConverter.toGraphic("babaWest.png");
     }
-    public static final Graphic babaCancel() {
+
+    public static final Graphic babaEast() throws IOException {
+        return ImageConverter.toGraphic("babaEast.png");
+    }
+
+    public static final Graphic babaOn() throws IOException {
+        return ImageConverter.toGraphic("babaText.png");
+    }
+
+    public static final Graphic babaOff() throws IOException {
+        return ImageConverter.toGraphic("babaTextDark.png");
+    }
+    public static final Graphic babaCancel() throws IOException {
         return overlay(CancelGraphics.cancel(), babaOn());
     }
 

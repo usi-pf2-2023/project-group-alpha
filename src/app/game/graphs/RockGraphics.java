@@ -1,21 +1,24 @@
 package src.app.game.graphs;
 import jtamaro.en.Graphic;
+
+import java.io.IOException;
+
 import static jtamaro.en.Graphics.*;
 
 public class RockGraphics {
-    // TODO: Design the rock graphics
-    public static final Graphic rock() {
-        return emptyGraphic();
+    public static final Graphic rock() throws IOException {
+        return ImageConverter.toGraphic("rockIcon.png");
     }
-    // TODO: Design a text box "rock" that is activated (i.e it is light)
-    public static final Graphic rockOn() {
-        return emptyGraphic();
+
+    public static final Graphic rockOn() throws IOException {
+        return ImageConverter.toGraphic("rockText.png");
     }
-    // TODO: Design a text box "rock" that is not activated (i.e it is dark)
-    public static final Graphic rockOff() {
-        return emptyGraphic();
+
+    public static final Graphic rockOff() throws IOException {
+        return ImageConverter.toGraphic("rockTextDark.png");
     }
-    public static final Graphic rockCancel() {
+
+    public static final Graphic rockCancel() throws IOException {
         return overlay(CancelGraphics.cancel(), rockOn());
     }
 }

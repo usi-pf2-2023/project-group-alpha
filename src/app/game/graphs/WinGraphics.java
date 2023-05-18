@@ -1,14 +1,16 @@
 package src.app.game.graphs;
 import jtamaro.en.Graphic;
+
+import java.io.IOException;
+
 import static jtamaro.en.Graphics.emptyGraphic;
 public class WinGraphics {
 
-    // TODO: Design the "win" text box when it is activated (i.e light)
-    public static final Graphic winOn() {
-        return emptyGraphic();
+    public static final Graphic winOn() throws IOException {
+        return ImageConverter.toGraphic("win.png");
     }
-    //TODO: Design the "win" text box when it is not activated (i.e dark)
-    public static Graphic winOff() {
-        return emptyGraphic();
+
+    public static Graphic winOff() throws IOException {
+        return ImageConverter.toGraphic("winTextDark.png");
     }
 }

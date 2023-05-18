@@ -1,5 +1,8 @@
 package src.app.game.graphs;
 import jtamaro.en.Graphic;
+
+import java.io.IOException;
+
 import static jtamaro.en.Graphics.emptyGraphic;
 import static jtamaro.en.Graphics.overlay;
 
@@ -29,9 +32,9 @@ public class WallGraphics {
     public static final Graphic vertical() {
         return emptyGraphic();
     }
-    //7 TODO: Design icon for an isolated wall
-    public static final Graphic isolated() {
-        return emptyGraphic();
+
+    public static final Graphic isolated() throws IOException {
+        return ImageConverter.toGraphic("wallIsolated.png");
     }
     //8 TODO: Design icon for an endCornerRight wall (i.e it is linked from the left, and there is no other wall around it)
     public static final Graphic endCornerRight() {

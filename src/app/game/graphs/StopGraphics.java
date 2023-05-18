@@ -1,14 +1,17 @@
 package src.app.game.graphs;
 import jtamaro.en.Graphic;
+
+import java.io.IOException;
+
 import static jtamaro.en.Graphics.emptyGraphic;
 
 public class StopGraphics {
-    // TODO: Design the "stop" text box when it is activated (i.e light)
-    public static Graphic stopOn() {
-        return emptyGraphic();
+
+    public static Graphic stopOn() throws IOException {
+        return ImageConverter.toGraphic("stop.png");
     }
-    //TODO: Design the "stop" text box when it is not activated (i.e dark)
-    public static Graphic stopOff() {
-        return emptyGraphic();
+
+    public static Graphic stopOff() throws IOException {
+        return ImageConverter.toGraphic("stopTextDark.png");
     }
 }
