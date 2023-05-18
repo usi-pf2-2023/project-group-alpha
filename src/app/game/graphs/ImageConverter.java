@@ -16,9 +16,12 @@ import static jtamaro.en.Colors.*;
 import static jtamaro.en.IO.*;
 
 public class ImageConverter {
+    public static final int BACKGROUND_RED = 13;
+    public static final int BACKGROUND_GREEN = 153;
+    public static final int BACKGROUND_BLUE = 57;
 //    It's a test for making graphic
 //    public static void main(String[] args) throws IOException {
-//        show(toGraphic("iconBaba1.png"));
+//        show(toGraphic("babaEast.png"));
 //    }
     public static Graphic toGraphic(String fileName) throws IOException {
         BufferedImage image = loadImage("src/app/game/graphs/images/" + fileName);
@@ -49,9 +52,10 @@ public class ImageConverter {
                 int red = (color >> 16) & 0xFF;
                 int green = (color >> 8) & 0xFF;
                 int blue = color & 0xFF;
-                int opacity = (color >> 24) & 0xFF;
                 jtamaro.en.Color pixelColor = rgb(red, green, blue);
-                if(opacity == 0) pixelColor = rgb(red, green, blue, opacity);
+                if(red == BACKGROUND_RED && green == BACKGROUND_GREEN && blue == BACKGROUND_BLUE) {
+                    pixelColor = rgb(0, 0, 0, 0);
+                }
                 row.add(rectangle(Settings.UNIT_WIDTH / width, Settings.UNIT_HEIGHT / height, pixelColor));
             }
             imageMatrix.add(row);
