@@ -7,30 +7,30 @@ import java.io.IOException;
 import static jtamaro.en.Graphics.*;
 
 public class BabaGraphics {
-    public static final Graphic babaNorth() throws IOException {
+    public static final Graphic babaNorth() {
         return ImageConverter.toGraphic("babaEast.png");
     }
 
-    public static final Graphic babaSouth() throws IOException {
+    public static final Graphic babaSouth() {
         return ImageConverter.toGraphic("babaEast.png");
     }
 
-    public static final Graphic babaWest() throws IOException {
+    public static final Graphic babaWest() {
         return ImageConverter.toGraphic("babaWest.png");
     }
 
-    public static final Graphic babaEast() throws IOException {
+    public static final Graphic babaEast() {
         return ImageConverter.toGraphic("babaEast.png");
     }
 
-    public static final Graphic babaOn() throws IOException {
+    public static final Graphic babaOn() {
         return ImageConverter.toGraphic("babaText.png");
     }
 
-    public static final Graphic babaOff() throws IOException {
+    public static final Graphic babaOff() {
         return ImageConverter.toGraphic("babaTextDark.png");
     }
-    public static final Graphic babaCancel() throws IOException {
+    public static final Graphic babaCancel() {
         return overlay(CancelGraphics.cancel(), babaOn());
     }
 

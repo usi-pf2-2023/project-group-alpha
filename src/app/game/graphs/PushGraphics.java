@@ -7,11 +7,11 @@ import static jtamaro.en.Graphics.emptyGraphic;
 
 public class PushGraphics {
 
-    public static final Graphic pushOn() throws IOException {
+    public static final Graphic pushOn() {
         return ImageConverter.toGraphic("push.png");
     }
 
-    public static final Graphic pushOff() throws IOException {
+    public static final Graphic pushOff() {
         return ImageConverter.toGraphic("pushTextDark.png");
     }
 }

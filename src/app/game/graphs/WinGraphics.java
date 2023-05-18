@@ -6,11 +6,11 @@ import java.io.IOException;
 import static jtamaro.en.Graphics.emptyGraphic;
 public class WinGraphics {
 
-    public static final Graphic winOn() throws IOException {
+    public static final Graphic winOn() {
         return ImageConverter.toGraphic("win.png");
     }
 
-    public static Graphic winOff() throws IOException {
+    public static Graphic winOff() {
         return ImageConverter.toGraphic("winTextDark.png");
     }
 }

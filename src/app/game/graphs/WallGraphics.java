@@ -33,7 +33,7 @@ public class WallGraphics {
         return emptyGraphic();
     }
 
-    public static final Graphic isolated() throws IOException {
+    public static final Graphic isolated() {
         return ImageConverter.toGraphic("wallIsolated.png");
     }
     //8 TODO: Design icon for an endCornerRight wall (i.e it is linked from the left, and there is no other wall around it)

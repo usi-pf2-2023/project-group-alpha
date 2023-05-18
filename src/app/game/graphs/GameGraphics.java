@@ -28,8 +28,7 @@ public class GameGraphics {
     // TODO: design the graphic of ICON_WALL
     public static final HashMap<String, Graphic> ICON_WALL = new HashMap() {
         {
-            put("dark", generateTestGraphic("ICON_WALL_DARK"));
-
+            put("dark", WallGraphics.isolated());
             put("light", generateTestGraphic("ICON_WALL_LIGHT"));
             put("cancel", generateTestGraphic("ICON_WALL_CANCEL"));
         }

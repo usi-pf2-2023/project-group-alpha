@@ -7,11 +7,11 @@ import static jtamaro.en.Graphics.emptyGraphic;
 
 public class StopGraphics {
 
-    public static Graphic stopOn() throws IOException {
+    public static Graphic stopOn() {
         return ImageConverter.toGraphic("stop.png");
     }
 
-    public static Graphic stopOff() throws IOException {
+    public static Graphic stopOff() {
         return ImageConverter.toGraphic("stopTextDark.png");
     }
 }
