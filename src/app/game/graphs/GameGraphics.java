@@ -21,121 +21,113 @@ public class GameGraphics {
 
     public static final HashMap<String, Graphic> BOUNDARY = new HashMap() {
         {
-            put("dark", rectangle(Settings.UNIT_WIDTH, Settings.UNIT_HEIGHT, rgb(0x21, 0x28, 0x3e)));
+            put("normal", rectangle(Settings.UNIT_WIDTH, Settings.UNIT_HEIGHT, rgb(0x21, 0x28, 0x3e)));
         }
     };
 
     // TODO: design the graphic of ICON_WALL
     public static final HashMap<String, Graphic> ICON_WALL = new HashMap() {
         {
-            put("dark", WallGraphics.isolated());
-            put("light", generateTestGraphic("ICON_WALL_LIGHT"));
-            put("cancel", generateTestGraphic("ICON_WALL_CANCEL"));
+            put("normal", WallGraphics.isolated());
         }
     };
 
     // TODO: design the graphic of TEXT_WALL
     public static final HashMap<String, Graphic> TEXT_WALL = new HashMap() {
         {
-            put("dark", generateTestGraphic("TEXT_WALL_DARK"));
-            put("light", generateTestGraphic("TEXT_WALL_LIGHT"));
-            put("cancel", generateTestGraphic("TEXT_WALL_CANCEL"));
+            put("dark", WallGraphics.wallOff());
+            put("light", WallGraphics.wallOn());
+            put("cancel", WallGraphics.wallCancel());
         }
     };
 
     // TODO: design the graphic of ICON_BABA
     public static final HashMap<String, Graphic> ICON_BABA = new HashMap() {
         {
-            put("dark", generateTestGraphic("ICON_BABA_DARK"));
-            put("light", generateTestGraphic("ICON_BABA_LIGHT"));
-            put("cancel", generateTestGraphic("ICON_BABA_CANCEL"));
+            put("normal", BabaGraphics.babaEast());
         }
     };
 
     // TODO: design the graphic of TEXT_BABA
     public static final HashMap<String, Graphic> TEXT_BABA = new HashMap() {
         {
-            put("dark", generateTestGraphic("TEXT_BABA_DARK"));
-            put("light", generateTestGraphic("TEXT_BABA_LIGHT"));
-            put("cancel", generateTestGraphic("TEXT_WALL_CANCEL"));
+            put("dark", BabaGraphics.babaOff());
+            put("light", BabaGraphics.babaOn());
+            put("cancel", BabaGraphics.babaCancel());
         }
     };
 
     // TODO: design the graphic of ICON_FLAG
     public static final HashMap<String, Graphic> ICON_FLAG = new HashMap() {
         {
-            put("dark", generateTestGraphic("ICON_FLAG_DARK"));
-            put("light", generateTestGraphic("ICON_FLAG_LIGHT"));
-            put("cancel", generateTestGraphic("ICON_FLAG_CANCEL"));
+            put("normal", FlagGraphics.flag());
         }
     };
 
     // TODO: design the graphic of TEXT_FLAG
     public static final HashMap<String, Graphic> TEXT_FLAG = new HashMap() {
         {
-            put("dark", generateTestGraphic("TEXT_FLAG_DARK"));
-            put("light", generateTestGraphic("TEXT_FLAG_LIGHT"));
-            put("cancel", generateTestGraphic("TEXT_FLAG_CANCEL"));
+            put("dark", FlagGraphics.flagOff());
+            put("light", FlagGraphics.flagOn());
+            put("cancel", FlagGraphics.flagCancel());
         }
     };
 
     // TODO: design the graphic of ICON_ROCK
     public static final HashMap<String, Graphic> ICON_ROCK = new HashMap() {
         {
-            put("dark", emptyGraphic());
+            put("normal", RockGraphics.rock());
         }
     };
 
     // TODO: design the graphic of TEXT_ROCK
     public static final HashMap<String, Graphic> TEXT_ROCK = new HashMap() {
         {
-            put("dark", emptyGraphic());
+            put("dark", RockGraphics.rockOff());
+            put("light", RockGraphics.rockOn());
+            put("cancel", RockGraphics.rockCancel());
         }
     };
 
     // TODO: design the graphic of TEXT_IS
     public static final HashMap<String, Graphic> TEXT_IS = new HashMap() {
         {
-            put("dark", generateTestGraphic("TEXT_IS_DARK"));
-            put("light", generateTestGraphic("TEXT_IS_LIGHT"));
-            put("cancel", generateTestGraphic("TEXT_IS_CANCEL"));
+            put("dark", IsGraphics.isOff());
+            put("light", IsGraphics.isOn());
+            put("cancel", IsGraphics.isCancel());
         }
     };
 
     // TODO: design the graphic of TEXT_WIN
     public static final HashMap<String, Graphic> TEXT_WIN = new HashMap() {
         {
-            put("dark", generateTestGraphic("TEXT_WIN_DARK"));
-            put("light", generateTestGraphic("TEXT_WIN_LIGHT"));
-            put("cancel", generateTestGraphic("TEXT_WIN_CANCEL"));
+            put("dark", WinGraphics.winOff());
+            put("light", WinGraphics.winOn());
         }
     };
 
     // TODO: design the graphic of TEXT_PUSH
     public static final HashMap<String, Graphic> TEXT_PUSH = new HashMap() {
         {
-            put("dark", generateTestGraphic("TEXT_PUSH_DARK"));
-            put("light", generateTestGraphic("TEXT_PUSH_LIGHT"));
-            put("cancel", generateTestGraphic("TEXT_PUSH_CANCEL"));
+            put("dark", PushGraphics.pushOff());
+            put("light", PushGraphics.pushOn());
         }
     };
 
     // TODO: design the graphic of TEXT_YOU
     public static final HashMap<String, Graphic> TEXT_YOU = new HashMap() {
         {
-            put("dark", generateTestGraphic("TEXT_YOU_DARK"));
-            put("light", generateTestGraphic("TEXT_YOU_LIGHT"));
-            put("cancel", generateTestGraphic("TEXT_YOU_CANCEL"));
+            put("dark", YouGraphics.youOff());
+            put("light", YouGraphics.youOn());
         }
     };
 
     // TODO: design the graphic of TEXT_STOP
     public static final HashMap<String, Graphic> TEXT_STOP = new HashMap() {
         {
-            put("dark", emptyGraphic());
+            put("dark", StopGraphics.stopOff());
+            put("light", StopGraphics.stopOn());
         }
     };
-
-
 
 }
