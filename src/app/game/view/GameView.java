@@ -18,7 +18,7 @@ public class GameView {
         for (int i = 0; i < n; i++) {
             Graphic rowFore = emptyGraphic();
             for (int j = 0; j < m; j++) {
-                rowFore = beside(rowFore, map.get(i).get(j).toGraphic());
+                rowFore = beside(rowFore, map.get(i).get(j).toGraphic(gameState.gameMap(), i, j));
             }
             fore = above(fore, rowFore);
         }

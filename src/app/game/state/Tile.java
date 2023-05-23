@@ -4,6 +4,8 @@ import jtamaro.en.Graphic;
 import jtamaro.en.Sequence;
 import src.app.game.Settings;
 
+import java.util.ArrayList;
+
 import static jtamaro.en.Colors.*;
 import static jtamaro.en.Graphics.*;
 import static jtamaro.en.Sequences.*;
@@ -11,11 +13,11 @@ import static jtamaro.en.Sequences.*;
 // a `Tile` is a Sequence of items arranged from top to bottom
 public record Tile(Sequence<Item> items) {
     // convert a Tile to a Graphic
-    public Graphic toGraphic() {
+    public Graphic toGraphic(ArrayList<ArrayList<Tile>> map, int x, int y) {
         return
             overlay(
                 reduce(
-                    (graphic, item) -> overlay(graphic, item.toGraphic()),
+                    (graphic, item) -> overlay(graphic, item.toGraphic(map, x, y)),
                     emptyGraphic(),
                     items
                 ),

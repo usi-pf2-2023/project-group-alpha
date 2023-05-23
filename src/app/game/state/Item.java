@@ -1,6 +1,7 @@
 package src.app.game.state;
 
 import jtamaro.en.Graphic;
+import jtamaro.en.data.Empty;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,20 +16,38 @@ public record Item(Kind name, // describes what kind of object it is
                    boolean you, // true if that object is controlled by the player
                    boolean win // true if touching the item triggers a win
 ) {
-    public Graphic toGraphic() {
-        HashMap<String, Graphic> map = name.getGraphic_map();
-        if(name.isObjectText() || name.isStateText() || name == Kind.TEXT_IS) {
+    public Graphic toGraphic(ArrayList<ArrayList<Tile>> gameStateMap, int x, int y) {
+        HashMap<String, Graphic> hashMap = name.getGraphic_map();
+        if (name.isObjectText() || name.isStateText() || name == Kind.TEXT_IS) {
             if (light) {
-                return map.get("light");
+                return hashMap.get("light");
             } else if (cancel) {
-                return map.get("cancel");
+                return hashMap.get("cancel");
             } else {
-                return map.get("dark");
+                return hashMap.get("dark");
+            }
+        } else if (name == Kind.ICON_WALL) {
+            return renderWall(hashMap, gameStateMap, x, y);
+        } else {
+            return hashMap.get("normal");
+        }
+    }
+    public Graphic renderWall(HashMap<String, Graphic> hashMap, ArrayList<ArrayList<Tile>> gameStateMap, int x, int y) {
+        int dx[] = {0, 1, 0, -1};
+        int dy[] = {1, 0, -1, 0};
+        String keyWall = new String("");
+        for(int i = 0; i < 4; i++) {
+            keyWall += hasWall(gameStateMap, x + dx[i], y + dy[i]);
+        }
+        return hashMap.get(keyWall);
+    }
+    public String hasWall(ArrayList<ArrayList<Tile>> gameStateMap, int x, int y) {
+        for(Item item : gameStateMap.get(x).get(y).items()) {
+            if(item.name == Kind.ICON_WALL) {
+                return "1";
             }
         }
-        else {
-            return map.get("normal");
-        }
+        return "0";
     }
 
     public Item applyRules(HashMap<Kind, ArrayList<Kind>> stateMap) {

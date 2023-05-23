@@ -25,10 +25,26 @@ public class GameGraphics {
         }
     };
 
-    // TODO: design the graphic of ICON_WALL
+    // Use 0 and 1 to represent the presence or absence of walls in the corresponding directions
+    // in the order of Right-Bottom-Left-Top
     public static final HashMap<String, Graphic> ICON_WALL = new HashMap() {
         {
-            put("normal", WallGraphics.isolated());
+            put("0000", WallGraphics.isolated());
+            put("0001", WallGraphics.endCornerTop());
+            put("0010", WallGraphics.endCornerLeft());
+            put("0011", WallGraphics.topLeftCorner());
+            put("0100", WallGraphics.endCornerBottom());
+            put("0101", WallGraphics.vertical());
+            put("0110", WallGraphics.bottomLeftCorner());
+            put("0111", WallGraphics.linkedLeftTopBottom());
+            put("1000", WallGraphics.endCornerRight());
+            put("1001", WallGraphics.topRightCorner());
+            put("1010", WallGraphics.horizontal());
+            put("1011", WallGraphics.linkedRightLeftTop());
+            put("1100", WallGraphics.bottomRightCorner());
+            put("1101", WallGraphics.linkedRightTopBottom());
+            put("1110", WallGraphics.linkedRightLeftBottom());
+            put("1111", WallGraphics.linkedAllFour());
         }
     };
 
