@@ -8,29 +8,28 @@ import static jtamaro.en.Graphics.overlay;
 
 public class WallGraphics {
 
-    //1 TODO: Design icon for the bottom left corner of a wall (i.e it is linked from above and from the right)
     public static final Graphic bottomLeftCorner() {
-        return emptyGraphic();
+        return ImageConverter.toGraphic("bottomLeftCorner.png");
     }
-    //2 TODO: Design icon for the bottom right corner of a wall (i.e it is linked from above and from the left)
+
     public static final Graphic bottomRightCorner() {
-        return emptyGraphic();
+        return ImageConverter.toGraphic("bottomRightCorner.png");
     }
-    //3 TODO: Design icon for the top left corner of a wall (i.e it is linked from below and from the right)
+
     public static final Graphic topLeftCorner() {
-        return emptyGraphic();
+        return ImageConverter.toGraphic("topLeftCorner.png");
     }
-    //4 TODO: Design icon for the top right corner of a wall (i.e it is linked from below and from the left)
+
     public static final Graphic topRightCorner() {
-        return emptyGraphic();
+        return ImageConverter.toGraphic("topRightCorner.png");
     }
-    //5 TODO: Design icon for a linked horizontal wall (i.e it is linked from the right and from the left)
+
     public static final Graphic horizontal() {
-        return emptyGraphic();
+        return ImageConverter.toGraphic("horizontal.png");
     }
-    //6 TODO: Desin icon for a linked vertical wall
+
     public static final Graphic vertical() {
-        return emptyGraphic();
+        return ImageConverter.toGraphic("vertical.png");
     }
 
     public static final Graphic isolated() {
@@ -42,7 +41,7 @@ public class WallGraphics {
     }
 
     public static final Graphic endCornerLeft() {
-        return ImageConverter.toGraphic("endCornerCornerLeft.png");
+        return ImageConverter.toGraphic("endCornerLeft.png");
     }
 
     public static final Graphic endCornerTop() {
@@ -53,25 +52,24 @@ public class WallGraphics {
         return ImageConverter.toGraphic("endCornerBottom.png");
     }
 
-    // 12 TODO: Design icon for a wall that is linked from the right, from the left and from above
     public static final Graphic linkedRightLeftTop() {
-        return emptyGraphic();
+        return ImageConverter.toGraphic("linkedRightLeftTop.png");
     }
-    // 13 TODO: Design icon for a wall that is linked from the right, from the left and from below
+
     public static final Graphic linkedRightLeftBottom() {
-        return emptyGraphic();
+        return ImageConverter.toGraphic("linkedRightLeftBottom.png");
     }
-    // 14 TODO: Design icon for a wall that is linked from the right, from the top and from below
+
     public static final Graphic linkedRightTopBottom() {
-        return emptyGraphic();
+        return ImageConverter.toGraphic("linkedRightTopBottom.png");
     }
-    // 15 TODO: Design an icon for a wall that is linked from the left, from the top and from below
+
     public static final Graphic linkedLeftTopBottom() {
-        return emptyGraphic();
+        return ImageConverter.toGraphic("linkedLeftTopBottom.png");
     }
-    // 16 TODO: Design an icon for a wall that is linked from all four directions
+
     public static final Graphic linkedAllFour() {
-        return emptyGraphic();
+        return ImageConverter.toGraphic("linkedAllFour.png");
     }
 
     public static final Graphic wallOn() {
