@@ -70,6 +70,10 @@ public record Item(Kind name, // describes what kind of object it is
         return this.name().equals(Kind.ICON_WALL);
     }
 
+    public boolean isText() {
+        return this.name().isObjectText() || this.name().isStateText() || this.name() == Kind.TEXT_IS;
+    }
+
     /**
      * Item.withHeading() creates a new Item object whose fields have the same values as the input object except for the
      * heading field which is now equal to the new heading if the object is "you"

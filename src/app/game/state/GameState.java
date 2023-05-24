@@ -26,19 +26,21 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
                 if (j != 1 && j != m - 2) {
                     Tile leftTile = gameMap.get(i).get(j - 1);
                     Tile rightTile = gameMap.get(i).get(j + 1);
-                    if (!leftTile.containsObjectText()) continue;
-                    if (!rightTile.containsObjectText() && !rightTile.containsStateText()) continue;
-                    Rule rule = Rule.getRule(leftTile, rightTile);
-                    rules = cons(rule, rules);
+                    if (leftTile.containsObjectText() &&
+                        (rightTile.containsObjectText() || rightTile.containsStateText())) {
+                        Rule rule = Rule.getRule(leftTile, rightTile);
+                        rules = cons(rule, rules);
+                    }
                 }
                 //up to down
                 if (i != 1 && i != n - 2) {
                     Tile upTile = gameMap.get(i - 1).get(j);
                     Tile downTile = gameMap.get(i + 1).get(j);
-                    if (!upTile.containsObjectText()) continue;
-                    if (!downTile.containsObjectText() && !downTile.containsStateText()) continue;
-                    Rule rule = Rule.getRule(upTile, downTile);
-                    rules = cons(rule, rules);
+                    if (upTile.containsObjectText() &&
+                        (downTile.containsObjectText() || downTile.containsStateText())) {
+                        Rule rule = Rule.getRule(upTile, downTile);
+                        rules = cons(rule, rules);
+                    }
                 }
             }
         }
@@ -107,7 +109,7 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
         // we clear the tiles that might be effected
         for (int r = 1; r < n - 1; ++r) {
             if (r < i || r > noPushRow) continue;
-            for (int c = 1; c < n - 1; ++c) {
+            for (int c = 1; c < m - 1; ++c) {
                 if (c < j || c > noPushCol) continue;
                 newGameMap.get(r).set(c, new Tile(empty()));
             }
@@ -115,7 +117,7 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
         // now add the element according to whether they are pushed
         for (int r = 1; r < n - 1; ++r) {
             if (r < i || r > noPushRow) continue;
-            for (int c = 1; c < n - 1; ++c) {
+            for (int c = 1; c < m - 1; ++c) {
                 if (c < j || c > noPushCol) continue;
                 Tile thisTile = newGameMap.get(r).get(c);
                 Tile pushTile = newGameMap.get(r + dx).get(c + dy);
@@ -268,24 +270,24 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
                 if (j != 1 && j != m - 2) {
                     Tile leftTile = newGameMap.get(i).get(j - 1);
                     Tile rightTile = newGameMap.get(i).get(j + 1);
-                    if (!leftTile.containsObjectText()) continue;
-                    if (!rightTile.containsObjectText()) continue;
-                    if (unWorkRules.contains(Rule.getRule(leftTile, rightTile))) {
-                        newGameMap.get(i).set(j - 1, leftTile.setToCancel());
-                        newGameMap.get(i).set(j, tile.setToCancel());
-                        newGameMap.get(i).set(j + 1, rightTile.setToCancel());
+                    if (leftTile.containsObjectText() && rightTile.containsObjectText()) {
+                        if (unWorkRules.contains(Rule.getRule(leftTile, rightTile))) {
+                            newGameMap.get(i).set(j - 1, leftTile.setToCancel());
+                            newGameMap.get(i).set(j, tile.setToCancel());
+                            newGameMap.get(i).set(j + 1, rightTile.setToCancel());
+                        }
                     }
                 }
                 //up to down
                 if (i != 1 && i != n - 2) {
                     Tile upTile = gameMap.get(i - 1).get(j);
                     Tile downTile = gameMap.get(i + 1).get(j);
-                    if (!upTile.containsObjectText()) continue;
-                    if (!downTile.containsObjectText()) continue;
-                    if (unWorkRules.contains(Rule.getRule(upTile, downTile))) {
-                        newGameMap.get(i - 1).set(j, upTile.setToCancel());
-                        newGameMap.get(i).set(j, tile.setToCancel());
-                        newGameMap.get(i + 1).set(j, downTile.setToCancel());
+                    if (upTile.containsObjectText() && downTile.containsObjectText()) {
+                        if (unWorkRules.contains(Rule.getRule(upTile, downTile))) {
+                            newGameMap.get(i - 1).set(j, upTile.setToCancel());
+                            newGameMap.get(i).set(j, tile.setToCancel());
+                            newGameMap.get(i + 1).set(j, downTile.setToCancel());
+                        }
                     }
                 }
             }
@@ -300,27 +302,27 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
                 if (j != 1 && j != m - 2) {
                     Tile leftTile = newGameMap.get(i).get(j - 1);
                     Tile rightTile = newGameMap.get(i).get(j + 1);
-                    if (!leftTile.containsObjectText()) continue;
-                    if (!rightTile.containsObjectText() && !rightTile.containsStateText()) continue;
-                    if (unWorkRules.contains(Rule.getRule(leftTile, rightTile))) {
-                        continue;
+                    if (leftTile.containsObjectText() &&
+                        (rightTile.containsObjectText() || rightTile.containsStateText())) {
+                        if (!unWorkRules.contains(Rule.getRule(leftTile, rightTile))) {
+                            newGameMap.get(i).set(j - 1, leftTile.setToReactive());
+                            newGameMap.get(i).set(j, tile.setToReactive());
+                            newGameMap.get(i).set(j + 1, rightTile.setToReactive());
+                        }
                     }
-                    newGameMap.get(i).set(j - 1, leftTile.setToReactive());
-                    newGameMap.get(i).set(j, tile.setToReactive());
-                    newGameMap.get(i).set(j + 1, rightTile.setToReactive());
                 }
                 //up to down
                 if (i != 1 && i != n - 2) {
                     Tile upTile = gameMap.get(i - 1).get(j);
                     Tile downTile = gameMap.get(i + 1).get(j);
-                    if (!upTile.containsObjectText()) continue;
-                    if (!downTile.containsObjectText() && !downTile.containsStateText()) continue;
-                    if (unWorkRules.contains(Rule.getRule(upTile, downTile))) {
-                        continue;
+                    if (upTile.containsObjectText() &&
+                        (downTile.containsObjectText() || downTile.containsStateText())) {
+                        if (!unWorkRules.contains(Rule.getRule(upTile, downTile))) {
+                            newGameMap.get(i - 1).set(j, upTile.setToReactive());
+                            newGameMap.get(i).set(j, tile.setToReactive());
+                            newGameMap.get(i + 1).set(j, downTile.setToReactive());
+                        }
                     }
-                    newGameMap.get(i - 1).set(j, upTile.setToReactive());
-                    newGameMap.get(i).set(j, tile.setToReactive());
-                    newGameMap.get(i + 1).set(j, downTile.setToReactive());
                 }
             }
         }

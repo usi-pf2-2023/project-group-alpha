@@ -103,7 +103,11 @@ public record Tile(Sequence<Item> items) {
     public Tile setToDark() {
         Sequence<Item> newItems = empty();
         for (Item item : items) {
-            newItems = concat(newItems, of(item.setToDark()));
+            if (item.isText()) {
+                newItems = concat(newItems, of(item.setToDark()));
+            } else {
+                newItems = concat(newItems, of(item));
+            }
         }
         return new Tile(newItems);
     }
