@@ -8,11 +8,11 @@ import static jtamaro.en.Graphics.*;
 
 public class BabaGraphics {
     public static final Graphic babaNorth() {
-        return ImageConverter.toGraphic("babaEast.png");
+        return ImageConverter.toGraphic("babaNorth.png");
     }
 
     public static final Graphic babaSouth() {
-        return ImageConverter.toGraphic("babaEast.png");
+        return ImageConverter.toGraphic("babaSouth.png");
     }
 
     public static final Graphic babaWest() {
@@ -30,9 +30,8 @@ public class BabaGraphics {
     public static final Graphic babaOff() {
         return ImageConverter.toGraphic("babaTextDark.png");
     }
+
     public static final Graphic babaCancel() {
         return overlay(CancelGraphics.cancel(), babaOn());
     }
-
-
 }
