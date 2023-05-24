@@ -162,6 +162,8 @@ public record Tile(Sequence<Item> items) {
             kind = Kind.TEXT_YOU;
         } else if (c == 'S') {
             kind = Kind.TEXT_STOP;
+        } else if (c == 'N') {
+            kind = Kind.TEXT_WIN;
         }
         if (kind == Kind.BOUNDARY) stop = true;
         if (kind.isStateText() || kind.isObjectText() || kind == Kind.TEXT_IS) {
