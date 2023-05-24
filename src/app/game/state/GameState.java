@@ -325,5 +325,17 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
         return new GameState(newGameMap, this.previousState);
     }
 
+    public GameState updateHeadings(Heading heading) {
+        return new GameState(
+            map(
+                row -> map(
+                    tile -> Item.withHeadings(heading, tile),
+                    row),
+                gameMap
+                )
+            ),
 
+
+    }
+// Ok so I have a : Sequence<Sequence<Item>>
 }

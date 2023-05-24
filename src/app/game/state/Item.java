@@ -1,6 +1,10 @@
 package src.app.game.state;
 
 import jtamaro.en.Graphic;
+import jtamaro.en.Sequences;
+import jtamaro.en.Sequence;
+
+import static jtamaro.en.Sequences.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,11 +67,26 @@ public record Item(Kind name, // describes what kind of object it is
 
     /**
      * Item.withHeading() creates a new Item object whose fields have the same values as the input object
-     * except for the heading field which is now equal to the new heading
+     * except for the heading field which is now equal to the new heading if the object is "you"
      * @param heading is obtained through keyboard interactions
      * @return an Item
      */
     public Item withHeading(Heading heading) {
-        return new Item(name, light, cancel, stop, push, you, win, heading);
+        return this.you()
+            ? new Item(name, light, cancel, stop, push, you, win, heading)
+            : this;
+    }
+
+    /**
+     * Item.withHeadings() changes the items in a sequence correspondingly to a new heading
+     * @param heading
+     * @param items is a list of Item that will be on the same Tile
+     * @return an updated sequence of items
+     */
+    public static Sequence<Item> withHeadings(Heading heading, Sequence<Item> items) {
+        return map(
+            (Item item) -> item.withHeading(heading),
+            items
+        );
     }
 }
