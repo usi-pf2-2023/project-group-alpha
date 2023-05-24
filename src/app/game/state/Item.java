@@ -5,31 +5,16 @@ import jtamaro.en.Graphic;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static jtamaro.en.Graphics.*;
-
 public record Item(Kind name, // describes what kind of object it is
                    boolean light, // true if the object is one part of an effective rule
                    boolean cancel, // true if the item is a part of an invalid rule
                    boolean stop, // true if the object cannot be traversed
                    boolean push, // true if the object can be pushed
                    boolean you, // true if that object is controlled by the player
-                   boolean win // true if touching the item triggers a win
+                   boolean win, // true if touching the item triggers a win
+                   Heading heading // indicates where the item is facing. By default, all items have a Heading.SOUTH heading
 ) {
-    public Graphic toGraphic() {
-        HashMap<String, Graphic> map = name.getGraphic_map();
-        if(name.isObjectText() || name.isStateText() || name == Kind.TEXT_IS) {
-            if (light) {
-                return map.get("light");
-            } else if (cancel) {
-                return map.get("cancel");
-            } else {
-                return map.get("dark");
-            }
-        }
-        else {
-            return map.get("normal");
-        }
-    }
+
 
     public Item applyRules(HashMap<Kind, ArrayList<Kind>> stateMap) {
         boolean stop = false, push = false, you = false, win = false;
@@ -48,23 +33,41 @@ public record Item(Kind name, // describes what kind of object it is
                 }
             }
         }
-        return new Item(name, light, cancel, stop, push, you, win);
+        return new Item(name, light, cancel, stop, push, you, win, heading);
     }
 
     public Item setName(Kind name) {
-        return new Item(name, light, cancel, stop, push, you, win);
+        return new Item(name, light, cancel, stop, push, you, win, heading);
     }
 
     // set text Items to Dark
     public Item setToDark() {
-        return new Item(name, false, cancel, true, true, you, win);
+        return new Item(name, false, cancel, true, true, you, win, heading);
     }
 
     public Item setToCancel() {
-        return new Item(name, true, true, true, true, you, win);
+        return new Item(name, true, true, true, true, you, win, heading);
     }
 
     public Item setToReactive() {
-        return new Item(name, true, false, true, true, you, win);
+        return new Item(name, true, false, true, true, you, win, heading);
+    }
+
+    /**
+     * isIconBaba() determines whether an object is an iconBaba.
+     * @return true if that is the case, false otherwise.
+     */
+    public boolean isIconBaba() {
+       return this.name().equals(Kind.ICON_BABA);
+    }
+
+    /**
+     * Item.withHeading() creates a new Item object whose fields have the same values as the input object
+     * except for the heading field which is now equal to the new heading
+     * @param heading is obtained through keyboard interactions
+     * @return an Item
+     */
+    public Item withHeading(Heading heading) {
+        return new Item(name, light, cancel, stop, push, you, win, heading);
     }
 }

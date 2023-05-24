@@ -17,4 +17,5 @@ public enum Heading {
             keyCode == KeyboardKey.RIGHT ? EAST :
             WEST;
     }
+
 }

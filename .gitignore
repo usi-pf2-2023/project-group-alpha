@@ -33,3 +33,7 @@ hs_err_pid*
 
 # Windows
 Thumbs.db
+src/app/game/view/GameView.java
+src/app/game/state/Kind.java
+src/app/game/state/Item.java
+src/app/game/state/Kind.java

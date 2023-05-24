@@ -10,18 +10,7 @@ import static jtamaro.en.Sequences.*;
 
 // a `Tile` is a Sequence of items arranged from top to bottom
 public record Tile(Sequence<Item> items) {
-    // convert a Tile to a Graphic
-    public Graphic toGraphic() {
-        return
-            overlay(
-                reduce(
-                    (graphic, item) -> overlay(graphic, item.toGraphic()),
-                    emptyGraphic(),
-                    items
-                ),
-                rectangle(Settings.UNIT_WIDTH, Settings.UNIT_HEIGHT, BLACK)
-            );
-    }
+
 
     // support to assert, only used here?
     public static <T> int size(Sequence<T> seq) {
@@ -144,6 +133,7 @@ public record Tile(Sequence<Item> items) {
         boolean push = false;
         boolean you = false;
         boolean win = false;
+        Heading heading = Heading.SOUTH;
         if (c == 'w') {
             kind = Kind.ICON_WALL;
         } else if (c == 'b') {
@@ -176,7 +166,7 @@ public record Tile(Sequence<Item> items) {
             stop = true;
             push = true;
         }
-        Item item = new Item(kind, light, cancel, stop, push, you, win);
+        Item item = new Item(kind, light, cancel, stop, push, you, win, heading);
         return new Tile(cons(item, empty()));
     }
 }

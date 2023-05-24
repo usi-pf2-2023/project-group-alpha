@@ -5,6 +5,9 @@ import src.app.game.graphs.GameGraphics;
 
 import java.util.HashMap;
 
+/**
+ * Contains all the types of objects
+ */
 public enum Kind {
     BOUNDARY(GameGraphics.BOUNDARY, false, false),
 
@@ -60,4 +63,5 @@ public enum Kind {
     public boolean isStateText() {
         return isStateText;
     }
+
 }

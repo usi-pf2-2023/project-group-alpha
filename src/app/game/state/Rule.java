@@ -6,6 +6,12 @@ public record Rule(Kind from, Kind to) {
     public static Rule getRule(Tile first, Tile second) {
         return new Rule(getText(first), getText(second));
     }
+
+    /**
+     * Kind.getText() takes in a Tile and looks for a text. If it exists, the method outputs its Kind (name)
+     * @param tile contains an empty sequence or a sequence of items
+     * @return a Kind
+     */
     // return a Text from a Tile if exists
     public static Kind getText(Tile tile) {
         int count = 0;
