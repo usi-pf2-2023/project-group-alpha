@@ -13,7 +13,7 @@ import java.util.HashSet;
 // contains the current gameMap, the previousState, and the rules on the field.
 public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousState) {
     //generate rules from the current gameMap
-    public Sequence<Rule> generateRules() { 
+    public Sequence<Rule> generateRules() {
         assert gameMap.size() >= 2;
         int n = gameMap.size(), m = gameMap.get(0).size();
         Sequence<Rule> rules = empty();
@@ -154,7 +154,9 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
                 newState = newState.singleTileMove(i, j, heading);
             }
         }
-        return new GameState(newState.gameMap, this);
+        GameState ret = new GameState(newState.gameMap, this);
+        ret = ret.updateHeadings(heading);
+        return ret;
     }
 
     public static ArrayList<ArrayList<Tile>> fromString(String mapDescription) {
@@ -326,16 +328,15 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
     }
 
     public GameState updateHeadings(Heading heading) {
-        return new GameState(
-            map(
-                row -> map(
-                    tile -> Item.withHeadings(heading, tile),
-                    row),
-                gameMap
-                )
-            ),
-
-
+        ArrayList<ArrayList<Tile>> newGameMap = new ArrayList<>();
+        for (int i = 0; i < gameMap.size(); ++i) {
+            ArrayList<Tile> row = new ArrayList<>();
+            for (int j = 0; j < gameMap.get(i).size(); ++j) {
+                row.add(new Tile(Item.withHeadings(heading, gameMap.get(i).get(j).items())));
+            }
+            newGameMap.add(row);
+        }
+        return new GameState(newGameMap, this.previousState);
     }
 // Ok so I have a : Sequence<Sequence<Item>>
 }
