@@ -60,7 +60,10 @@ public class GameGraphics {
     // TODO: design the graphic of ICON_BABA
     public static final HashMap<String, Graphic> ICON_BABA = new HashMap() {
         {
-            put("normal", BabaGraphics.babaEast());
+            put("east", BabaGraphics.babaEast());
+            put("west", BabaGraphics.babaWest());
+            put("north", BabaGraphics.babaNorth());
+            put("south", BabaGraphics.babaSouth());
         }
     };
 

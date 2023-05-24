@@ -3,10 +3,7 @@ package src.app.game.view;
 import jtamaro.en.Graphic;
 import jtamaro.en.Sequence;
 import src.app.game.Settings;
-import src.app.game.state.GameState;
-import src.app.game.state.Kind;
-import src.app.game.state.Tile;
-import src.app.game.state.Item;
+import src.app.game.state.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +20,7 @@ public class GameView {
         for (int i = 0; i < n; i++) {
             Graphic rowFore = emptyGraphic();
             for (int j = 0; j < m; j++) {
-                rowFore = beside(rowFore, tileToGraphic(map.get(i).get(j).items()));
+                rowFore = beside(rowFore, tileToGraphic(map.get(i).get(j).items(), gameState, i, j));
             }
             //    rowFore = beside(rowFore, map.get(i).get(j).toGraphic());
             fore = above(fore, rowFore);
@@ -35,37 +32,57 @@ public class GameView {
     /**
      * The method takes in an Item and renders it to a Graphic depending on its characteristics.
      */
-    public static Graphic itemToGraphic(Item item) {
+    public static Graphic itemToGraphic(Item item, GameState gameState, int x, int y) {
         HashMap<String, Graphic> map = item.name().getGraphic_map();
         // Rendering for texts
+        Graphic ret = null;
         if (item.name().isObjectText() || item.name().isStateText() || item.name() == Kind.TEXT_IS) {
             if (item.light()) {
-                return map.get("light");
+                ret = map.get("light");
             } else if (item.cancel()) {
-                return map.get("cancel");
+                ret = map.get("cancel");
             } else {
-                return map.get("dark");
+                ret = map.get("dark");
             }
-        }
-        // Rendering for Babas:
-        if (item.isIconBaba()) {
-            return null;
+        } else if (item.isIconBaba()) {
+            if (item.heading() == Heading.SOUTH) {
+                ret = map.get("south");
+            } else if (item.heading() == Heading.WEST) {
+                ret = map.get("west");
+            } else if (item.heading() == Heading.NORTH) {
+                ret = map.get("north");
+            } else {
+                ret = map.get("east");
+            }
+        } else if (item.isIconWall()) {
+            ret = renderWall(item, gameState, x, y);
         } else {
-            return map.get("normal");
+            ret = map.get("normal");
         }
+        if (ret == null) {
+            assert false;
+        }
+        return ret;
     }
+
+    public static Graphic renderWall(Item item, GameState gameState, int x, int y) {
+        HashMap<String, Graphic> hashMap = item.name().getGraphic_map();
+        ArrayList<ArrayList<Tile>> gameMap = gameState.gameMap();
+        int dx[] = {0, 1, 0, -1};
+        int dy[] = {1, 0, -1, 0};
+        String keyWall = new String("");
+        for (int i = 0; i < 4; i++) {
+            keyWall += item.hashWall(gameMap, x + dx[i], y + dy[i]);
+        }
+        return hashMap.get(keyWall);
+    }
+
     // convert a Tile to a Graphic
 
-    public static Graphic tileToGraphic(Sequence<Item> items) {
-        return
-            overlay(
-                reduce(
-                    (graphic, item) -> overlay(graphic, itemToGraphic(item)),
-                    emptyGraphic(),
-                    items
-                ),
-                rectangle(Settings.UNIT_WIDTH, Settings.UNIT_HEIGHT, BLACK)
-            );
+    public static Graphic tileToGraphic(Sequence<Item> items, GameState gameState, int x, int y) {
+        return overlay(
+            reduce((graphic, item) -> overlay(graphic, itemToGraphic(item, gameState, x, y)), emptyGraphic(), items),
+            rectangle(Settings.UNIT_WIDTH, Settings.UNIT_HEIGHT, BLACK));
     }
 }
 
