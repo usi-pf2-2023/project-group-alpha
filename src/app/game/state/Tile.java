@@ -85,6 +85,7 @@ public record Tile(Sequence<Item> items) {
         }
         return false;
     }
+
     public boolean containsWin() {
         for (Item item : items) {
             if (item.win()) {
@@ -93,6 +94,7 @@ public record Tile(Sequence<Item> items) {
         }
         return false;
     }
+
     // return a new Tile after add the item to the top of old Tile
     public Tile add(Item item) {
         return new Tile(cons(item, items));
@@ -133,7 +135,7 @@ public record Tile(Sequence<Item> items) {
         boolean push = false;
         boolean you = false;
         boolean win = false;
-        Heading heading = Heading.SOUTH;
+        Heading heading = Heading.EAST;
         if (c == 'w') {
             kind = Kind.ICON_WALL;
         } else if (c == 'b') {
