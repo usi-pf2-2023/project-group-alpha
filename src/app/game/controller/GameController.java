@@ -1,42 +1,79 @@
 package src.app.game.controller;
 
-import src.app.game.state.Tile;
+
 import jtamaro.en.io.KeyboardKey;
-import src.app.game.Settings;
+
 import src.app.game.state.GameState;
+
+import src.app.game.state.Tile;
+import src.app.game.Settings;
 import src.app.game.state.Heading;
 import src.app.game.state.Stage;
 import src.app.game.state.MenuStage;
 import src.app.game.state.GameStage;
 
+import jtamaro.en.Sequence;
+import jtamaro.en.Sequences;
+
+import jtamaro.en.Sequence.*;
+import static jtamaro.en.Sequences.*;
+import static src.app.game.state.GameStage.*;
+import static src.app.game.state.MenuStage.*;
+import jtamaro.en.IO;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class GameController {
     public static GameState onKeyPress(GameState now, KeyboardKey key) {
+        // If we are currently in a game:
+        if(now.currentStage() instanceof GameStage) {
 
-        
-        // This is 'U' for undo
-        if (key.getCode() == 0x55) {
-            if (now.previousState() != null) {
-                return now.previousState();
-            } else {
-                return now;
+            if (key.getCode() == KeyboardKey.BACK_SPACE) {
+
+            }
+
+                // Pressing "U" triggers an undo
+            if (key.getCode() == 0x55) {
+                if (now.previousState() != null) {
+                    return now.previousState();
+                } else {
+                    return now;
+                }
+            }
+            // Pressing "R" triggers a restart to the initial state of that level
+            if (key.getCode() == 0x52) {
+                // TODO: restart according to the game level of the AppState
+                return Settings.initialState;
+            }
+
+            // Key arrows: pressing them triggers a move (if it is possible) to that direction (left, up, down, right, left)
+            if (key.getCode() == KeyboardKey.UP ||
+                key.getCode() == KeyboardKey.DOWN ||
+                key.getCode() == KeyboardKey.LEFT ||
+                key.getCode() == KeyboardKey.RIGHT) {
+                return now
+                    // Move check: if a move is possible, then make the move
+                    .move(Heading.fromKeyCode(key.getCode()))
+                    // Apply and generate the rules according to the new gameMap
+                    .applyRules();
             }
         }
-
-        //This is 'R' for restart
-        if (key.getCode() == 0x52) {
-            // TODO: restart according to the game level of the AppState
-            return Settings.initialState;
+        // If we are currently in a menu
+        if(isInGameMenu(now.currentStage())) {
+            // Pressing "3"
+            // Go to level select
+            //
+            // Pressing "4" exits the game
         }
 
-        // directions
-        if (key.getCode() == KeyboardKey.UP ||
-            key.getCode() == KeyboardKey.DOWN ||
-            key.getCode() == KeyboardKey.LEFT ||
-            key.getCode() == KeyboardKey.RIGHT) {
-            return now.move(Heading.fromKeyCode(key.getCode())).applyRules();
-        }
+        if(isMainMenu(now.currentStage())) {}
+        if(isLevelSelectMenu(now.currentStage())) {}
+        if(isWonMenu(now.currentStage())) {}
+        if(isLostMenu(now.currentStage())) {}
+
+
 
         return now;
     }
@@ -136,4 +173,47 @@ public class GameController {
             MenuStage.LOST_MENU
         );
     }
+
+    /**
+     * GameState.buildInGameMenu() takes a GameState and changes its stage to an in game menu.
+     * @param before is the original GameState
+     * @return a new GameState that is in the "in game menu" stage.
+     */
+    public static GameState buildInGameMenu(GameState before) {
+        return new GameState(
+            before.gameMap(),
+            before.previousState(),
+            before.gameWon(),
+            before.gameLost(),
+            MenuStage.IN_GAME_MENU
+        );
+    }
+
+
+    public static GameState buildMainMenu(GameState before) {
+        return new GameState(
+            before.gameMap(),
+            before.previousState(),
+            before.gameWon(),
+            before.gameLost(),
+            MenuStage.MAIN_MENU
+        );
+    }
+    public static GameState buildLevelSelectMenu(GameState before) {
+        return new GameState(
+            before.gameMap(),
+            before.previousState(),
+            before.gameWon(),
+            before.gameLost(),
+            MenuStage.LEVEL_SELECT_MENU
+        );
+    }
+
+    /*
+    public static GameState buildLevelOne(
+        return new GameState(GameState.fromString(Files.readString(Path.of("game1.txt")))
+
+    )
+    )
+    */
 }
