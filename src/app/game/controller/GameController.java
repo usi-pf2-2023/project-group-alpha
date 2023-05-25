@@ -90,9 +90,9 @@ public class GameController {
         final int nRows = gameMap.size();
         final int nColumns = gameMap.get(0).size();
 
-        for(int i = 0 ; i == nRows; i++) {
+        for(int i = 0 ; i < nRows; i++) {
             // Inner loop: iterating on columns
-             for(int j = 0; j == nColumns; j++) {
+             for(int j = 0; j < nColumns; j++) {
                  // If a tile contains "you", the game is not lost ==> Return false
                  if (gameMap.get(i).get(j).containsYou()) {
                      return false;
@@ -113,9 +113,9 @@ public class GameController {
         final int nRows = gameMap.size();
         final int nColumns = gameMap.get(0).size();
 
-        for(int i = 0 ; i == nRows; i++) {
+        for(int i = 0 ; i < nRows; i++) {
             // Inner loop: iterating on columns
-            for(int j = 0; j == nColumns; j++) {
+            for(int j = 0; j < nColumns; j++) {
                 // If a tile contains "you" and an object that is "win", then the player has won the game ==> return true
                 if (
                     gameMap.get(i).get(j).containsYou() && gameMap.get(i).get(j).containsWin()) {

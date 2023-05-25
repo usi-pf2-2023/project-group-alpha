@@ -16,7 +16,10 @@ import static jtamaro.en.Sequences.reduce;
 public class GameView {
     public static Graphic render(GameState gameState) {
         if (GameController.hasWon(gameState.gameMap())) {
-            return text("Congratulations, you have won! Press SPACE to continue!", "Helvetica", 200, BLACK);
+            return above(
+                text("Congratulations, you have won!", "Helvetica", 50, BLACK),
+                text("Press R to restart!", "Helvetica", 50, BLACK)
+            );
         }
 
         else
