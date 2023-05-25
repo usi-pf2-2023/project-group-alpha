@@ -28,11 +28,11 @@ import java.util.ArrayList;
 public class GameController {
     public static GameState onKeyPress(GameState now, KeyboardKey key) {
         // If we are currently in a game:
-        if(now.currentStage() instanceof GameStage) {
+        //if(now.currentStage() instanceof GameStage) {
 
-            if (key.getCode() == KeyboardKey.BACK_SPACE) {
+            //if (key.getCode() == KeyboardKey.BACK_SPACE) {
 
-            }
+            //}
 
                 // Pressing "U" triggers an undo
             if (key.getCode() == 0x55) {
@@ -59,21 +59,21 @@ public class GameController {
                     // Apply and generate the rules according to the new gameMap
                     .applyRules();
             }
-        }
+        //}
         // If we are currently in a menu
-        if(isInGameMenu(now.currentStage())) {
+        /*if(isInGameMenu(now.currentStage())) {
             // Pressing "3"
             // Go to level select
             //
             // Pressing "4" exits the game
         }
-
+        /*
         if(isMainMenu(now.currentStage())) {}
         if(isLevelSelectMenu(now.currentStage())) {}
         if(isWonMenu(now.currentStage())) {}
         if(isLostMenu(now.currentStage())) {}
 
-
+       */
 
         return now;
     }

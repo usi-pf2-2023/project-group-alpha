@@ -84,5 +84,7 @@ public class GameView {
             reduce((graphic, item) -> overlay(graphic, itemToGraphic(item, gameState, x, y)), emptyGraphic(), items),
             rectangle(Settings.UNIT_WIDTH, Settings.UNIT_HEIGHT, BLACK));
     }
+
+
 }
 
