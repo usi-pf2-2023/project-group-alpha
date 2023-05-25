@@ -28,7 +28,7 @@ public class Settings {
     static {
         try {
             initialState =
-                new GameState(GameState.fromString(Files.readString(Path.of("game1.txt"))), null, false, false, GameStage.LEVEL_1)
+                new GameState(GameState.fromString(Files.readString(Path.of("game1.txt"))), null, GameStage.LEVEL_1)
                     .applyRules();
         } catch (IOException e) {
             throw new RuntimeException(e);

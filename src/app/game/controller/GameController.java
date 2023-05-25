@@ -113,7 +113,6 @@ public class GameController {
         final int nRows = gameMap.size();
         final int nColumns = gameMap.get(0).size();
 
-
         for(int i = 0 ; i == nRows; i++) {
             // Inner loop: iterating on columns
             for(int j = 0; j == nColumns; j++) {
@@ -130,19 +129,13 @@ public class GameController {
 
     /**
      * GameController.buildGameWinState() takes a GameState to turn it into a winning GameState.
-     * @param before is the GameState that we pass to the method.
-     * @return a winning GameState
      */
     // build a new GameState for a win game
     public static GameState buildGameWinState(GameState before) {
-        // TODO
+        // TODO: Test
         return new GameState(
             before.gameMap(),
             before.previousState(),
-            // The game is won
-            true,
-            // The game is won, so it cannot be lost. We assert this using false
-            false,
             // The new stage is the "WON_MENU"
             MenuStage.WON_MENU
         );
@@ -156,8 +149,6 @@ public class GameController {
 
     /**
      * GameController.buildGameLostState() takes in a GameState and returns a losing GameState
-     * @param before is the gameState given to the method
-     * @return a losing GameState
      */
     // build a new GameState for a lost game
     public static GameState buildGameLostState(GameState before) {
@@ -165,20 +156,20 @@ public class GameController {
         return new GameState(
             before.gameMap(),
             before.previousState(),
-            // The game is lost, so it cannot be won. We assert this through false
-            false,
-            // The game is lost
-            true,
             // The new stage is the "lost menu"
             MenuStage.LOST_MENU
         );
     }
+
+
+
 
     /**
      * GameState.buildInGameMenu() takes a GameState and changes its stage to an in game menu.
      * @param before is the original GameState
      * @return a new GameState that is in the "in game menu" stage.
      */
+    /*
     public static GameState buildInGameMenu(GameState before) {
         return new GameState(
             before.gameMap(),
@@ -209,11 +200,13 @@ public class GameController {
         );
     }
 
-    /*
-    public static GameState buildLevelOne(
-        return new GameState(GameState.fromString(Files.readString(Path.of("game1.txt")))
 
-    )
-    )
-    */
+    //public static GameState buildLevelOne() {
+     //   return new GameState(GameState.fromString(Files.readString(Path.of("game1.txt")))
+
+   // )
+   // )
+   // }
+   */
+
 }
