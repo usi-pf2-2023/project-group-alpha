@@ -4,7 +4,9 @@ import jtamaro.en.Sequence;
 import src.app.game.state.GameState;
 import src.app.game.state.Item;
 import src.app.game.state.Tile;
-
+import src.app.game.state.Stage;
+import src.app.game.state.GameStage;
+import src.app.game.state.MenuStage;
 import static jtamaro.en.Sequences.*;
 
 import java.nio.file.Files;
@@ -26,10 +28,11 @@ public class Settings {
     static {
         try {
             initialState =
-                new GameState(GameState.fromString(Files.readString(Path.of("game1.txt"))), null)
+                new GameState(GameState.fromString(Files.readString(Path.of("game1.txt"))), null, false, false, GameStage.LEVEL_1)
                     .applyRules();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
 }
