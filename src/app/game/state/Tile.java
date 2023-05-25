@@ -115,7 +115,11 @@ public record Tile(Sequence<Item> items) {
     public Tile setToCancel() {
         Sequence<Item> newItems = empty();
         for (Item item : items) {
-            newItems = concat(newItems, of(item.setToCancel()));
+            if (item.isText()) {
+                newItems = concat(newItems, of(item.setToCancel()));
+            } else {
+                newItems = concat(newItems, of(item));
+            }
         }
         return new Tile(newItems);
     }
@@ -123,7 +127,11 @@ public record Tile(Sequence<Item> items) {
     public Tile setToReactive() {
         Sequence<Item> newItems = empty();
         for (Item item : items) {
-            newItems = concat(newItems, of(item.setToReactive()));
+            if (item.isText()) {
+                newItems = concat(newItems, of(item.setToReactive()));
+            } else {
+                newItems = concat(newItems, of(item));
+            }
         }
         return new Tile(newItems);
     }
