@@ -336,9 +336,8 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
         if (hasWon(newGameMap)) {
             // If the game was won
             return buildGameWinState(new GameState(newGameMap, this.previousState, currentStage));
-        }
-         else {
-             // If the game is neither won nor lost
+        } else {
+            // If the game is neither won nor lost
             return new GameState(newGameMap, this.previousState, currentStage);
         }
     }

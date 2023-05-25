@@ -9,36 +9,39 @@ import src.app.game.controller.GameController;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static jtamaro.en.Colors.BLACK;
+import static jtamaro.en.Colors.*;
 import static jtamaro.en.Graphics.*;
 import static jtamaro.en.Sequences.reduce;
 
 public class GameView {
     public static Graphic render(GameState gameState) {
-        if (GameController.hasWon(gameState.gameMap())) {
-            return above(
-                text("Congratulations, you have won!", "Helvetica", 50, BLACK),
-                text("Press R to restart!", "Helvetica", 50, BLACK)
-            );
-        }
-
-        else
-        {
-            ArrayList<ArrayList<Tile>> map = gameState.gameMap();
-            int n = map.size(), m = map.get(0).size();
-            Graphic fore = emptyGraphic();
-            for (int i = 0; i < n; i++) {
-                Graphic rowFore = emptyGraphic();
-                for (int j = 0; j < m; j++) {
-                    rowFore = beside(rowFore, tileToGraphic(map.get(i).get(j).items(), gameState, i, j));
-                }
-                //    rowFore = beside(rowFore, map.get(i).get(j).toGraphic());
-                fore = above(fore, rowFore);
+        ArrayList<ArrayList<Tile>> map = gameState.gameMap();
+        int n = map.size(), m = map.get(0).size();
+        Graphic fore = emptyGraphic();
+        for (int i = 0; i < n; i++) {
+            Graphic rowFore = emptyGraphic();
+            for (int j = 0; j < m; j++) {
+                rowFore = beside(rowFore, tileToGraphic(map.get(i).get(j).items(), gameState, i, j));
             }
-            Graphic back = rectangle(m * Settings.UNIT_WIDTH, n * Settings.UNIT_HEIGHT, BLACK);
-            return overlay(fore, back);
+            //    rowFore = beside(rowFore, map.get(i).get(j).toGraphic());
+            fore = above(fore, rowFore);
         }
+        Graphic back = rectangle(m * Settings.UNIT_WIDTH, n * Settings.UNIT_HEIGHT, BLACK);
+        Graphic ret = overlay(fore, back);
+        if (GameController.hasWon(gameState.gameMap())) {
+            Graphic winText =
+                overlay(
+                    above(
+                        text("Congratulations, you have won!", "Helvetica", 50, WHITE),
+                        text("Press SPACE to continue!", "Helvetica", 50, WHITE)
+                    ),
+                    rectangle(m * Settings.UNIT_WIDTH, n * Settings.UNIT_HEIGHT, rgb(255, 255, 255, 0.3))
+                );
+            ret = overlay(winText, ret);
+        }
+        return ret;
     }
+
     /**
      * The method takes in an Item and renders it to a Graphic depending on its characteristics.
      */
