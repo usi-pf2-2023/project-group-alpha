@@ -23,12 +23,13 @@ public class Settings {
     //canvas settings
     public static final double UNIT_HEIGHT = 50;
     public static final double UNIT_WIDTH = 50;
+    public static final int totalLevel = 2;
     public static GameState initialState;
 
     static {
         try {
             initialState =
-                new GameState(GameState.fromString(Files.readString(Path.of("game1.txt"))), null, GameStage.LEVEL_1)
+                new GameState(GameState.fromString(Files.readString(Path.of("game1.txt"))), null, GameStage.LEVEL_1, 1)
                     .applyRules();
         } catch (IOException e) {
             throw new RuntimeException(e);
