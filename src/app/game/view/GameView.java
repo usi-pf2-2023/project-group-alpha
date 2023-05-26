@@ -48,6 +48,23 @@ public class GameView {
                 );
             ret = overlay(winText, ret);
         }
+        if (GameController.hasLost(gameState.gameMap())) {
+            String s1 = new String();
+            String s2 = new String();
+            if (gameState.level() < Settings.totalLevel) {
+                s1 = "Outch, you have lost...";
+                s2 = "Press R to restart or U to undo your last action!";
+            }
+            Graphic loseText =
+                overlay(
+                    above(
+                        text(s1, "Helvetica", 50, WHITE),
+                        text(s2, "Helvetica", 50, WHITE)
+                    ),
+                    rectangle(m * Settings.UNIT_WIDTH, n * Settings.UNIT_HEIGHT, rgb(255, 255, 255, 0.3))
+                );
+            ret = overlay(loseText, ret);
+        }
         return ret;
     }
 
