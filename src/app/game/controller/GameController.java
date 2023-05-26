@@ -30,46 +30,43 @@ import java.util.ArrayList;
 
 public class GameController {
     public static GameState onKeyPress(GameState now, KeyboardKey key) {
-        // If we are currently in a game:
-        //if(now.currentStage() instanceof GameStage) {
+        // Check if we are currently in a game:
+        if (hasWon(now.gameMap())) {
+            if (key.getCode() == 0x20) {
+                int nextLevel = now.level();
+                if (nextLevel + 1 <= Settings.totalLevel) {
+                    nextLevel = nextLevel + 1;
+                }
+                return now.updateLevel(nextLevel);
+            }
+        } else {
+            if (key.getCode() == 0x55) {
+                if (now.previousState() != null) {
+                    return now.previousState();
+                } else {
+                    return now;
+                }
+            }
+            if (key.getCode() == 0x52) {
+                // TODO: restart according to the game level of the AppState
+                return now.updateLevel(now.level());
+            }
+            // Pressing "U" triggers an undo
 
-        //if (key.getCode() == KeyboardKey.BACK_SPACE) {
+            // Pressing "R" triggers a restart to the initial state of that level
 
-        //}
+            // Pressing "SPACE" triggers the next level transition in a winning state
 
-        // Pressing "U" triggers an undo
-        if (key.getCode() == 0x55) {
-            if (now.previousState() != null) {
-                return now.previousState();
-            } else {
-                return now;
+            // Key arrows: pressing them triggers a move (if it is possible) to that direction (left, up, down, right, left)
+            if (key.getCode() == KeyboardKey.UP || key.getCode() == KeyboardKey.DOWN ||
+                key.getCode() == KeyboardKey.LEFT || key.getCode() == KeyboardKey.RIGHT) {
+                return now
+                    // Move check: if a move is possible, then make the move
+                    .move(Heading.fromKeyCode(key.getCode()))
+                    // Apply and generate the rules according to the new gameMap
+                    .applyRules();
             }
         }
-        // Pressing "R" triggers a restart to the initial state of that level
-        if (key.getCode() == 0x52) {
-            // TODO: restart according to the game level of the AppState
-            return now.updateLevel(now.level());
-        }
-        // Pressing "SPACE" triggers the next level transition in a winning state
-        if (key.getCode() == 0x20 && hasWon(now.gameMap()) == true) {
-            int nextLevel = now.level();
-            if (nextLevel + 1 <= Settings.totalLevel) {
-                nextLevel = nextLevel + 1;
-            }
-            return now.updateLevel(nextLevel);
-        }
-        // Key arrows: pressing them triggers a move (if it is possible) to that direction (left, up, down, right, left)
-        if (key.getCode() == KeyboardKey.UP ||
-            key.getCode() == KeyboardKey.DOWN ||
-            key.getCode() == KeyboardKey.LEFT ||
-            key.getCode() == KeyboardKey.RIGHT) {
-            return now
-                // Move check: if a move is possible, then make the move
-                .move(Heading.fromKeyCode(key.getCode()))
-                // Apply and generate the rules according to the new gameMap
-                .applyRules();
-        }
-        //}
         // If we are currently in a menu
         /*if(isInGameMenu(now.currentStage())) {
             // Pressing "3"
@@ -84,7 +81,6 @@ public class GameController {
         if(isLostMenu(now.currentStage())) {}
 
        */
-
         return now;
     }
 
@@ -127,8 +123,7 @@ public class GameController {
             // Inner loop: iterating on columns
             for (int j = 0; j < nColumns; j++) {
                 // If a tile contains "you" and an object that is "win", then the player has won the game ==> return true
-                if (
-                    gameMap.get(i).get(j).containsYou() && gameMap.get(i).get(j).containsWin()) {
+                if (gameMap.get(i).get(j).containsYou() && gameMap.get(i).get(j).containsWin()) {
                     return true;
                 }
             }
@@ -143,13 +138,9 @@ public class GameController {
     // build a new GameState for a win game
     public static GameState buildGameWinState(GameState before) {
         // TODO: Test
-        return new GameState(
-            before.gameMap(),
-            before.previousState(),
-            // The new stage is the "WON_MENU"
-            MenuStage.WON_MENU,
-            before.level()
-        );
+        return new GameState(before.gameMap(), before.previousState(),
+                             // The new stage is the "WON_MENU"
+                             MenuStage.WON_MENU, before.level());
     }
 
     // build the next GameState for a running game
@@ -164,13 +155,9 @@ public class GameController {
     // build a new GameState for a lost game
     public static GameState buildGameLostState(GameState before) {
         // TODO
-        return new GameState(
-            before.gameMap(),
-            before.previousState(),
-            // The new stage is the "lost menu"
-            MenuStage.LOST_MENU,
-            before.level()
-        );
+        return new GameState(before.gameMap(), before.previousState(),
+                             // The new stage is the "lost menu"
+                             MenuStage.LOST_MENU, before.level());
     }
 
 
