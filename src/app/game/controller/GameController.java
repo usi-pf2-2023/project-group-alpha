@@ -16,11 +16,14 @@ import jtamaro.en.Sequence;
 import jtamaro.en.Sequences;
 
 import jtamaro.en.Sequence.*;
+
 import static jtamaro.en.Sequences.*;
 import static src.app.game.state.GameStage.*;
 import static src.app.game.state.MenuStage.*;
+
 import jtamaro.en.IO;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -30,35 +33,42 @@ public class GameController {
         // If we are currently in a game:
         //if(now.currentStage() instanceof GameStage) {
 
-            //if (key.getCode() == KeyboardKey.BACK_SPACE) {
+        //if (key.getCode() == KeyboardKey.BACK_SPACE) {
 
-            //}
+        //}
 
-                // Pressing "U" triggers an undo
-            if (key.getCode() == 0x55) {
-                if (now.previousState() != null) {
-                    return now.previousState();
-                } else {
-                    return now;
-                }
+        // Pressing "U" triggers an undo
+        if (key.getCode() == 0x55) {
+            if (now.previousState() != null) {
+                return now.previousState();
+            } else {
+                return now;
             }
-            // Pressing "R" triggers a restart to the initial state of that level
-            if (key.getCode() == 0x52) {
-                // TODO: restart according to the game level of the AppState
-                return Settings.initialState;
+        }
+        // Pressing "R" triggers a restart to the initial state of that level
+        if (key.getCode() == 0x52) {
+            // TODO: restart according to the game level of the AppState
+            return now.updateLevel(now.level());
+        }
+        // Pressing "SPACE" triggers the next level transition in a winning state
+        if (key.getCode() == 0x20 && hasWon(now.gameMap()) == true) {
+            int nextLevel = now.level();
+            if (nextLevel + 1 <= Settings.totalLevel) {
+                nextLevel = nextLevel + 1;
             }
-
-            // Key arrows: pressing them triggers a move (if it is possible) to that direction (left, up, down, right, left)
-            if (key.getCode() == KeyboardKey.UP ||
-                key.getCode() == KeyboardKey.DOWN ||
-                key.getCode() == KeyboardKey.LEFT ||
-                key.getCode() == KeyboardKey.RIGHT) {
-                return now
-                    // Move check: if a move is possible, then make the move
-                    .move(Heading.fromKeyCode(key.getCode()))
-                    // Apply and generate the rules according to the new gameMap
-                    .applyRules();
-            }
+            return now.updateLevel(nextLevel);
+        }
+        // Key arrows: pressing them triggers a move (if it is possible) to that direction (left, up, down, right, left)
+        if (key.getCode() == KeyboardKey.UP ||
+            key.getCode() == KeyboardKey.DOWN ||
+            key.getCode() == KeyboardKey.LEFT ||
+            key.getCode() == KeyboardKey.RIGHT) {
+            return now
+                // Move check: if a move is possible, then make the move
+                .move(Heading.fromKeyCode(key.getCode()))
+                // Apply and generate the rules according to the new gameMap
+                .applyRules();
+        }
         //}
         // If we are currently in a menu
         /*if(isInGameMenu(now.currentStage())) {
@@ -86,19 +96,19 @@ public class GameController {
         /* Conditions that can lead to a loss;
         - There are no items on the map which have the "you" property
         */
-       //  Outer loop: iterating on rows
+        //  Outer loop: iterating on rows
         final int nRows = gameMap.size();
         final int nColumns = gameMap.get(0).size();
 
-        for(int i = 0 ; i < nRows; i++) {
+        for (int i = 0; i < nRows; i++) {
             // Inner loop: iterating on columns
-             for(int j = 0; j < nColumns; j++) {
-                 // If a tile contains "you", the game is not lost ==> Return false
-                 if (gameMap.get(i).get(j).containsYou()) {
-                     return false;
-                 }
-             }
-         }
+            for (int j = 0; j < nColumns; j++) {
+                // If a tile contains "you", the game is not lost ==> Return false
+                if (gameMap.get(i).get(j).containsYou()) {
+                    return false;
+                }
+            }
+        }
         // If no tile with "you" has been found, the game is lost ==> Return true
         return true;
     }
@@ -113,9 +123,9 @@ public class GameController {
         final int nRows = gameMap.size();
         final int nColumns = gameMap.get(0).size();
 
-        for(int i = 0 ; i < nRows; i++) {
+        for (int i = 0; i < nRows; i++) {
             // Inner loop: iterating on columns
-            for(int j = 0; j < nColumns; j++) {
+            for (int j = 0; j < nColumns; j++) {
                 // If a tile contains "you" and an object that is "win", then the player has won the game ==> return true
                 if (
                     gameMap.get(i).get(j).containsYou() && gameMap.get(i).get(j).containsWin()) {
@@ -137,7 +147,8 @@ public class GameController {
             before.gameMap(),
             before.previousState(),
             // The new stage is the "WON_MENU"
-            MenuStage.WON_MENU
+            MenuStage.WON_MENU,
+            before.level()
         );
     }
 
@@ -157,11 +168,10 @@ public class GameController {
             before.gameMap(),
             before.previousState(),
             // The new stage is the "lost menu"
-            MenuStage.LOST_MENU
+            MenuStage.LOST_MENU,
+            before.level()
         );
     }
-
-
 
 
     /**
