@@ -29,11 +29,20 @@ public class GameView {
         Graphic back = rectangle(m * Settings.UNIT_WIDTH, n * Settings.UNIT_HEIGHT, BLACK);
         Graphic ret = overlay(fore, back);
         if (GameController.hasWon(gameState.gameMap())) {
+            String s1 = new String();
+            String s2 = new String();
+            if (gameState.level() < Settings.totalLevel) {
+                s1 = "Congratulations, you have won!";
+                s2 = "Press SPACE to continue!";
+            } else {
+                s1 = "Congratulations, you You have passed all levels!";
+                s2 = "Press SPACE to restart!";
+            }
             Graphic winText =
                 overlay(
                     above(
-                        text("Congratulations, you have won!", "Helvetica", 50, WHITE),
-                        text("Press SPACE to continue!", "Helvetica", 50, WHITE)
+                        text(s1, "Helvetica", 50, WHITE),
+                        text(s2, "Helvetica", 50, WHITE)
                     ),
                     rectangle(m * Settings.UNIT_WIDTH, n * Settings.UNIT_HEIGHT, rgb(255, 255, 255, 0.3))
                 );
