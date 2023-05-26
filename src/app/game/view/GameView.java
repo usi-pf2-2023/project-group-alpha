@@ -35,7 +35,7 @@ public class GameView {
                 s1 = "Congratulations, you have won!";
                 s2 = "Press SPACE to continue!";
             } else {
-                s1 = "Congratulations, you You have passed all levels!";
+                s1 = "Congratulations, you have passed all levels!";
                 s2 = "Press SPACE to restart!";
             }
             Graphic winText =
