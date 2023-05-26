@@ -119,12 +119,28 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
                 newGameMap.get(r).set(c, new Tile(empty()));
             }
         }
-        // now add the element according to whether they are pushed
+        // now add the element that are not pushed
         for (int r = 1; r < n - 1; ++r) {
             if (r < i || r > noPushRow) continue;
             for (int c = 1; c < m - 1; ++c) {
                 if (c < j || c > noPushCol) continue;
                 Tile thisTile = newGameMap.get(r).get(c);
+                Sequence<Item> items = gameMap.get(r).get(c).items();
+                for (Item item : items) {
+                    if (item.push() || item.you()) {
+                        continue;
+                    } else {
+                        newGameMap.get(r).set(c, thisTile.add(item));
+                        thisTile = newGameMap.get(r).get(c);
+                    }
+                }
+            }
+        }
+        // now add the element that are pushed
+        for (int r = 1; r < n - 1; ++r) {
+            if (r < i || r > noPushRow) continue;
+            for (int c = 1; c < m - 1; ++c) {
+                if (c < j || c > noPushCol) continue;
                 Tile pushTile = newGameMap.get(r + dx).get(c + dy);
                 Sequence<Item> items = gameMap.get(r).get(c).items();
                 for (Item item : items) {
@@ -133,8 +149,7 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
                         newGameMap.get(r + dx).set(c + dy, pushTile.add(item));
                         pushTile = newGameMap.get(r + dx).get(c + dy);
                     } else {
-                        newGameMap.get(r).set(c, thisTile.add(item));
-                        thisTile = newGameMap.get(r).get(c);
+                        continue;
                     }
                 }
             }
