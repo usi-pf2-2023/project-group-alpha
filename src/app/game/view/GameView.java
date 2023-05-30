@@ -36,7 +36,7 @@ public class GameView {
                 s2 = "Press SPACE to continue!";
             } else {
                 s1 = "Congratulations, you have passed all levels!";
-                s2 = "Press SPACE to restart!";
+                s2 = "Press SPACE to select another level!";
             }
             Graphic winText =
                 overlay(
