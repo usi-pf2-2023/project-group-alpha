@@ -5,6 +5,7 @@ import jtamaro.en.Sequence;
 import src.app.game.Settings;
 import src.app.game.state.*;
 import src.app.game.controller.GameController;
+import src.app.game.view.graphs.ImageConverter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,44 +24,23 @@ public class GameView {
             for (int j = 0; j < m; j++) {
                 rowFore = beside(rowFore, tileToGraphic(map.get(i).get(j).items(), gameState, i, j));
             }
-            //    rowFore = beside(rowFore, map.get(i).get(j).toGraphic());
             fore = above(fore, rowFore);
         }
         Graphic back = rectangle(m * Settings.UNIT_WIDTH, n * Settings.UNIT_HEIGHT, BLACK);
         Graphic ret = overlay(fore, back);
         if (GameController.hasWon(gameState.gameMap())) {
-            String s1 = new String();
-            String s2 = new String();
-            if (gameState.level() < Settings.totalLevel) {
-                s1 = "Congratulations, you have won!";
-                s2 = "Press SPACE to continue!";
-            } else {
-                s1 = "Congratulations, you have passed all levels!";
-                s2 = "Press SPACE to select another level!";
-            }
             Graphic winText =
                 overlay(
-                    above(
-                        text(s1, "Helvetica", 50, WHITE),
-                        text(s2, "Helvetica", 50, WHITE)
-                    ),
+                    ImageConverter.toHints(gameState.level() < Settings.totalLevel ? "win1.png" : "win2.png",
+                                           18 * Settings.UNIT_WIDTH, 8 * Settings.UNIT_HEIGHT),
                     rectangle(m * Settings.UNIT_WIDTH, n * Settings.UNIT_HEIGHT, rgb(255, 255, 255, 0.3))
                 );
             ret = overlay(winText, ret);
         }
         if (GameController.hasLost(gameState.gameMap())) {
-            String s1 = new String();
-            String s2 = new String();
-            if (gameState.level() < Settings.totalLevel) {
-                s1 = "Outch, you have lost...";
-                s2 = "Press R to restart or U to undo your last action!";
-            }
             Graphic loseText =
                 overlay(
-                    above(
-                        text(s1, "Helvetica", 50, WHITE),
-                        text(s2, "Helvetica", 50, WHITE)
-                    ),
+                    ImageConverter.toHints("lost.png", 18 * Settings.UNIT_WIDTH, 8 * Settings.UNIT_HEIGHT),
                     rectangle(m * Settings.UNIT_WIDTH, n * Settings.UNIT_HEIGHT, rgb(255, 255, 255, 0.3))
                 );
             ret = overlay(loseText, ret);
