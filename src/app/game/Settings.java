@@ -23,7 +23,7 @@ import java.nio.file.Path;
 public class Settings {
     //canvas settings
     public static final double UNIT_HEIGHT = 50;
-    public static final double UNIT_WIDTH = 50;
+    public static final double UNIT_WIDTH = UNIT_HEIGHT;
     // the totalLevel should realize automatic calculation!!!
     public static final int totalLevel = 3;
     public static GameState initialState;
