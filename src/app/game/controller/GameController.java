@@ -8,9 +8,6 @@ import src.app.game.state.GameState;
 import src.app.game.state.Tile;
 import src.app.game.Settings;
 import src.app.game.state.Heading;
-import src.app.game.state.Stage;
-import src.app.game.state.MenuStage;
-import src.app.game.state.GameStage;
 
 import jtamaro.en.Sequence;
 import jtamaro.en.Sequences;
@@ -18,8 +15,6 @@ import jtamaro.en.Sequences;
 import jtamaro.en.Sequence.*;
 
 import static jtamaro.en.Sequences.*;
-import static src.app.game.state.GameStage.*;
-import static src.app.game.state.MenuStage.*;
 
 import jtamaro.en.IO;
 
@@ -154,78 +149,5 @@ public class GameController {
 
         return 0;
     }
-
-    /**
-     * GameController.buildGameWinState() takes a GameState to turn it into a winning GameState.
-     */
-    // build a new GameState for a win game
-    public static GameState buildGameWinState(GameState before) {
-        // TODO: Test
-        return new GameState(before.gameMap(), before.previousState(),
-                             // The new stage is the "WON_MENU"
-                             MenuStage.WON_MENU, before.level());
-    }
-
-    // build the next GameState for a running game
-    private static GameState buildNextGameState(GameState before) {
-        // TODO
-        return before;
-    }
-
-    /**
-     * GameController.buildGameLostState() takes in a GameState and returns a losing GameState
-     */
-    // build a new GameState for a lost game
-    public static GameState buildGameLostState(GameState before) {
-        // TODO
-        return new GameState(before.gameMap(), before.previousState(),
-                             // The new stage is the "lost menu"
-                             MenuStage.LOST_MENU, before.level());
-    }
-
-    /**
-     * GameState.buildInGameMenu() takes a GameState and changes its stage to an in game menu.
-     * @param before is the original GameState
-     * @return a new GameState that is in the "in game menu" stage.
-     */
-    /*
-    public static GameState buildInGameMenu(GameState before) {
-        return new GameState(
-            before.gameMap(),
-            before.previousState(),
-            before.gameWon(),
-            before.gameLost(),
-            MenuStage.IN_GAME_MENU
-        );
-    }
-
-
-    public static GameState buildMainMenu(GameState before) {
-        return new GameState(
-            before.gameMap(),
-            before.previousState(),
-            before.gameWon(),
-            before.gameLost(),
-            MenuStage.MAIN_MENU
-        );
-    }
-    public static GameState buildLevelSelectMenu(GameState before) {
-        return new GameState(
-            before.gameMap(),
-            before.previousState(),
-            before.gameWon(),
-            before.gameLost(),
-            MenuStage.LEVEL_SELECT_MENU
-        );
-    }
-
-
-    //public static GameState buildLevelOne() {
-     //   return new GameState(GameState.fromString(Files.readString(Path.of("game1.txt")))
-
-   // )
-   // )
-   // }
-   */
 
 }

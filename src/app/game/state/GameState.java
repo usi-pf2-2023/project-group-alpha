@@ -16,7 +16,7 @@ import java.util.HashSet;
 
 // a GameState is a singly linked list,
 // contains the current gameMap, the previousState, and the rules on the field.
-public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousState, Stage currentStage, int level) {
+public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousState, int level) {
     //generate rules from the current gameMap
     public Sequence<Rule> generateRules() {
         assert gameMap.size() >= 2;
@@ -154,7 +154,7 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
                 }
             }
         }
-        return new GameState(newGameMap, null, currentStage, level);
+        return new GameState(newGameMap, null, level);
     }
 
     // The whole move operation
@@ -170,13 +170,13 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
             st_j = m - 2;
             dy = -1;
         }
-        GameState newState = new GameState(this.gameMap, null, currentStage, level);
+        GameState newState = new GameState(this.gameMap, null, level);
         for (int i = st_i; i != 0 && i != n - 1; i += dx) {
             for (int j = st_j; j != 0 && j != m - 1; j += dy) {
                 newState = newState.singleTileMove(i, j, heading);
             }
         }
-        GameState ret = new GameState(newState.gameMap, this, currentStage, level);
+        GameState ret = new GameState(newState.gameMap, this, level);
         ret = ret.updateHeadings(heading);
         return ret;
     }
@@ -346,19 +346,8 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
                 }
             }
         }
-        // Now that the move is finished, we have to check whether the game was won, lost, or neither
-        // We set the convention that the lost condition is checked BEFORE the win condition
-        if (hasLost(newGameMap)) {
-            // If the game was lost
-            return buildGameLostState(new GameState(newGameMap, this.previousState, currentStage, level));
-        }
-        if (hasWon(newGameMap)) {
-            // If the game was won
-            return buildGameWinState(new GameState(newGameMap, this.previousState, currentStage, level));
-        } else {
-            // If the game is neither won nor lost
-            return new GameState(newGameMap, this.previousState, currentStage, level);
-        }
+        // Now that the move is finished
+        return new GameState(newGameMap, this.previousState, level);
     }
 
     public GameState updateHeadings(Heading heading) {
@@ -370,15 +359,14 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
             }
             newGameMap.add(row);
         }
-        return new GameState(newGameMap, this.previousState, currentStage, level);
+        return new GameState(newGameMap, this.previousState, level);
     }
 
     public GameState updateLevel(int newLevel) {
         try {
             return
                 new GameState(GameState.fromString(
-                    Files.readString(Path.of("game" + String.valueOf(newLevel) + ".txt"))), null, GameStage.LEVEL_1,
-                              newLevel)
+                    Files.readString(Path.of("game" + String.valueOf(newLevel) + ".txt"))), null, newLevel)
                     .applyRules();
         } catch (IOException e) {
             throw new RuntimeException(e);
