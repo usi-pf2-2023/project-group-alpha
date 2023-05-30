@@ -1,4 +1,4 @@
-package src.app.game.graphs;
+package src.app.game.view.graphs;
 
 import jtamaro.en.Graphic;
 import jtamaro.en.graphic.Rectangle;
@@ -23,7 +23,8 @@ public class ImageConverter {
 //    }
     public static Graphic toGraphic(String fileName) {
         try {
-            File file = new File("src/app/game/graphs/images/" + fileName);
+            String path = "src/app/game/view/graphs/images/";
+            File file = new File(path + fileName);
             return new myImage(ImageIO.read(file));
         } catch (IOException e) {
             System.out.println(e);

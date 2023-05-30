@@ -1,9 +1,5 @@
-package src.app.game.graphs;
+package src.app.game.view.graphs;
 import jtamaro.en.Graphic;
-
-import java.io.IOException;
-
-import static jtamaro.en.Graphics.emptyGraphic;
 
 public class YouGraphics {
 

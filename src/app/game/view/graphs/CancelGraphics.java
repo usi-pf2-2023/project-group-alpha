@@ -1,4 +1,4 @@
-package src.app.game.graphs;
+package src.app.game.view.graphs;
 import jtamaro.en.Graphic;
 import src.app.game.Settings;
 

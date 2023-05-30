@@ -1,7 +1,7 @@
 package src.app.game.state;
 
 import jtamaro.en.Graphic;
-import src.app.game.graphs.GameGraphics;
+import src.app.game.view.graphs.GameGraphics;
 
 import java.util.HashMap;
 
