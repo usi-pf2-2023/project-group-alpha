@@ -95,6 +95,33 @@ public record Tile(Sequence<Item> items) {
         return false;
     }
 
+    public boolean containsLevel1() {
+        for (Item item : items) {
+            if (item.name() == Kind.LEVEL_1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean containsLevel2() {
+        for (Item item : items) {
+            if (item.name() == Kind.LEVEL_2) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean containsLevel3() {
+        for (Item item : items) {
+            if (item.name() == Kind.LEVEL_3) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // return a new Tile after add the item to the top of old Tile
     public Tile add(Item item) {
         return new Tile(cons(item, items));
@@ -176,6 +203,12 @@ public record Tile(Sequence<Item> items) {
             kind = Kind.TEXT_STOP;
         } else if (c == 'N') {
             kind = Kind.TEXT_WIN;
+        } else if (c == '1') {
+            kind = Kind.LEVEL_1;
+        } else if (c == '2') {
+            kind = Kind.LEVEL_2;
+        } else if (c == '3') {
+            kind = Kind.LEVEL_3;
         }
         if (kind == Kind.BOUNDARY) stop = true;
         if (kind.isStateText() || kind.isObjectText() || kind == Kind.TEXT_IS) {

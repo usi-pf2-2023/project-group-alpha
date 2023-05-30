@@ -13,7 +13,7 @@ public class GameGraphics {
     public static Graphic generateTestGraphic(String s) {
         String ss[] = s.split("_");
         Graphic ret = emptyGraphic();
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < ss.length; ++i) {
             ret = above(ret, text(ss[i], "arial", 18, WHITE));
         }
         return ret;
@@ -149,4 +149,21 @@ public class GameGraphics {
         }
     };
 
+    public static final HashMap<String, Graphic> LEVEL_1 = new HashMap() {
+        {
+            put("normal", LevelGraphics.Level1());
+        }
+    };
+
+    public static final HashMap<String, Graphic> LEVEL_2 = new HashMap() {
+        {
+            put("normal", LevelGraphics.Level2());
+        }
+    };
+
+    public static final HashMap<String, Graphic> LEVEL_3 = new HashMap() {
+        {
+            put("normal", LevelGraphics.Level3());
+        }
+    };
 }

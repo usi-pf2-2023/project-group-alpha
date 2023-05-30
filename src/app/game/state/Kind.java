@@ -26,7 +26,11 @@ public enum Kind {
     TEXT_WIN(GameGraphics.TEXT_WIN, false, true),
     TEXT_PUSH(GameGraphics.TEXT_PUSH, false, true),
     TEXT_YOU(GameGraphics.TEXT_YOU, false, true),
-    TEXT_STOP(GameGraphics.TEXT_STOP, false, true);
+    TEXT_STOP(GameGraphics.TEXT_STOP, false, true),
+
+    LEVEL_1(GameGraphics.LEVEL_1, false, false),
+    LEVEL_2(GameGraphics.LEVEL_2, false, false),
+    LEVEL_3(GameGraphics.LEVEL_3, false, false);
 
     private HashMap<String, Graphic> graphic_map;
     private boolean isObjectText;
