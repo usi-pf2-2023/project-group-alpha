@@ -13,6 +13,7 @@ import java.util.HashMap;
 import static jtamaro.en.Colors.*;
 import static jtamaro.en.Graphics.*;
 import static jtamaro.en.Sequences.reduce;
+import static jtamaro.en.Points.*;
 
 public class GameView {
     public static Graphic render(GameState gameState) {
@@ -44,6 +45,17 @@ public class GameView {
                     rectangle(m * Settings.UNIT_WIDTH, n * Settings.UNIT_HEIGHT, rgb(255, 255, 255, 0.3))
                 );
             ret = overlay(loseText, ret);
+        }
+        if (gameState.level() == 0) {
+            ret = compose(
+                pin(BOTTOM_CENTER,
+                    overlay(
+                        ImageConverter.toHints("gameHint.png", 17 * Settings.UNIT_WIDTH, Settings.UNIT_HEIGHT),
+                        rectangle(17 * Settings.UNIT_WIDTH, 3 * Settings.UNIT_HEIGHT, rgb(0x21, 0x28, 0x3e))
+                    )
+                ),
+                pin(BOTTOM_CENTER, ret)
+            );
         }
         return ret;
     }
