@@ -32,14 +32,13 @@ public class GameController {
     public static GameState onKeyPress(GameState now, KeyboardKey key) {
         // Check if we are currently in a game:
         if (hasWon(now.gameMap())) {
+            // Pressing "SPACE" triggers the next level transition in a winning state
             if (key.getCode() == 0x20) {
-                int nextLevel = now.level();
-                if (nextLevel + 1 <= Settings.totalLevel) {
-                    nextLevel = nextLevel + 1;
-                }
+                int nextLevel = (now.level() + 1) % (Settings.totalLevel + 1);
                 return now.updateLevel(nextLevel);
             }
         } else {
+            // Pressing "U" triggers an undo
             if (key.getCode() == 0x55) {
                 if (now.previousState() != null) {
                     return now.previousState();
@@ -47,16 +46,10 @@ public class GameController {
                     return now;
                 }
             }
+            // Pressing "R" triggers a restart to the initial state of that level
             if (key.getCode() == 0x52) {
-                // TODO: restart according to the game level of the AppState
                 return now.updateLevel(now.level());
             }
-            // Pressing "U" triggers an undo
-
-            // Pressing "R" triggers a restart to the initial state of that level
-
-            // Pressing "SPACE" triggers the next level transition in a winning state
-
             // Key arrows: pressing them triggers a move (if it is possible) to that direction (left, up, down, right, left)
             if (key.getCode() == KeyboardKey.UP || key.getCode() == KeyboardKey.DOWN ||
                 key.getCode() == KeyboardKey.LEFT || key.getCode() == KeyboardKey.RIGHT) {
@@ -66,6 +59,15 @@ public class GameController {
                     // Apply and generate the rules according to the new gameMap
                     .applyRules();
             }
+        }
+        // Pressing "SPACE" triggers entering the according level
+        if (key.getCode() == 0x20 && now.level() == 0) {
+            int nextLevel = StepOnLevel(now.gameMap());
+            if (nextLevel > 0) return now.updateLevel(nextLevel);
+        }
+        // Pressing "H" triggers come back to select_menu
+        if (key.getCode() == 0x48) {
+            return now.updateLevel(0);
         }
         // If we are currently in a menu
         /*if(isInGameMenu(now.currentStage())) {
@@ -132,6 +134,27 @@ public class GameController {
         return false;
     }
 
+    private static int StepOnLevel(ArrayList<ArrayList<Tile>> gameMap) {
+        final int nRows = gameMap.size();
+        final int nColumns = gameMap.get(0).size();
+
+        for (int i = 0; i < nRows; i++) {
+            for (int j = 0; j < nColumns; j++) {
+                if (gameMap.get(i).get(j).containsYou() && gameMap.get(i).get(j).containsLevel1()) {
+                    return 1;
+                }
+                if (gameMap.get(i).get(j).containsYou() && gameMap.get(i).get(j).containsLevel2()) {
+                    return 2;
+                }
+                if (gameMap.get(i).get(j).containsYou() && gameMap.get(i).get(j).containsLevel3()) {
+                    return 3;
+                }
+            }
+        }
+
+        return 0;
+    }
+
     /**
      * GameController.buildGameWinState() takes a GameState to turn it into a winning GameState.
      */
@@ -159,7 +182,6 @@ public class GameController {
                              // The new stage is the "lost menu"
                              MenuStage.LOST_MENU, before.level());
     }
-
 
     /**
      * GameState.buildInGameMenu() takes a GameState and changes its stage to an in game menu.
