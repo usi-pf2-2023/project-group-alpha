@@ -31,4 +31,15 @@ public class ImageConverter {
         }
         return null;
     }
+
+    public static Graphic toHints(String fileName, double width, double height) {
+        try {
+            String path = "src/app/game/view/graphs/images/";
+            File file = new File(path + fileName);
+            return new myImage(ImageIO.read(file), (int) width, (int) height);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
 }

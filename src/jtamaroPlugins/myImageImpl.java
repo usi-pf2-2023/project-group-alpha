@@ -12,7 +12,11 @@ public class myImageImpl extends GraphicImpl {
     private Image img;
 
     public myImageImpl(Image img) {
-        img = img.getScaledInstance((int) Settings.UNIT_WIDTH, (int) Settings.UNIT_HEIGHT, Image.SCALE_DEFAULT);
+        this(img, (int) Settings.UNIT_WIDTH, (int) Settings.UNIT_HEIGHT);
+    }
+
+    public myImageImpl(Image img, int w, int h) {
+        img = img.getScaledInstance(w, h, Image.SCALE_DEFAULT);
         this.img = img;
         double width = img.getWidth(null);
         double height = img.getHeight(null);
