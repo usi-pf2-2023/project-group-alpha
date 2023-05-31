@@ -68,10 +68,10 @@ public class GameView {
         // Rendering for texts
         Graphic ret = null;
         if (item.name().isObjectText() || item.name().isStateText() || item.name() == Kind.TEXT_IS) {
-            if (item.light()) {
-                ret = map.get("light");
-            } else if (item.cancel()) {
+            if (item.cancel()) {
                 ret = map.get("cancel");
+            } else if (item.light()) {
+                ret = map.get("light");
             } else {
                 ret = map.get("dark");
             }
