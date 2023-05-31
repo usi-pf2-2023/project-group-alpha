@@ -1,0 +1,23 @@
+name: PMD
+
+on:
+  push:
+
+
+jobs:
+  pmd:
+    runs-on: ubuntu-latest
+    name: PMD
+    steps:
+        - uses: actions/checkout@v3
+        - name: Setup Gradle
+          uses: gradle/gradle-build-action@v2
+        - name: PMD
+          run: ./gradlew pmdMain
+        - name: Upload artifacts
+          if: ${{ always() }}
+          uses: actions/upload-artifact@v2
+          with:
+            name: pmd.html
+            path: "build/reports/pmd/main.html"
+            retention-days: 2

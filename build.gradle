@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'pmd'
 }
 
 sourceSets {
@@ -13,4 +14,8 @@ java {
 
 dependencies {
     implementation files('+libs/jtamaro.jar')
+}
+
+repositories {
+    mavenCentral()
 }
