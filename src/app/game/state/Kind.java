@@ -9,6 +9,7 @@ import java.util.HashMap;
  * Contains all the types of objects
  */
 public enum Kind {
+    // All possible instances of type Kind
     BOUNDARY(GameGraphics.BOUNDARY, false, false),
 
     ICON_WALL(GameGraphics.ICON_WALL, false, false),
@@ -32,10 +33,12 @@ public enum Kind {
     LEVEL_2(GameGraphics.LEVEL_2, false, false),
     LEVEL_3(GameGraphics.LEVEL_3, false, false);
 
+    // Class variables
     private HashMap<String, Graphic> graphic_map;
     private boolean isObjectText;
     private boolean isStateText;
 
+    // Constructors
     Kind(HashMap<String, Graphic> graphic_map, boolean isObjectText, boolean isStateText) {
         this.graphic_map = graphic_map;
         this.isObjectText = isObjectText;

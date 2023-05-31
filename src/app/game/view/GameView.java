@@ -96,23 +96,50 @@ public class GameView {
         return ret;
     }
 
+    /**
+     * GameView.renderWall() renders a wall on a Tile. The method checks the direct neighbors (left, top, bottom, right)
+     * of the Tile and hashes it to a 4 digit String. The method reads that String and outputs the corresponding wall Graphic
+     * @param item is the Item to render (which is a wall)
+     * @param gameState is the current GameState
+     * @param x is the x coordinate of the Tile containing the Item
+     * @param y is the y coordinate of the Tile containing the Item
+     * @return a Graphic representing a wall accordingly to its surroundings
+     */
     public static Graphic renderWall(Item item, GameState gameState, int x, int y) {
+        /* Declaring a variable for the item's hashmap;
+         most items have different graphical representation depending on various criteria such as their heading,
+         whether they are part of a valid rule or not etc...
+        */
         HashMap<String, Graphic> hashMap = item.name().getGraphic_map();
         ArrayList<ArrayList<Tile>> gameMap = gameState.gameMap();
+        // Introducing changes of coordinates in x and y respectively
         int dx[] = {0, 1, 0, -1};
         int dy[] = {1, 0, -1, 0};
         String keyWall = new String("");
+        // Iterating over all neighbors of the Tile holding the Item:
         for (int i = 0; i < 4; i++) {
+            // Concatenating 4 single digit Strings into one 4 digits String representing the type of wall we have
+            // to render.
             keyWall += item.hashWall(gameMap, x + dx[i], y + dy[i]);
         }
+        // Fetch the corresponding wall Graphic inside its hashMap containing all of the possible wallGraphics
         return hashMap.get(keyWall);
     }
 
-    // convert a Tile to a Graphic
-
+    /**
+     * GameView.tileToGraphic() renders all of the Items present in a Tile of coordinates x,y
+     * @param items are the Items contained on that Tile
+     * @param gameState is the current GameState
+     * @param x is the x coordinate of the Tile
+     * @param y is the y coordinate of the Tile
+     * The coordinates are needed to figure out what type of wall to render when a wall is present on the Tile
+     * @return a Graphic where all Items are overlayed (if there are any)
+     */
     public static Graphic tileToGraphic(Sequence<Item> items, GameState gameState, int x, int y) {
         return overlay(
+            // Overlayed Graphic of all Items on the Tile
             reduce((graphic, item) -> overlay(graphic, itemToGraphic(item, gameState, x, y)), emptyGraphic(), items),
+            // Black background Tile with unit width and height
             rectangle(Settings.UNIT_WIDTH, Settings.UNIT_HEIGHT, BLACK));
     }
 
