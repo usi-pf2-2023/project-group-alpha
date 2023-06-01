@@ -151,19 +151,19 @@ public class GameGraphics {
 
     public static final HashMap<String, Graphic> LEVEL_1 = new HashMap() {
         {
-            put("normal", LevelGraphics.Level1());
+            put("normal", LevelGraphics.level1());
         }
     };
 
     public static final HashMap<String, Graphic> LEVEL_2 = new HashMap() {
         {
-            put("normal", LevelGraphics.Level2());
+            put("normal", LevelGraphics.level2());
         }
     };
 
     public static final HashMap<String, Graphic> LEVEL_3 = new HashMap() {
         {
-            put("normal", LevelGraphics.Level3());
+            put("normal", LevelGraphics.level3());
         }
     };
 }

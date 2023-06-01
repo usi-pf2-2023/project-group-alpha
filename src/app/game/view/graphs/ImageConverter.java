@@ -3,7 +3,7 @@ package src.app.game.view.graphs;
 import jtamaro.en.Graphic;
 import jtamaro.en.graphic.Rectangle;
 import src.app.game.Settings;
-import src.jtamaroPlugins.myImage;
+import src.jtamaroPlugins.MyImage;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -25,7 +25,7 @@ public class ImageConverter {
         try {
             String path = "src/app/game/view/graphs/images/";
             File file = new File(path + fileName);
-            return new myImage(ImageIO.read(file));
+            return new MyImage(ImageIO.read(file));
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -36,7 +36,7 @@ public class ImageConverter {
         try {
             String path = "src/app/game/view/graphs/images/";
             File file = new File(path + fileName);
-            return new myImage(ImageIO.read(file), (int) width, (int) height);
+            return new MyImage(ImageIO.read(file), (int) width, (int) height);
         } catch (IOException e) {
             System.out.println(e);
         }

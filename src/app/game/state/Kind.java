@@ -52,13 +52,13 @@ public enum Kind {
     LEVEL_3(GameGraphics.LEVEL_3, false, false);
 
     // Class variables
-    private HashMap<String, Graphic> graphic_map;
+    private HashMap<String, Graphic> graphicMap;
     private boolean isObjectText;
     private boolean isStateText;
 
     // Constructors
-    Kind(HashMap<String, Graphic> graphic_map, boolean isObjectText, boolean isStateText) {
-        this.graphic_map = graphic_map;
+    Kind(HashMap<String, Graphic> graphicMap, boolean isObjectText, boolean isStateText) {
+        this.graphicMap = graphicMap;
         this.isObjectText = isObjectText;
         this.isStateText = isStateText;
     }
@@ -77,8 +77,8 @@ public enum Kind {
         return null;
     }
 
-    public HashMap<String, Graphic> getGraphic_map() {
-        return graphic_map;
+    public HashMap<String, Graphic> getGraphicMap() {
+        return graphicMap;
     }
 
     public boolean isObjectText() {

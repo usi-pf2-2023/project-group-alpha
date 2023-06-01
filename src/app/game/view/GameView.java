@@ -64,7 +64,7 @@ public class GameView {
      * The method takes in an Item and renders it to a Graphic depending on its characteristics.
      */
     public static Graphic itemToGraphic(Item item, GameState gameState, int x, int y) {
-        HashMap<String, Graphic> map = item.name().getGraphic_map();
+        HashMap<String, Graphic> map = item.name().getGraphicMap();
         // Rendering for texts
         Graphic ret = null;
         if (item.name().isObjectText() || item.name().isStateText() || item.name() == Kind.TEXT_IS) {
@@ -110,7 +110,7 @@ public class GameView {
          most items have different graphical representation depending on various criteria such as their heading,
          whether they are part of a valid rule or not etc...
         */
-        HashMap<String, Graphic> hashMap = item.name().getGraphic_map();
+        HashMap<String, Graphic> hashMap = item.name().getGraphicMap();
         ArrayList<ArrayList<Tile>> gameMap = gameState.gameMap();
         // Introducing changes of coordinates in x and y respectively
         int dx[] = {0, 1, 0, -1};

@@ -7,15 +7,15 @@ import src.app.game.Settings;
 import java.awt.*;
 import java.awt.geom.Path2D;
 
-public class myImageImpl extends GraphicImpl {
+public class MyImageImpl extends GraphicImpl {
 
     private Image img;
 
-    public myImageImpl(Image img) {
+    public MyImageImpl(Image img) {
         this(img, (int) Settings.UNIT_WIDTH, (int) Settings.UNIT_HEIGHT);
     }
 
-    public myImageImpl(Image img, int w, int h) {
+    public MyImageImpl(Image img, int w, int h) {
         img = img.getScaledInstance(w, h, Image.SCALE_DEFAULT);
         this.img = img;
         double width = img.getWidth(null);
