@@ -8,22 +8,37 @@ import static jtamaro.en.Sequences.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public record Item(Kind name, // describes what kind of object it is
-                   boolean light, // true if the object is one part of an effective rule
-                   boolean cancel, // true if the item is a part of an invalid rule
-                   boolean stop, // true if the object cannot be traversed
-                   boolean push, // true if the object can be pushed
-                   boolean you, // true if that object is controlled by the player
-                   boolean win, // true if touching the item triggers a win
+/**
+ * The map of the game is divided into {@code Tile}s. Each {@code Tile} contains an {@code ArrayList} of {@code Item}s.
+ * Each {@code Item} has a certain amount of properties that dictate how it is rendered, how it moves upon key interactions
+ * and how it can be interacted with by other {@code Item}s.
+ * @param name indicates what type of {@code Item} it is. There are a limited amount of types of {@code Item}s in the game.
+ * This is why this "belonging" to a type of object you can find on the map is described by an Enum class {@code Kind}.
+ * @param light is {@code true} if the {@code Item} is part of a valid {@code Rule}, {@code false} otherwise.
+ * @param cancel is {@code true} if it is part of a contradiction, {@code false} otherwise.
+ * @param stop is {@code true} if the {@code Item} cannot be walked on, {@code false} otherwise.
+ * @param push is {@code true} if the {@code Item} can be pushed, {@code false} otherwise.
+ * @param you is {@code true} if that {@code Item} is controlled by the player, {@code false} otherwise.
+ * @param win is {@code true} if that {@code Item} triggers a win upon touching it, {@code false} otherwise. <br>
+ *            Note that by convention, if an {@code Item} is {@code you} and {@code win}, then a win is triggered. Trivially,
+ *            the player is on the same {@code Tile} as an {@code Item} triggering a win.
+ * @param heading describes in what direction an {@code Item} is facing. By default, all {@code Item}s face south.
+ */
+public record Item(Kind name,
+                   boolean light,
+                   boolean cancel,
+                   boolean stop,
+                   boolean push,
+                   boolean you,
+                   boolean win,
                    Heading heading
-                   // indicates where the item is facing. By default, all items have a Heading.SOUTH heading
 ) {
 
     /**
      * Given an {@code HashMap<Kind, ArrayList<Kind>>} and {@code this}, creates a new {@code Item} with the correct
      * properties (i.e correct field values for {@code stop, push, you and win}). Whenever the {@code Kind} of an {@code Item}
      * changes, we must create a new {@code Item} to replace {@code this} on a given {@code Tile}.
-     * @param stateMap contains a list of properties using the name of the {@code Item} (i.e its {@code Kind} as a key.
+     * @param stateMap contains a list of properties using the name of the {@code Item} (i.e its {@code Kind}) as a key.
      * @return an {@code Item} with the proper field values according to its Kind.
      */
     public Item applyRules(HashMap<Kind, ArrayList<Kind>> stateMap) {
@@ -70,6 +85,18 @@ public record Item(Kind name, // describes what kind of object it is
         return new Item(name, false, cancel, true, true, you, win, heading);
     }
 
+    /**
+     * Given {@code this}, creates a new {@code Item} with the same fields as {@code this} except for
+     * its {@code light, true, stop} and {@code push} fields who now correspond (visually and behaviourally) to a
+     * cancelled {@code Item}. I.e this {@code Item} is not part of any {@code Rule}, because it was determined to be part
+     * of a contradiction. <br>
+     * In other words, the method sets: {@code light} to {@code true}, {@code cancel} to
+     * {@code true}, {@code stop} to {@code true} amd {@code push} to {@code true}.
+     * <br> <br>
+     * This method is called whenever a contradiction is encountered and one of the contradicting {@code Rule}s needs to be
+     * eliminated.
+     * @return an {@code Item} with the parameter {@code name} as its {@code name}.
+     */
     public Item setToCancel() {
         return new Item(name, true, true, true, true, you, win, heading);
     }
