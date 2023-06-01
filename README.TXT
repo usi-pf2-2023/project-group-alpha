@@ -116,10 +116,15 @@ Rules can be read from left to right or from top to bottom.
 sets certain items to the cancelled state (determined when there is a contradiction), makes texts that are
 part of a valid rule light up and those who are not valid anymore dark.
 
-## 3.2.1 Move operations
+## 3.2.2 Move operations
 
 The move operation is divided into smaller chunks by the method "singleTileMove". This method checks whether
 there is a boundary. If not, it proceeds with the evaluation.
+
+## 3.2.3 Generating the map
+
+To generate the map we are using the same technique that was used in lab9 where we map a character from a text file to
+an Item of our game. In this way, we can write levels in txt files and quickly map them to their GameState equivalent.
 
 
 ## 4.0. Challenges encountered
@@ -128,6 +133,16 @@ there is a boundary. If not, it proceeds with the evaluation.
 
 The project's requirements asked for subtyping. Actually, we struggled to find a good place where to do that. We ended up
 implementing an interface in the graph package for textGraphics which all had similar methods that set them to light or dark.
+However, because these were called in a static context, we had to do some very naught things to end up having some sort of
+a polymorphic call, which defeats the purpose of having them in the first place...
+
+
+## 4.2. Figuring out which rules we wanted to implement
+
+First, we started by playing lots of the original game to try and understand all possible weird combinations of rules and
+situations there could be. We realized quite fast that this was not going to work. Whenever we felt that we had finally
+gotten the rules down, one of us would send a 5 second clip that shattered our model. Therefore, we decided that the
+best option was to set our own rules for the game (which are obviously very similar to the original Baba is you's rules).
 
 
 

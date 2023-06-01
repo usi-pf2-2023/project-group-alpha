@@ -82,7 +82,6 @@ public class GameGraphics {
         }
     };
 
-    // TODO: design the graphic of TEXT_FLAG
     public static final HashMap<String, Graphic> TEXT_FLAG = new HashMap() {
         {
             put("dark", flagGraphics.off());
@@ -91,7 +90,6 @@ public class GameGraphics {
         }
     };
 
-    // TODO: design the graphic of ICON_ROCK
     private static RockGraphics rockGraphics = new RockGraphics();
     public static final HashMap<String, Graphic> ICON_ROCK = new HashMap() {
         {
@@ -99,7 +97,6 @@ public class GameGraphics {
         }
     };
 
-    // TODO: design the graphic of TEXT_ROCK
     public static final HashMap<String, Graphic> TEXT_ROCK = new HashMap() {
         {
             put("dark", rockGraphics.off());
@@ -108,7 +105,6 @@ public class GameGraphics {
         }
     };
 
-    // TODO: design the graphic of TEXT_IS
     private static TextGraphics isGraphics = new IsGraphics();
     public static final HashMap<String, Graphic> TEXT_IS = new HashMap() {
         {
@@ -118,7 +114,6 @@ public class GameGraphics {
         }
     };
 
-    // TODO: design the graphic of TEXT_WIN
     private static TextGraphics winGraphics = new WinGraphics();
     public static final HashMap<String, Graphic> TEXT_WIN = new HashMap() {
         {
@@ -127,7 +122,6 @@ public class GameGraphics {
         }
     };
 
-    // TODO: design the graphic of TEXT_PUSH
     private static TextGraphics pushGraphics = new PushGraphics();
     public static final HashMap<String, Graphic> TEXT_PUSH = new HashMap() {
         {
@@ -136,7 +130,6 @@ public class GameGraphics {
         }
     };
 
-    // TODO: design the graphic of TEXT_YOU
     private static TextGraphics youGraphics = new YouGraphics();
     public static final HashMap<String, Graphic> TEXT_YOU = new HashMap() {
         {
@@ -145,7 +138,6 @@ public class GameGraphics {
         }
     };
 
-    // TODO: design the graphic of TEXT_STOP
     private static TextGraphics stopGraphics = new StopGraphics();
     public static final HashMap<String, Graphic> TEXT_STOP = new HashMap() {
         {
