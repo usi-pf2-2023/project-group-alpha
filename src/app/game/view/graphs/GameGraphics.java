@@ -109,7 +109,7 @@ public class GameGraphics {
     };
 
     // TODO: design the graphic of TEXT_IS
-    private static IsGraphics isGraphics = new IsGraphics();
+    private static TextGraphics isGraphics = new IsGraphics();
     public static final HashMap<String, Graphic> TEXT_IS = new HashMap() {
         {
             put("dark", isGraphics.off());
@@ -119,7 +119,7 @@ public class GameGraphics {
     };
 
     // TODO: design the graphic of TEXT_WIN
-    private static WinGraphics winGraphics = new WinGraphics();
+    private static TextGraphics winGraphics = new WinGraphics();
     public static final HashMap<String, Graphic> TEXT_WIN = new HashMap() {
         {
             put("dark", winGraphics.off());
@@ -128,7 +128,7 @@ public class GameGraphics {
     };
 
     // TODO: design the graphic of TEXT_PUSH
-    private static PushGraphics pushGraphics = new PushGraphics();
+    private static TextGraphics pushGraphics = new PushGraphics();
     public static final HashMap<String, Graphic> TEXT_PUSH = new HashMap() {
         {
             put("dark", pushGraphics.off());
@@ -137,7 +137,7 @@ public class GameGraphics {
     };
 
     // TODO: design the graphic of TEXT_YOU
-    private static YouGraphics youGraphics = new YouGraphics();
+    private static TextGraphics youGraphics = new YouGraphics();
     public static final HashMap<String, Graphic> TEXT_YOU = new HashMap() {
         {
             put("dark", youGraphics.off());
@@ -146,7 +146,7 @@ public class GameGraphics {
     };
 
     // TODO: design the graphic of TEXT_STOP
-    private static StopGraphics stopGraphics = new StopGraphics();
+    private static TextGraphics stopGraphics = new StopGraphics();
     public static final HashMap<String, Graphic> TEXT_STOP = new HashMap() {
         {
             put("dark", stopGraphics.off());
