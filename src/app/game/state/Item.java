@@ -19,7 +19,13 @@ public record Item(Kind name, // describes what kind of object it is
                    // indicates where the item is facing. By default, all items have a Heading.SOUTH heading
 ) {
 
-
+    /**
+     * Given an {@code HashMap<Kind, ArrayList<Kind>>} and {@code this}, creates a new {@code Item} with the correct
+     * properties (i.e correct field values for {@code stop, push, you and win}). Whenever the {@code Kind} of an {@code Item}
+     * changes, we must create a new {@code Item} to replace {@code this} on a given {@code Tile}.
+     * @param stateMap
+     * @return
+     */
     public Item applyRules(HashMap<Kind, ArrayList<Kind>> stateMap) {
         boolean stop = false, push = false, you = false, win = false;
         if (stateMap.containsKey(name)) {
@@ -39,12 +45,27 @@ public record Item(Kind name, // describes what kind of object it is
         }
         return new Item(name, light, cancel, stop, push, you, win, heading);
     }
-
+    /**
+     * Given {@code this} and a {@code Kind} creates a new {@code Item} with the same fields as {@code this} except for
+     * its name who is now equal to the {@code name} parameter.
+     * This method is called whenever a new rule dictates that a type of {@code Item} is now another type of {@code Item}.
+     * For example; If the rule "Baba is rock" is activated, then the {@code Item}s of {@code Kind Rock} must be transformed
+     * to Babas.
+     * @return an {@code Item} with the parameter {@code name} as its {@code name}.
+     */
     public Item setName(Kind name) {
         return new Item(name, light, cancel, stop, push, you, win, heading);
     }
 
-    // set text Items to Dark
+    /**
+     * Given {@code this}, creates a new {@code Item} with the same fields as {@code this} except for its
+     * {@code light, true} and {@code stop} fields who now correspond
+     * (visually) to a dark {@code Item}. I.e the method sets:
+     *  {@code light} to {@code true}, to {@code false} ,{@code stop} to {@code true},
+     *  {@code push} to {@code true}
+     *  An {@code Item} being dark means that it will be rendered dark by the {@code GameView.render()} method.
+     * @return {@code true} if it is the case, {@code false} otherwise.
+     */
     public Item setToDark() {
         return new Item(name, false, cancel, true, true, you, win, heading);
     }
@@ -52,7 +73,14 @@ public record Item(Kind name, // describes what kind of object it is
     public Item setToCancel() {
         return new Item(name, true, true, true, true, you, win, heading);
     }
-
+    /**
+     * Given {@code this}, creates a new {@code Item} with the same fields as {@code this} except for its
+     * {@code light, true, cancel} and {@code stop} fields who now correspond
+     * (visually and behaviourally) to a reactive {@code Item}. I.e the method sets:
+     *  {@code light} to {@code true}, {@code cancel} to {@code false} ,{@code stop} to {@code true},
+     *  {@code push} to {@code true}
+     * @return {@code true} if it is the case, {@code false} otherwise.
+     */
     public Item setToReactive() {
         return new Item(name, true, false, true, true, you, win, heading);
     }

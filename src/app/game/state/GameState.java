@@ -260,7 +260,7 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
                     if (objectMap.containsKey(item.name())) {
                         for (Kind kind : objectMap.get(item.name())) {
                             newItems = concat(newItems, of(item.setName(kind).applyRules(stateMap)));
-                        }
+                    }
                     } else {
                         newItems = concat(newItems, of(item.applyRules(stateMap)));
                     }
