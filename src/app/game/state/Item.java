@@ -23,7 +23,7 @@ public record Item(Kind name, // describes what kind of object it is
      * Given an {@code HashMap<Kind, ArrayList<Kind>>} and {@code this}, creates a new {@code Item} with the correct
      * properties (i.e correct field values for {@code stop, push, you and win}). Whenever the {@code Kind} of an {@code Item}
      * changes, we must create a new {@code Item} to replace {@code this} on a given {@code Tile}.
-     * @param stateMap
+     * @param stateMap contains a list of properties using the name of the {@code Item} (i.e its {@code Kind} as a key.
      * @return an {@code Item} with the proper field values according to its Kind.
      */
     public Item applyRules(HashMap<Kind, ArrayList<Kind>> stateMap) {
@@ -113,7 +113,7 @@ public record Item(Kind name, // describes what kind of object it is
      * {@code heading} if {@code this.you()} is {@code true} (i.e if {@code this} is controlled by the player.
      *
      * This method is called during move operations (cf {@code GameState} class) to assess whether the heading of the
-     * object moved (i.e {@code this}), thus its appearance, must change.
+     * object moved (i.e {@code this}), thus its appearance, must change. <br>
      * Currently, the only {@code Item} that sees graphical changes following this is {@code ICON_BABA}.
      *
      * @param heading is the {@code Heading} of the new {@code Item}. It is obtained through keyboard interactions.

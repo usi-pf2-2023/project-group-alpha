@@ -127,13 +127,15 @@ public class GameView {
     }
 
     /**
-     * GameView.tileToGraphic() renders all of the Items present in a Tile of coordinates x,y
-     * @param items are the Items contained on that Tile
-     * @param gameState is the current GameState
-     * @param x is the x coordinate of the Tile
-     * @param y is the y coordinate of the Tile
-     * The coordinates are needed to figure out what type of wall to render when a wall is present on the Tile
-     * @return a Graphic where all Items are overlayed (if there are any)
+     * Given the content of a {@code Tile}, i.e a {@code Sequence of Items }, a {@code GameState} and two coordinates
+     * {@code x} and {@code y}, renders that {@code Tile} to a {@code Graphic}.
+     * @param items the {@code Items} contained on the {@code Tile} that we are rendering.
+     * @param gameState is the current GameState.
+     * @param x the x coordinate of the {@code Tile} we are rendering.
+     * @param y the y coordinate of the {@code Tile} we are rendering.
+     * The coordinates are needed to figure out what type of wall to render when a wall is present on the {@code Tile}.
+     * @return a Graphic where all {@code Item}s are overlayed. If there are no {@code Item}s on the {@code Tile},
+     * the background {@code Tile} that is black and of unit sizes (cf Settings class) is rendered.
      */
     public static Graphic tileToGraphic(Sequence<Item> items, GameState gameState, int x, int y) {
         return overlay(

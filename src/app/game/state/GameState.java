@@ -208,7 +208,7 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
                 selfLoop.add(from);
             }
         }
-
+        
         HashSet<Rule> unWorkRules = new HashSet<>();
         HashMap<Kind, ArrayList<Kind>> objectMap = new HashMap<>();
         HashMap<Kind, ArrayList<Kind>> stateMap = new HashMap<>();
