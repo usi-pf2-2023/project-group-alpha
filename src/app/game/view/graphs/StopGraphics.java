@@ -1,13 +1,14 @@
 package src.app.game.view.graphs;
+
 import jtamaro.en.Graphic;
 
-public class StopGraphics {
+public class StopGraphics implements TextGraphics {
 
-    public static Graphic stopOn() {
+    public final Graphic on() {
         return ImageConverter.toGraphic("stop.png");
     }
 
-    public static Graphic stopOff() {
+    public final Graphic off() {
         return ImageConverter.toGraphic("stopTextDark.png");
     }
 }

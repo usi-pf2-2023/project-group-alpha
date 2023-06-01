@@ -1,13 +1,14 @@
 package src.app.game.view.graphs;
+
 import jtamaro.en.Graphic;
 
-public class PushGraphics {
+public class PushGraphics implements TextGraphics {
 
-    public static final Graphic pushOn() {
+    public final Graphic on() {
         return ImageConverter.toGraphic("push.png");
     }
 
-    public static final Graphic pushOff() {
+    public final Graphic off() {
         return ImageConverter.toGraphic("pushTextDark.png");
     }
 }

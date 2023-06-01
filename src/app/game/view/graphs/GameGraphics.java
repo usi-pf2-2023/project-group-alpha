@@ -27,143 +27,149 @@ public class GameGraphics {
 
     // Use 0 and 1 to represent the presence or absence of walls in the corresponding directions
     // in the order of Right-Bottom-Left-Top
+    private static WallGraphics wallGraphics = new WallGraphics();
     public static final HashMap<String, Graphic> ICON_WALL = new HashMap() {
         {
-            put("0000", WallGraphics.isolated());
-            put("0001", WallGraphics.endCornerTop());
-            put("0010", WallGraphics.endCornerLeft());
-            put("0011", WallGraphics.topLeftCorner());
-            put("0100", WallGraphics.endCornerBottom());
-            put("0101", WallGraphics.vertical());
-            put("0110", WallGraphics.bottomLeftCorner());
-            put("0111", WallGraphics.linkedLeftTopBottom());
-            put("1000", WallGraphics.endCornerRight());
-            put("1001", WallGraphics.topRightCorner());
-            put("1010", WallGraphics.horizontal());
-            put("1011", WallGraphics.linkedRightLeftTop());
-            put("1100", WallGraphics.bottomRightCorner());
-            put("1101", WallGraphics.linkedRightTopBottom());
-            put("1110", WallGraphics.linkedRightLeftBottom());
-            put("1111", WallGraphics.linkedAllFour());
+            put("0000", wallGraphics.isolated());
+            put("0001", wallGraphics.endCornerTop());
+            put("0010", wallGraphics.endCornerLeft());
+            put("0011", wallGraphics.topLeftCorner());
+            put("0100", wallGraphics.endCornerBottom());
+            put("0101", wallGraphics.vertical());
+            put("0110", wallGraphics.bottomLeftCorner());
+            put("0111", wallGraphics.linkedLeftTopBottom());
+            put("1000", wallGraphics.endCornerRight());
+            put("1001", wallGraphics.topRightCorner());
+            put("1010", wallGraphics.horizontal());
+            put("1011", wallGraphics.linkedRightLeftTop());
+            put("1100", wallGraphics.bottomRightCorner());
+            put("1101", wallGraphics.linkedRightTopBottom());
+            put("1110", wallGraphics.linkedRightLeftBottom());
+            put("1111", wallGraphics.linkedAllFour());
         }
     };
 
-    // TODO: design the graphic of TEXT_WALL
     public static final HashMap<String, Graphic> TEXT_WALL = new HashMap() {
         {
-            put("dark", WallGraphics.wallOff());
-            put("light", WallGraphics.wallOn());
-            put("cancel", WallGraphics.wallCancel());
+            put("dark", wallGraphics.off());
+            put("light", wallGraphics.on());
+            put("cancel", wallGraphics.cancel());
         }
     };
 
-    // TODO: design the graphic of ICON_BABA
+    private static BabaGraphics babaGraphics = new BabaGraphics();
     public static final HashMap<String, Graphic> ICON_BABA = new HashMap() {
         {
-            put("east", BabaGraphics.babaEast());
-            put("west", BabaGraphics.babaWest());
-            put("north", BabaGraphics.babaNorth());
-            put("south", BabaGraphics.babaSouth());
+            put("east", babaGraphics.babaEast());
+            put("west", babaGraphics.babaWest());
+            put("north", babaGraphics.babaNorth());
+            put("south", babaGraphics.babaSouth());
         }
     };
 
-    // TODO: design the graphic of TEXT_BABA
     public static final HashMap<String, Graphic> TEXT_BABA = new HashMap() {
         {
-            put("dark", BabaGraphics.babaOff());
-            put("light", BabaGraphics.babaOn());
-            put("cancel", BabaGraphics.babaCancel());
+            put("dark", babaGraphics.off());
+            put("light", babaGraphics.on());
+            put("cancel", babaGraphics.cancel());
         }
     };
 
-    // TODO: design the graphic of ICON_FLAG
+    private static FlagGraphics flagGraphics = new FlagGraphics();
     public static final HashMap<String, Graphic> ICON_FLAG = new HashMap() {
         {
-            put("normal", FlagGraphics.flag());
+            put("normal", flagGraphics.flag());
         }
     };
 
     // TODO: design the graphic of TEXT_FLAG
     public static final HashMap<String, Graphic> TEXT_FLAG = new HashMap() {
         {
-            put("dark", FlagGraphics.flagOff());
-            put("light", FlagGraphics.flagOn());
-            put("cancel", FlagGraphics.flagCancel());
+            put("dark", flagGraphics.off());
+            put("light", flagGraphics.on());
+            put("cancel", flagGraphics.cancel());
         }
     };
 
     // TODO: design the graphic of ICON_ROCK
+    private static RockGraphics rockGraphics = new RockGraphics();
     public static final HashMap<String, Graphic> ICON_ROCK = new HashMap() {
         {
-            put("normal", RockGraphics.rock());
+            put("normal", rockGraphics.rock());
         }
     };
 
     // TODO: design the graphic of TEXT_ROCK
     public static final HashMap<String, Graphic> TEXT_ROCK = new HashMap() {
         {
-            put("dark", RockGraphics.rockOff());
-            put("light", RockGraphics.rockOn());
-            put("cancel", RockGraphics.rockCancel());
+            put("dark", rockGraphics.off());
+            put("light", rockGraphics.on());
+            put("cancel", rockGraphics.cancel());
         }
     };
 
     // TODO: design the graphic of TEXT_IS
+    private static IsGraphics isGraphics = new IsGraphics();
     public static final HashMap<String, Graphic> TEXT_IS = new HashMap() {
         {
-            put("dark", IsGraphics.isOff());
-            put("light", IsGraphics.isOn());
-            put("cancel", IsGraphics.isCancel());
+            put("dark", isGraphics.off());
+            put("light", isGraphics.on());
+            put("cancel", isGraphics.cancel());
         }
     };
 
     // TODO: design the graphic of TEXT_WIN
+    private static WinGraphics winGraphics = new WinGraphics();
     public static final HashMap<String, Graphic> TEXT_WIN = new HashMap() {
         {
-            put("dark", WinGraphics.winOff());
-            put("light", WinGraphics.winOn());
+            put("dark", winGraphics.off());
+            put("light", winGraphics.on());
         }
     };
 
     // TODO: design the graphic of TEXT_PUSH
+    private static PushGraphics pushGraphics = new PushGraphics();
     public static final HashMap<String, Graphic> TEXT_PUSH = new HashMap() {
         {
-            put("dark", PushGraphics.pushOff());
-            put("light", PushGraphics.pushOn());
+            put("dark", pushGraphics.off());
+            put("light", pushGraphics.on());
         }
     };
 
     // TODO: design the graphic of TEXT_YOU
+    private static YouGraphics youGraphics = new YouGraphics();
     public static final HashMap<String, Graphic> TEXT_YOU = new HashMap() {
         {
-            put("dark", YouGraphics.youOff());
-            put("light", YouGraphics.youOn());
+            put("dark", youGraphics.off());
+            put("light", youGraphics.on());
         }
     };
 
     // TODO: design the graphic of TEXT_STOP
+    private static StopGraphics stopGraphics = new StopGraphics();
     public static final HashMap<String, Graphic> TEXT_STOP = new HashMap() {
         {
-            put("dark", StopGraphics.stopOff());
-            put("light", StopGraphics.stopOn());
+            put("dark", stopGraphics.off());
+            put("light", stopGraphics.on());
         }
     };
 
+    private static LevelGraphics levelGraphics = new LevelGraphics();
     public static final HashMap<String, Graphic> LEVEL_1 = new HashMap() {
         {
-            put("normal", LevelGraphics.Level1());
+            put("normal", levelGraphics.Level1());
         }
     };
 
     public static final HashMap<String, Graphic> LEVEL_2 = new HashMap() {
         {
-            put("normal", LevelGraphics.Level2());
+            put("normal", levelGraphics.Level2());
         }
     };
 
     public static final HashMap<String, Graphic> LEVEL_3 = new HashMap() {
         {
-            put("normal", LevelGraphics.Level3());
+            put("normal", levelGraphics.Level3());
         }
     };
 }

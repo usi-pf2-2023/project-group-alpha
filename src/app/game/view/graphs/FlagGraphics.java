@@ -1,22 +1,20 @@
 package src.app.game.view.graphs;
+
 import jtamaro.en.Graphic;
 
 import static jtamaro.en.Graphics.*;
 
-public class FlagGraphics {
+public class FlagGraphics implements TextGraphics {
 
-    public static final Graphic flag() {
+    public final Graphic flag() {
         return ImageConverter.toGraphic("flag.png");
     }
 
-    public static final Graphic flagOn() {
+    public final Graphic on() {
         return ImageConverter.toGraphic("flagText.png");
     }
 
-    public static final Graphic flagOff() {
+    public final Graphic off() {
         return ImageConverter.toGraphic("flagTextDark.png");
-    }
-    public static final Graphic flagCancel() {
-        return overlay(CancelGraphics.cancel(), flagOn());
     }
 }

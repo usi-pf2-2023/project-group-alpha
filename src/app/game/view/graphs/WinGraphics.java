@@ -1,13 +1,14 @@
 package src.app.game.view.graphs;
+
 import jtamaro.en.Graphic;
 
-public class WinGraphics {
+public class WinGraphics implements TextGraphics {
 
-    public static final Graphic winOn() {
+    public final Graphic on() {
         return ImageConverter.toGraphic("win.png");
     }
 
-    public static Graphic winOff() {
+    public Graphic off() {
         return ImageConverter.toGraphic("winTextDark.png");
     }
 }

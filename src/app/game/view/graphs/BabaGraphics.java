@@ -4,32 +4,28 @@ import jtamaro.en.Graphic;
 
 import static jtamaro.en.Graphics.*;
 
-public class BabaGraphics {
-    public static final Graphic babaNorth() {
+public class BabaGraphics implements TextGraphics {
+    public final Graphic babaNorth() {
         return ImageConverter.toGraphic("babaNorth.png");
     }
 
-    public static final Graphic babaSouth() {
+    public final Graphic babaSouth() {
         return ImageConverter.toGraphic("babaSouth.png");
     }
 
-    public static final Graphic babaWest() {
+    public final Graphic babaWest() {
         return ImageConverter.toGraphic("babaWest.png");
     }
 
-    public static final Graphic babaEast() {
+    public final Graphic babaEast() {
         return ImageConverter.toGraphic("babaEast.png");
     }
 
-    public static final Graphic babaOn() {
+    public final Graphic on() {
         return ImageConverter.toGraphic("babaText.png");
     }
 
-    public static final Graphic babaOff() {
+    public final Graphic off() {
         return ImageConverter.toGraphic("babaTextDark.png");
-    }
-
-    public static final Graphic babaCancel() {
-        return overlay(CancelGraphics.cancel(), babaOn());
     }
 }

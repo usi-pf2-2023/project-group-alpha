@@ -1,13 +1,14 @@
 package src.app.game.view.graphs;
+
 import jtamaro.en.Graphic;
 
-public class YouGraphics {
+public class YouGraphics implements TextGraphics {
 
-    public static final Graphic youOn() {
+    public final Graphic on() {
         return ImageConverter.toGraphic("you.png");
     }
 
-    public static final Graphic youOff() {
+    public final Graphic off() {
         return ImageConverter.toGraphic("youTextDark.png");
     }
 }
