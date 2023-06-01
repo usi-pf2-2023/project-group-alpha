@@ -115,7 +115,7 @@ public class GameView {
         // Introducing changes of coordinates in x and y respectively
         int dx[] = {0, 1, 0, -1};
         int dy[] = {1, 0, -1, 0};
-        String keyWall = new String("");
+        String keyWall = "";
         // Iterating over all neighbors of the Tile holding the Item:
         for (int i = 0; i < 4; i++) {
             // Concatenating 4 single digit Strings into one 4 digits String representing the type of wall we have
