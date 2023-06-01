@@ -24,7 +24,7 @@ public record Item(Kind name, // describes what kind of object it is
      * properties (i.e correct field values for {@code stop, push, you and win}). Whenever the {@code Kind} of an {@code Item}
      * changes, we must create a new {@code Item} to replace {@code this} on a given {@code Tile}.
      * @param stateMap
-     * @return
+     * @return an {@code Item} with the proper field values according to its Kind.
      */
     public Item applyRules(HashMap<Kind, ArrayList<Kind>> stateMap) {
         boolean stop = false, push = false, you = false, win = false;

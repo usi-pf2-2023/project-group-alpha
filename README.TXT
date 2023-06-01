@@ -118,5 +118,16 @@ part of a valid rule light up and those who are not valid anymore dark.
 
 ## 3.2.1 Move operations
 
+The move operation is divided into smaller chunks by the method "singleTileMove". This method checks whether
+there is a boundary. If not, it proceeds with the evaluation.
+
+
+## 4.0. Challenges encountered
+
+## 4.1. Subtyping
+
+The project's requirements asked for subtyping. Actually, we struggled to find a good place where to do that. We ended up
+implementing an interface in the graph package for textGraphics which all had similar methods that set them to light or dark.
+
 
 
