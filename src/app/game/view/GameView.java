@@ -97,13 +97,15 @@ public class GameView {
     }
 
     /**
-     * GameView.renderWall() renders a wall on a Tile. The method checks the direct neighbors (left, top, bottom, right)
-     * of the Tile and hashes it to a 4 digit String. The method reads that String and outputs the corresponding wall Graphic
-     * @param item is the Item to render (which is a wall)
-     * @param gameState is the current GameState
-     * @param x is the x coordinate of the Tile containing the Item
-     * @param y is the y coordinate of the Tile containing the Item
-     * @return a Graphic representing a wall accordingly to its surroundings
+     * Given an {@code Item}, a {@code GameState} and two coordinates {@code x, y},  renders a wall on a {@code Tile}.
+     * The method checks the direct neighbors (left, top, bottom, right) of the {@code Tile}
+     * and hashes it to a 4 digit String. The method reads that {@code String} and outputs the corresponding wall
+     * {@code Graphic}.
+     * @param item  the {@code Item} to render (which is a wall).
+     * @param gameState  the current {@code GameState}.
+     * @param x  the x coordinate of the {@code Tile} containing the {@code Item}.
+     * @param y  the y coordinate of the {@code Tile} containing the {@code Item}.
+     * @return a {@code Graphic} representing a wall accordingly to its surroundings.
      */
     public static Graphic renderWall(Item item, GameState gameState, int x, int y) {
         /* Declaring a variable for the item's hashmap;
