@@ -13,9 +13,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-
-// a GameState is a singly linked list,
-// contains the current gameMap, the previousState, and the rules on the field.
+/**
+ * The {@code GameState} class holds every information about the current state of the application. <br>
+ * @param gameMap is a 2D {@code ArrayList}. Each {@code Tile} of the map contains (or not) some {@code Item}s. <br>
+ *               As we often need to fetch the k-th element when checking {@code Tile}s during the move operations and
+ *               the generating of {@code Rule}s, using an {@code ArrayList} is much more efficient
+ *               than using a {@code Sequence}. <br>
+ *               However, unlike a regular {@code Array}, its size can vary. We need this feature to be able to add
+ *               and remove {@code Item}s as the game advances.
+ * @param previousState holds the previous {@code GameState}. This allows for undo operations. Because of this storage
+ *                      of previous states, the {@code GameState} is a singly linked list.
+ * @param level is the current level the game is in. The menu is considered as a level.
+ */
 public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousState, int level) {
     //generate rules from the current gameMap
     public Sequence<Rule> generateRules() {
@@ -208,7 +217,7 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
                 selfLoop.add(from);
             }
         }
-        
+
         HashSet<Rule> unWorkRules = new HashSet<>();
         HashMap<Kind, ArrayList<Kind>> objectMap = new HashMap<>();
         HashMap<Kind, ArrayList<Kind>> stateMap = new HashMap<>();
