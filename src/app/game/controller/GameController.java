@@ -57,7 +57,7 @@ public class GameController {
         }
         // Pressing "SPACE" triggers entering the according level
         if (key.getCode() == 0x20 && now.level() == 0) {
-            int nextLevel = StepOnLevel(now.gameMap());
+            int nextLevel = stepOnLevel(now.gameMap());
             if (nextLevel > 0) return now.updateLevel(nextLevel);
         }
         // Pressing "H" triggers come back to select_menu
@@ -83,8 +83,6 @@ public class GameController {
 
     // check whether the game is lost
     public static boolean hasLost(ArrayList<ArrayList<Tile>> gameMap) {
-        // TODO
-        // Question: Will we only be dealing with rectangular maps?
 
         /* Conditions that can lead to a loss;
         - There are no items on the map which have the "you" property
@@ -129,7 +127,7 @@ public class GameController {
         return false;
     }
 
-    private static int StepOnLevel(ArrayList<ArrayList<Tile>> gameMap) {
+    private static int stepOnLevel(ArrayList<ArrayList<Tile>> gameMap) {
         final int nRows = gameMap.size();
         final int nColumns = gameMap.get(0).size();
 

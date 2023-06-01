@@ -6,9 +6,28 @@ import src.app.game.view.graphs.GameGraphics;
 import java.util.HashMap;
 
 /**
- * Contains all the types of objects
+ * {@code Kind}s are used as names for {@code Item}s in the corresponding field. Each {@code Kind} represents one type of objects
+ * ({@code Item}s) that can be found in the game. (For example the icon for the rock item, but also the block of text
+ * saying "rock"). <br> <br>
+ * Using a dedicated class for it allows us to introduce boolean fields that describe the type of "impact" that the object
+ * associated to that {@code Kind} could have in a sentence (reminder, sentences are composed of three blocks of text items).
+ * Hence we introduce the {@code isObjectText} and {@code isStateText} boolean fields. StateText and ObjectText are not
+ * classes but are concepts used to classify text objects.
+ * <br>Examples: <br> <br>
+ * <b>StateText:</b> "win" and "push" are texts that impact how objects can be interacted with and therefore are referred to as
+ * "StateText".For instance " X is win" means that <i>touching X</i> or <i>being X</i> triggers a win.<br><br>
+ * <b>ObjectText:</b> They describe texts referring to characters or elements of the decor such as Baba, Wall, Rock and so on.
+ * In rules, they either trigger an {@code Item} to turn into another {@code Item} and therefore taking on its properties
+ * (i.e can it be pushed? does it trigger a win? and so on), or they are used to define properties of the icons they represent.
+ * For example, TEXT_BABA dictates the behaviour of ICON_BABA. <br><br>
+ *
+ * A {@code Kind} contains a HashMap<String, Graphic>, which represents all of the graphical representations of that
+ * {@code Kind} and two {@code boolean} fields determining if the {@code Kind} is a StateText, and if it is an ObjectText.
+ * or they
+ * A StateText is not a class. It represents the concept of a {@code Kind}
  */
 public enum Kind {
+    // All possible instances of type Kind
     BOUNDARY(GameGraphics.BOUNDARY, false, false),
 
     ICON_WALL(GameGraphics.ICON_WALL, false, false),
@@ -32,12 +51,14 @@ public enum Kind {
     LEVEL_2(GameGraphics.LEVEL_2, false, false),
     LEVEL_3(GameGraphics.LEVEL_3, false, false);
 
-    private HashMap<String, Graphic> graphic_map;
+    // Class variables
+    private HashMap<String, Graphic> graphicMap;
     private boolean isObjectText;
     private boolean isStateText;
 
-    Kind(HashMap<String, Graphic> graphic_map, boolean isObjectText, boolean isStateText) {
-        this.graphic_map = graphic_map;
+    // Constructors
+    Kind(HashMap<String, Graphic> graphicMap, boolean isObjectText, boolean isStateText) {
+        this.graphicMap = graphicMap;
         this.isObjectText = isObjectText;
         this.isStateText = isStateText;
     }
@@ -56,8 +77,8 @@ public enum Kind {
         return null;
     }
 
-    public HashMap<String, Graphic> getGraphic_map() {
-        return graphic_map;
+    public HashMap<String, Graphic> getGraphicMap() {
+        return graphicMap;
     }
 
     public boolean isObjectText() {
