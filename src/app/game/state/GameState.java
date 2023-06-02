@@ -70,16 +70,8 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
         }
         assert i > 0 && i < n - 1;
         assert j > 0 && j < m - 1;
-        int dx = 0, dy = 0;
-        if (heading == Heading.NORTH) {
-            dx = -1;
-        } else if (heading == Heading.SOUTH) {
-            dx = 1;
-        } else if (heading == Heading.EAST) {
-            dy = 1;
-        } else if (heading == Heading.WEST) {
-            dy = -1;
-        }
+        int dx = heading.newXCoordinate(), dy = heading.newYCoordinate();
+
         if (gameMap.get(i + dx).get(j + dy).isBoundary()) {
             return this;
         }
@@ -172,10 +164,10 @@ public record GameState(ArrayList<ArrayList<Tile>> gameMap, GameState previousSt
         int n = gameMap.size(), m = gameMap.get(0).size();
         int st_i = 1, dx = 1;
         int st_j = 1, dy = 1;
-        if (heading == Heading.SOUTH) {
+        if (heading instanceof South) {
             st_i = n - 2;
             dx = -1;
-        } else if (heading == Heading.EAST) {
+        } else if (heading instanceof East) {
             st_j = m - 2;
             dy = -1;
         }

@@ -174,7 +174,7 @@ public record Tile(Sequence<Item> items) {
         boolean push = false;
         boolean you = false;
         boolean win = false;
-        Heading heading = Heading.EAST;
+        Heading heading = new East();
         if (c == 'w') {
             kind = Kind.ICON_WALL;
         } else if (c == 'b') {

@@ -50,7 +50,7 @@ public class GameController {
                 key.getCode() == KeyboardKey.LEFT || key.getCode() == KeyboardKey.RIGHT) {
                 return now
                     // Move check: if a move is possible, then make the move
-                    .move(Heading.fromKeyCode(key.getCode()))
+                    .move(Heading.newHeading(key))
                     // Apply and generate the rules according to the new gameMap
                     .applyRules();
             }

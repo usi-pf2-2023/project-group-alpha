@@ -76,11 +76,11 @@ public class GameView {
                 ret = map.get("dark");
             }
         } else if (item.isIconBaba()) {
-            if (item.heading() == Heading.SOUTH) {
+            if (item.heading() instanceof South) {
                 ret = map.get("south");
-            } else if (item.heading() == Heading.WEST) {
+            } else if (item.heading() instanceof West) {
                 ret = map.get("west");
-            } else if (item.heading() == Heading.NORTH) {
+            } else if (item.heading() instanceof North) {
                 ret = map.get("north");
             } else {
                 ret = map.get("east");
