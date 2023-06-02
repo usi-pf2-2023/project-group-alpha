@@ -131,10 +131,16 @@ an Item of our game. In this way, we can write levels in txt files and quickly m
 
 ## 4.1. Subtyping
 
-The project's requirements asked for subtyping. Actually, we struggled to find a good place where to do that. We ended up
-implementing an interface in the graph package for textGraphics which all had similar methods that set them to light or dark.
+The project's requirements asked for subtyping. Actually, we struggled to find a good place where to do that. We initially
+thought we had to wait for the perfect place where it felt that what we wanted to do was impossible without it.
+However, we have learnt that this is not what subtyping is about. Technically we could implement just about anything without
+it. Changing the structure now in places where it feels logical to subtype cascades into lots of changes in our codes. Therefore,
+we ended up implementing an interface in the graph package for textGraphics which all had similar methods that set them
+to light or dark.
 However, because these were called in a static context, we had to do some very naught things to end up having some sort of
 a polymorphic call, which defeats the purpose of having them in the first place...
+
+June 2 edit: We have created a new subtyping of Heading.
 
 
 ## 4.2. Figuring out which rules we wanted to implement
