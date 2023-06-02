@@ -145,4 +145,15 @@ gotten the rules down, one of us would send a 5 second clip that shattered our m
 best option was to set our own rules for the game (which are obviously very similar to the original Baba is you's rules).
 
 
+## 4.3. Size of the window
 
+As of now, we are still having issues to fix the size of the game window. As it is parametrized we can change it manually depending on the
+display size but ths is clearly suboptimal and must be fixed.
+
+
+
+## 4.4. What's next?
+
+After we are done cleaning the code and fixing the display size, we will be creating a local multiplayer by adding a new keyboard listener
+and you1 you2 items. On the graphical side, we will be drawing our own graphics, adopting a similar aesthetic to the background
+image in game.
